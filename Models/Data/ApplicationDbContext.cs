@@ -7,7 +7,7 @@ namespace cafeInformationSystem.Models.Data
     public class ApplicationDbContext : DbContext
     {
         public static ApplicationDbContext? DatabaseContext { get; private set; }
-        
+
         public ApplicationDbContext() { }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
@@ -27,7 +27,7 @@ namespace cafeInformationSystem.Models.Data
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderItem> OrderItem { get; set; }
         public DbSet<CashReceiptOrder> CashReceiptOrder { get; set; }
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -111,7 +111,7 @@ namespace cafeInformationSystem.Models.Data
                         .OnDelete(DeleteBehavior.Restrict),
                         j => j.ToTable("Order_OrderItem")
                     );
-                    
+
                 entity.HasMany(e => e.CashReceiptOrders)
                     .WithOne(s => s.Order)
                     .HasForeignKey(s => s.OrderId)
@@ -124,7 +124,7 @@ namespace cafeInformationSystem.Models.Data
 
                 entity.ToTable(t => t.HasCheckConstraint("order_item_cost_ck", "cost > 0::money"));
             });
-            
+
             modelBuilder.Entity<CashReceiptOrder>(entity =>
             {
                 entity.ToTable(t => t.HasCheckConstraint("cash_receipt_order_payment_amount_ck", "payment_amount > 0::money"));

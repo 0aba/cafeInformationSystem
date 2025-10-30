@@ -22,9 +22,9 @@ namespace cafeInformationSystem.Models.Cryptography
             {
                 throw new ArgumentException("Password cannot be null or empty");
             }
-            
+
             byte[] salt = GetSalt(SALT_SIZE);
-            
+
             var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password))
             {
                 DegreeOfParallelism = DEGREE_OF_PARALLELISM,
@@ -37,12 +37,12 @@ namespace cafeInformationSystem.Models.Cryptography
             byte[] hash = argon2.GetBytes(HASH_SIZE);
 
             byte[] combinedBytes = new byte[salt.Length + hash.Length];
-            
+
             Buffer.BlockCopy(salt, 0, combinedBytes, 0, salt.Length);
             Buffer.BlockCopy(hash, 0, combinedBytes, salt.Length, hash.Length);
 
             string base64Hash = Convert.ToBase64String(combinedBytes);
-            
+
             // INFO! если буду менять параметры для хеширования, чтобы если что-то не так сразу в ошибку шло.
             if (base64Hash.Length > MAX_LENGHT_PASSWORD)
             {
@@ -50,7 +50,7 @@ namespace cafeInformationSystem.Models.Cryptography
                     $"Hash length {base64Hash.Length} exceeds maximum {MAX_LENGHT_PASSWORD}. " +
                     $"Configuration: Salt={SALT_SIZE}, Hash={HASH_SIZE}");
             }
-            
+
             return base64Hash;
         }
 
@@ -75,7 +75,7 @@ namespace cafeInformationSystem.Models.Cryptography
                 {
                     return false;
                 }
-                
+
 
                 byte[] hashBytes = Convert.FromBase64String(hashedPassword);
 
@@ -87,7 +87,7 @@ namespace cafeInformationSystem.Models.Cryptography
 
                 byte[] salt = new byte[SALT_SIZE];
                 byte[] storedHash = new byte[HASH_SIZE];
-                
+
                 Buffer.BlockCopy(hashBytes, 0, salt, 0, SALT_SIZE);
                 Buffer.BlockCopy(hashBytes, SALT_SIZE, storedHash, 0, HASH_SIZE);
 

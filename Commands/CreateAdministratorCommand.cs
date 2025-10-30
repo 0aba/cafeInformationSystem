@@ -32,7 +32,7 @@ namespace cafeInformationSystem.Commands
         {
             var validationContext = new ValidationContext(employee);
             var validationResults = new List<ValidationResult>();
-            
+
             bool isValid = Validator.TryValidateObject(employee, validationContext, validationResults, true);
 
             if (!isValid)

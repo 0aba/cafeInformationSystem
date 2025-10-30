@@ -1,7 +1,6 @@
 using System;
 using cafeInformationSystem.Models.Data;
 using Microsoft.EntityFrameworkCore;
-using Tmds.DBus.Protocol;
 
 namespace cafeInformationSystem.Models.DataBase
 {

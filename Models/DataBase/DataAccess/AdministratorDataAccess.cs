@@ -21,4 +21,3 @@ namespace cafeInformationSystem.Models.DataBase.DataAccess
         // TODO! Not Implemented
     }
 }
-
