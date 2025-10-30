@@ -9,6 +9,7 @@ namespace cafeInformationSystem;
 sealed class Program
 {
     private static readonly string[] _COMMANDS = { "createadmin" };
+    // TODO! перенести в .env
     private const bool _COMMANDS_ENABLE = true;
 
     // Initialization code. Don't use any Avalonia, third-party APIs or any

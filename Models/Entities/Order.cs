@@ -37,6 +37,10 @@ namespace cafeInformationSystem.Models.Entities
         public decimal TotalCost { get; set; }
 
         [Required]
+        [Column("amount_clients")]
+        public int AmountClients { get; set; }
+
+        [Required]
         [ForeignKey("waiter_fk")]
         public long WaiterId { get; set; }
 

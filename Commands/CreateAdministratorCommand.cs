@@ -19,6 +19,8 @@ namespace cafeInformationSystem.Commands
                 FirstName = UtilsCommands.GetInput("First Name", true),
                 LastName = UtilsCommands.GetInput("Last Name", true),
                 MiddleName = UtilsCommands.GetInput("Middle Name", false),
+                Photo = null,  // INFO! не требуются для администратора
+                ScanEmploymentContract = null,  // INFO! не требуются для администратора
                 Username = UtilsCommands.GetInput("Username", true),
                 Password = UtilsCommands.GetPasswordWithConfirmation(),
                 Role = EmployeeRole.Administrator,

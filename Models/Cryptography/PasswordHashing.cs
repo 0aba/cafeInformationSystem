@@ -10,7 +10,7 @@ namespace cafeInformationSystem.Models.Cryptography
         public const int DEGREE_OF_PARALLELISM = 1;
         public const int MEMORY_SIZE = 64 * 1024;  // 64 мегабайт (Я прочитал рекомендую вообще 128)
         public const int ITERATIONS = 100;
-        public const int MAX_LENGHT_PASSWORD = 255;  // Тоже самое должно стоять в Employee
+        public const int MAX_LENGHT_PASSWORD = 192;  // Тоже самое должно стоять в Employee
 
         // (48 + 96) * 4/3 = 192 символа как в бд в формате Base64
         private const int SALT_SIZE = 48;  // байта

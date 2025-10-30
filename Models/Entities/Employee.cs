@@ -33,6 +33,15 @@ namespace cafeInformationSystem.Models.Entities
         [Column("middlename")]
         public string? MiddleName { get; set; }
 
+        [MaxLength(256)]
+        [Column("photo")]
+        public string? Photo { get; set; }
+
+        [MaxLength(256)]
+        [Column("scan_employment_contract")]
+        public string? ScanEmploymentContract { get; set; }
+
+
         [Required]
         [MinLength(3)]
         [MaxLength(150)]
