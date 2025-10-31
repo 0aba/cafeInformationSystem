@@ -2,11 +2,11 @@ using System;
 
 namespace cafeInformationSystem.Models.MediaService
 {
-    public static class MediaService
+    public static class ImagesMediaService
     {
         private static IImagesService? _mediaService = null;
 
-        private static IImagesService GetMediaService()
+        public static IImagesService GetMediaService()
         {
             if (_mediaService == null)
             {
