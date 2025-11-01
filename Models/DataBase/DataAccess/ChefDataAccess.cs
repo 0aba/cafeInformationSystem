@@ -8,10 +8,9 @@ using Microsoft.EntityFrameworkCore;
     • Изменение статуса заказа (готовится, готов).
 */
 
-namespace cafeInformationSystem.Models.DataBase.DataAccess
+namespace cafeInformationSystem.Models.DataBase.DataAccess;
+
+public static class ChefDataAccess
 {
-    public static class ChefDataAccess
-    {
-        // TODO! Not Implemented
-    }
+    // TODO! Not Implemented
 }

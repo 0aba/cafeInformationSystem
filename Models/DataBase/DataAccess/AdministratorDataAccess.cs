@@ -14,10 +14,9 @@ using Microsoft.EntityFrameworkCore;
     • Создание отчёта о заказах, оплаченных клиентами (отчёт о выручке).
 */
 
-namespace cafeInformationSystem.Models.DataBase.DataAccess
+namespace cafeInformationSystem.Models.DataBase.DataAccess;
+
+public static class AdministratorDataAccess
 {
-    public static class AdministratorDataAccess
-    {
-        // TODO! Not Implemented
-    }
+    // TODO! Not Implemented
 }

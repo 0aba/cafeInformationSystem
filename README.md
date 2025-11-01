@@ -29,7 +29,7 @@ PAPER="example-d351134c346a496c91f74b3544cafdcb"
 # Media service 
 TYPE_STORAGE="local"         # Choice from: "local" (Only local implemented)
 ## Local media service
-PATH_LOCAL_MEDIA="./media"  # Required if TYPE_STORAGE is "local"
+PATH_LOCAL_MEDIA="./media"   # Required if TYPE_STORAGE is "local"
 ```
 
 <pre>

@@ -1,7 +1,6 @@
-namespace cafeInformationSystem.Commands
+namespace cafeInformationSystem.Commands;
+
+public interface ICommand
 {
-    public interface ICommand
-    {
-        public void Execute();
-    }
+    public void Execute();
 }

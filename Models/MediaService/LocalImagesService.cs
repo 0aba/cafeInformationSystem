@@ -2,104 +2,103 @@ using System;
 using System.IO;
 using Avalonia.Media.Imaging;
 
-namespace cafeInformationSystem.Models.MediaService
+namespace cafeInformationSystem.Models.MediaService;
+
+public class LocalImagesService : IImagesService
 {
-    public class LocalImagesService : IImagesService
+    private readonly string _ABSOLUTE_PATH_LOCAL_STORAGE;
+
+    public LocalImagesService(string pathLocalStorage)
     {
-        private readonly string _ABSOLUTE_PATH_LOCAL_STORAGE;
+        _ABSOLUTE_PATH_LOCAL_STORAGE = Path.GetFullPath(pathLocalStorage);
 
-        public LocalImagesService(string pathLocalStorage)
+        try
         {
-            _ABSOLUTE_PATH_LOCAL_STORAGE = Path.GetFullPath(pathLocalStorage);
+            bool directoryExists = Directory.Exists(_ABSOLUTE_PATH_LOCAL_STORAGE);
 
-            try
+            if (directoryExists)
             {
-                bool directoryExists = Directory.Exists(_ABSOLUTE_PATH_LOCAL_STORAGE);
-
-                if (directoryExists)
-                {
-                    CheckRootDirPermissions(_ABSOLUTE_PATH_LOCAL_STORAGE);
-                }
-                else
-                {
-                    Directory.CreateDirectory(_ABSOLUTE_PATH_LOCAL_STORAGE);
-                    CheckRootDirPermissions(_ABSOLUTE_PATH_LOCAL_STORAGE);
-                }
+                CheckRootDirPermissions(_ABSOLUTE_PATH_LOCAL_STORAGE);
             }
-            catch (Exception e)
+            else
             {
-                throw new InvalidOperationException($"Failed to create folder for local media: {e.Message}", e);
+                Directory.CreateDirectory(_ABSOLUTE_PATH_LOCAL_STORAGE);
+                CheckRootDirPermissions(_ABSOLUTE_PATH_LOCAL_STORAGE);
             }
         }
-
-        private void CheckRootDirPermissions(string dirPath)
+        catch (Exception e)
         {
-            string testFile = Path.Combine(dirPath, "test_access_permissions.tmp");
-
-            File.WriteAllText(testFile, "test");
-            File.Delete(testFile);
+            throw new InvalidOperationException($"Failed to create folder for local media: {e.Message}", e);
         }
+    }
 
-        public override void SaveImage(string mediaPathToDir, string fullFileName, Bitmap image)
+    private void CheckRootDirPermissions(string dirPath)
+    {
+        string testFile = Path.Combine(dirPath, "test_access_permissions.tmp");
+
+        File.WriteAllText(testFile, "test");
+        File.Delete(testFile);
+    }
+
+    public override void SaveImage(string mediaPathToDir, string fullFileName, Bitmap image)
+    {
+        try
         {
-            try
+            string fullMediaPath = Path.Combine(_ABSOLUTE_PATH_LOCAL_STORAGE, mediaPathToDir);
+
+            if (!Directory.Exists(fullMediaPath))
             {
-                string fullMediaPath = Path.Combine(_ABSOLUTE_PATH_LOCAL_STORAGE, mediaPathToDir);
-
-                if (!Directory.Exists(fullMediaPath))
-                {
-                    Directory.CreateDirectory(fullMediaPath);
-                }
-
-                string fullFilePath = Path.Combine(fullMediaPath, fullFileName);
-
-                using (var fileStream = new FileStream(fullFilePath, FileMode.Create))
-                {
-                    image.Save(fileStream);
-                }
+                Directory.CreateDirectory(fullMediaPath);
             }
-            catch (Exception e)
-            {
-                throw new InvalidOperationException($"Failed to save image: {e.Message}", e);
-            }
-        }
 
-        public override Bitmap GetImage(string mediaPathToImage)
-        {
-            try
-            {
-                string fullMediaPath = Path.Combine(_ABSOLUTE_PATH_LOCAL_STORAGE, mediaPathToImage);
+            string fullFilePath = Path.Combine(fullMediaPath, fullFileName);
 
-                if (!File.Exists(fullMediaPath))
-                {
-                    throw new FileNotFoundException("Image not found");
-                }
-                
-                return new Bitmap(fullMediaPath);
-            }
-            catch (Exception e)
+            using (var fileStream = new FileStream(fullFilePath, FileMode.Create))
             {
-                throw new InvalidOperationException($"Failed to load image: {e.Message}", e);
+                image.Save(fileStream);
             }
         }
-
-        public override void DeleteImage(string mediaPathToImage)
+        catch (Exception e)
         {
-            try
-            {
-                string fullMediaPath = Path.Combine(_ABSOLUTE_PATH_LOCAL_STORAGE, mediaPathToImage);
+            throw new InvalidOperationException($"Failed to save image: {e.Message}", e);
+        }
+    }
 
-                if (!File.Exists(fullMediaPath))
-                {
-                    throw new FileNotFoundException("Image not found");
-                }
-                
-                File.Delete(fullMediaPath);
-            }
-            catch (Exception e)
+    public override Bitmap GetImage(string mediaPathToImage)
+    {
+        try
+        {
+            string fullMediaPath = Path.Combine(_ABSOLUTE_PATH_LOCAL_STORAGE, mediaPathToImage);
+
+            if (!File.Exists(fullMediaPath))
             {
-                throw new InvalidOperationException($"Failed to delete image: {e.Message}", e);
+                throw new FileNotFoundException("Image not found");
             }
+            
+            return new Bitmap(fullMediaPath);
+        }
+        catch (Exception e)
+        {
+            throw new InvalidOperationException($"Failed to load image: {e.Message}", e);
+        }
+    }
+
+    public override void DeleteImage(string mediaPathToImage)
+    {
+        try
+        {
+            string fullMediaPath = Path.Combine(_ABSOLUTE_PATH_LOCAL_STORAGE, mediaPathToImage);
+
+            if (!File.Exists(fullMediaPath))
+            {
+                throw new FileNotFoundException("Image not found");
+            }
+            
+            File.Delete(fullMediaPath);
+        }
+        catch (Exception e)
+        {
+            throw new InvalidOperationException($"Failed to delete image: {e.Message}", e);
         }
     }
 }

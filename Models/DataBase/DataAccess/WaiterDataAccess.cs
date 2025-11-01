@@ -11,10 +11,9 @@ using Microsoft.EntityFrameworkCore;
     • Создание отчёта о принятых им заказах в период одной смены.
 */
 
-namespace cafeInformationSystem.Models.DataBase.DataAccess
+namespace cafeInformationSystem.Models.DataBase.DataAccess;
+
+public static class WaiterDataAccess
 {
-    public static class WaiterDataAccess
-    {
-        // TODO! Not Implemented
-    }
+    // TODO! Not Implemented
 }
