@@ -7,7 +7,7 @@
         Width="400" Height="300"
         WindowStartupLocation="CenterScreen"
         CanResize="False"
-        Icon="/Assets/cafe-information-system-logo.ico">
+        Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
 
     <Design.DataContext>
         <vm:LoginViewModel/>

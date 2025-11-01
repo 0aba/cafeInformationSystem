@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Text;
 using Avalonia.Media.Imaging;
 
@@ -31,6 +32,10 @@ public abstract class IImagesService
     public string GetPathDirectoryBasedOnCurrentDate()
     {
         DateTime currentDate = DateTime.Now;
-        return $"{currentDate.Year:0000}/{currentDate.Month:00}/{currentDate.Day:00}";
+        return Path.Combine(
+            currentDate.Year.ToString("0000"),
+            currentDate.Month.ToString("00"),
+            currentDate.Day.ToString("00")
+            );
     }
 }

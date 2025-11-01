@@ -10,13 +10,22 @@ public static class AuthStorage
     public static Employee? CurrentUser
     {
         get => _currentUser;
-        set => _currentUser = value;
+        set 
+        {
+            if (_currentUser != value)
+            {
+                _currentUser = value;
+                OnCurrentUserChanged?.Invoke(null, EventArgs.Empty);
+            }
+        }
     }
 
     public static void LogOut()
     {
         CurrentUser = null;
     }
+
+    public static event EventHandler OnCurrentUserChanged = default!;
 
     public static bool IsAuthenticated => CurrentUser != null;
 }

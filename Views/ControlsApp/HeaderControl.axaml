@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="60"
+             x:Class="cafeInformationSystem.Views.ControlsApp.HeaderControl"
+             xmlns:vm="using:cafeInformationSystem.ViewModels.ControlsApp">
+    
+    <Design.DataContext>
+        <vm:HeaderViewModel/>
+    </Design.DataContext>
+
+    <Border Height="60" Background="#6F4E37" Padding="15,0">
+        <Grid ColumnDefinitions="Auto,*,Auto">
+            <!-- Слева -->
+            <Image Source="{Binding AppIcon}" 
+                   Width="40" Height="40"
+                   Margin="0,0,10,0"
+                   VerticalAlignment="Center"
+                   Grid.Column="0"/>
+
+            <!-- Справа -->
+            <StackPanel Orientation="Horizontal" Spacing="10"
+                       VerticalAlignment="Center"
+                       Grid.Column="2">
+                <Image Source="{Binding UserPhoto}" 
+                       Width="40" Height="40"
+                       CornerRadius="20"/>
+                <Button Content="Выйти" 
+                        Command="{Binding LogoutCommand}"
+                        Background="#a64325ff" Foreground="White"
+                        Padding="15,5"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>
