@@ -9,20 +9,20 @@
         CanResize="False"
         Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
 
-    <Design.DataContext>
-        <vm:LoginViewModel/>
-    </Design.DataContext>
+  <Design.DataContext>
+    <vm:LoginViewModel/>
+  </Design.DataContext>
+  
+  <StackPanel Margin="30" Spacing="15" VerticalAlignment="Center">
+    <TextBlock Text="Вход в систему" FontSize="20" HorizontalAlignment="Center"/>
     
-    <StackPanel Margin="30" Spacing="15" VerticalAlignment="Center">
-        <TextBlock Text="Вход в систему" FontSize="20" HorizontalAlignment="Center"/>
-        
-        <TextBox Watermark="Логин" Text="{Binding Login}"/>
-        <TextBox Watermark="Пароль" PasswordChar="*" Text="{Binding Password}"/>
-        
-        <Button Content="Войти" Command="{Binding LoginCommand}" 
-                HorizontalAlignment="Stretch" Height="35"/>
-        
-        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
-                   TextWrapping="Wrap" HorizontalAlignment="Center"/>
-    </StackPanel>
+    <TextBox Watermark="Логин" Text="{Binding Login}"/>
+    <TextBox Watermark="Пароль" PasswordChar="*" Text="{Binding Password}"/>
+    
+    <Button Content="Войти" Command="{Binding LoginCommand}" 
+            HorizontalAlignment="Stretch" Height="35"/>
+    
+    <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
+               TextWrapping="Wrap" HorizontalAlignment="Center"/>
+  </StackPanel>
 </Window>

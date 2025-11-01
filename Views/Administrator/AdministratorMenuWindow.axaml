@@ -1,0 +1,24 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="using:cafeInformationSystem.ViewModels.Administrator"
+        x:Class="cafeInformationSystem.Views.Administrator.AdministratorMenuWindow"
+        xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
+        Title="Меню администратора"
+        Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
+
+  <Design.DataContext>
+    <vm:AdministratorMenuViewModel/>
+  </Design.DataContext>
+
+  <DockPanel>
+    <controls:HeaderControl DockPanel.Dock="Top"/>
+    
+    <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
+      TODO Меню администратора!
+    </StackPanel>
+  </DockPanel>
+
+</Window>
