@@ -9,8 +9,8 @@ namespace cafeInformationSystem;
 sealed class Program
 {
     private static readonly string[] _COMMANDS = { "createadmin" };
-    // TODO! перенести в .env
-    private const bool _COMMANDS_ENABLE = true;
+
+    private static readonly string[] _COMMAND_ENABLE_OPTIONS = { "true", "false" };
 
     // Initialization code. Don't use any Avalonia, third-party APIs or any
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
@@ -20,16 +20,24 @@ sealed class Program
     {
         DotEnv.Load();
 
+        var commandEnable = Environment.GetEnvironmentVariable("COMMANDS_ENABLE")!;
+
+        if (!_COMMAND_ENABLE_OPTIONS.Contains(commandEnable))
+        {
+            throw new Exception("Unknown value in COMMANDS_ENABLE");
+        }
+
         if (args.Length == 0) { }
         else if (args.Length > 0 && IsManagementCommand(args))
         {
-            if (!_COMMANDS_ENABLE)
+            if (commandEnable.Equals("true"))
             {
                 throw new Exception("Command disabled");
             }
             RunManagementCommand(args);
             return;
-        } else
+        }
+        else
         {
             throw new Exception("Unknown arguments");
         }

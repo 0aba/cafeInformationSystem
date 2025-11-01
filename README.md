@@ -15,6 +15,8 @@
 ## Структура .env файлов
 После клонировании репозитория в корневой папке проекта нужно создать `.env` следующей структуры: 
 ```env
+# Tools
+COMMANDS_ENABLE="true"       # Choice from: "true" and "false"
 # PostgreSQL
 HOST_DB="127.0.0.1"
 PORT_DB="5432"
