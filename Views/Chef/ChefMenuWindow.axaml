@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         xmlns:vm="using:cafeInformationSystem.ViewModels.Chef"
+        x:DataType="vm:ChefMenuViewModel"
         x:Class="cafeInformationSystem.Views.Chef.ChefMenuWindow"
         xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
         Title="Меню повара"
@@ -17,7 +18,7 @@
     <controls:HeaderControl DockPanel.Dock="Top"/>
     
     <StackPanel Margin="20" VerticalAlignment="Center" HorizontalAlignment="Center">
-      TODO Меню повара!
+      <TextBlock Text="TODO Меню повара!"/>
     </StackPanel>
   </DockPanel>
 </Window>

@@ -41,8 +41,12 @@ public class HeaderViewModel : ViewModelBase
 
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            var currentWindow = desktop.MainWindow;
+
             desktop.MainWindow = new LoginView();
             desktop.MainWindow.Show();
+
+            currentWindow?.Close();
         }
     }
     

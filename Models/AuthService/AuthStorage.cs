@@ -10,7 +10,7 @@ public static class AuthStorage
     public static Employee? CurrentUser
     {
         get => _currentUser;
-        set 
+        set
         {
             if (_currentUser != value)
             {
@@ -20,12 +20,17 @@ public static class AuthStorage
         }
     }
 
+    public static void LogInByUser(Employee user)
+    {
+        CurrentUser = user;
+    }
+
     public static void LogOut()
     {
         CurrentUser = null;
     }
 
-    public static event EventHandler OnCurrentUserChanged = default!;
+    public static event EventHandler? OnCurrentUserChanged;
 
     public static bool IsAuthenticated => CurrentUser != null;
 }

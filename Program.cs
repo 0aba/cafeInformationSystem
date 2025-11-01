@@ -30,7 +30,7 @@ sealed class Program
         if (args.Length == 0) { }
         else if (args.Length > 0 && IsManagementCommand(args))
         {
-            if (commandEnable.Equals("true"))
+            if (!commandEnable.Equals("true"))
             {
                 throw new Exception("Command disabled");
             }

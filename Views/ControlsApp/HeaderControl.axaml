@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="60"
              x:Class="cafeInformationSystem.Views.ControlsApp.HeaderControl"
-             xmlns:vm="using:cafeInformationSystem.ViewModels.ControlsApp">
+             xmlns:vm="using:cafeInformationSystem.ViewModels.ControlsApp"
+             x:DataType="vm:HeaderViewModel">
     
     <Design.DataContext>
         <vm:HeaderViewModel/>
@@ -23,9 +24,11 @@
             <StackPanel Orientation="Horizontal" Spacing="10"
                        VerticalAlignment="Center"
                        Grid.Column="2">
-                <Image Source="{Binding UserPhoto}" 
-                       Width="40" Height="40"
-                       CornerRadius="20"/>
+                <Border Width="40" Height="40" CornerRadius="20" ClipToBounds="True">
+                    <Image Source="{Binding UserPhoto}" 
+                        Width="40" Height="40"
+                        Stretch="UniformToFill"/>
+                </Border>
                 <Button Content="Выйти" 
                         Command="{Binding LogoutCommand}"
                         Background="#a64325ff" Foreground="White"

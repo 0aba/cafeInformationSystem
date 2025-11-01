@@ -1,5 +1,20 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
+using cafeInformationSystem.Models.DataBase.DataAccess;
+using cafeInformationSystem.Models.Entities;
+using cafeInformationSystem.Models.Cryptography;
+using cafeInformationSystem.Views.Administrator;
+using cafeInformationSystem.ViewModels.Administrator;
+using cafeInformationSystem.Views.Chef;
+using cafeInformationSystem.ViewModels.Chef;
+using cafeInformationSystem.Views.Waiter;
+using cafeInformationSystem.ViewModels.Waiter;
+using System;
+using cafeInformationSystem.Models.AuthService;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls;
+using cafeInformationSystem.Views.Shared;
 
 namespace cafeInformationSystem.ViewModels.Shared;
 
@@ -47,10 +62,59 @@ public class LoginViewModel : ViewModelBase
             return;
         }
 
-        // TODO! 
-        // 0 поверить существание пользователя
-        // 1 проверить пароль
-        // 2 авторизоваться
-        // 3 изменить окно на соотвествующее роли (Выход по плану функция в общим шаблоне 'хедера')
+        Employee? loginEmployee;
+
+        try
+        {
+            loginEmployee = UtilsDataAccess.GetEmployee(Login);
+        }
+        catch (Exception)
+        {
+            ErrorMessage = "Пользователя не найден";
+            return;
+        }
+
+        var isPasswordValid = PasswordHashing.VerifyPassword(Password, loginEmployee.Password);
+        if (!isPasswordValid)
+        {
+            ErrorMessage = "Пароль не совпадает";
+            return;
+        }
+
+        AuthStorage.LogInByUser(loginEmployee);
+
+        Window window = new LoginView();
+
+        switch (loginEmployee.Role)
+        {
+            case EmployeeRole.Administrator:
+                window = new AdministratorMenuWindow()
+                {
+                    DataContext = new AdministratorMenuViewModel()
+                };
+                break;
+            case EmployeeRole.Chef:
+                window = new ChefMenuWindow()
+                {
+                    DataContext = new ChefMenuViewModel()
+                };
+                break;
+            case EmployeeRole.Waiter:
+                window = new WaiterMenuWindow()
+                {
+                    DataContext = new WaiterMenuViewModel()
+                };
+                break;
+        }
+
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
+
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
+
+            currentWindow?.Close();
+        }
     }
 }
