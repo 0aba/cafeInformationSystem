@@ -66,5 +66,4 @@ public partial class NewEmployeeWindow : BaseEmployeeImageWindow
         ContractFileSelected -= OnContractFileSelected;
         base.OnClosed(e);
     }
-
 }

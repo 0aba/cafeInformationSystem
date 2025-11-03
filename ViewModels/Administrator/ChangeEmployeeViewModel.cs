@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using cafeInformationSystem.Models.DataBase.DataAccess;
 using cafeInformationSystem.Models.Cryptography;
 using Avalonia.Platform;
+using cafeInformationSystem.Models.MediaService;
 
 namespace cafeInformationSystem.ViewModels.Administrator;
 
@@ -23,17 +24,10 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
     private const string _DEFAULT_PHOTO_USER_ASSETS_PATH = "avares://cafeInformationSystem/Assets/Default/default-employee-photo.png";
     private const string _DEFAULT_NO_CONTRACT_ASSETS_PATH = "avares://cafeInformationSystem/Assets/Default/default-no-contract.jpeg";
 
-
     private Employee _changeEmployee;
 
     public ChangeEmployeeViewModel(string username)
     {
-        using var streamPhoto = AssetLoader.Open(new Uri(_DEFAULT_PHOTO_USER_ASSETS_PATH));
-        DefaultPhoto = new Bitmap(streamPhoto);
-
-        using var streamNoContract = AssetLoader.Open(new Uri(_DEFAULT_NO_CONTRACT_ASSETS_PATH));
-        DefaultNoContract = new Bitmap(streamNoContract);
-
         var context = DatabaseService.GetContext();
 
         var changeEmployee = context.Employee.FirstOrDefault(e => e.Username == username);
@@ -42,11 +36,34 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
         {
             throw new Exception("User card does not exist");
         }
+
+        if (!string.IsNullOrWhiteSpace(changeEmployee.Photo))
+        {
+            PhotoImage = ImagesMediaService.GetMediaService().GetImage(changeEmployee.Photo);
+        }
+        else
+        {
+            using var streamPhoto = AssetLoader.Open(new Uri(_DEFAULT_PHOTO_USER_ASSETS_PATH));
+            PhotoImage = new Bitmap(streamPhoto);
+        }
+
+        if (!string.IsNullOrWhiteSpace(changeEmployee.ScanEmploymentContract))
+        {
+            ContractImage = ImagesMediaService.GetMediaService().GetImage(changeEmployee.ScanEmploymentContract);
+        }
+        else
+        {
+            using var streamNoContract = AssetLoader.Open(new Uri(_DEFAULT_NO_CONTRACT_ASSETS_PATH));
+            ContractImage = new Bitmap(streamNoContract);
+        }
+
         _changeEmployee = changeEmployee;
 
         FirstName = _changeEmployee.FirstName;
         LastName = _changeEmployee.LastName;
         MiddleName = _changeEmployee.MiddleName ?? string.Empty;
+        _pathPhoto = _changeEmployee.Photo;
+        _pathScanEmploymentContract = _changeEmployee.ScanEmploymentContract;
         Username = _changeEmployee.Username;
         SelectedRoleFilter = AvailableRoles[0];
         _workStatus = _changeEmployee.WorkStatus;
@@ -58,10 +75,8 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
     private string _firstName = string.Empty;
     private string _lastName = string.Empty;
     private string _middleName = string.Empty;
-
-    // TODO Photo
-    // TODO ScanEmploymentPhoto 
-
+    private string? _pathPhoto = null;
+    private string? _pathScanEmploymentContract = null;
     private string _username = string.Empty;
     private string _newPassword = string.Empty;
     private string _confirmPassword = string.Empty;
@@ -131,8 +146,8 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
         set => SetProperty(ref _selectedRoleFilter, value);
     }
 
-    public Bitmap DefaultPhoto { get; }
-    public Bitmap DefaultNoContract { get; }
+    public Bitmap PhotoImage { get; }
+    public Bitmap ContractImage { get; }
 
     public ICommand BackToEmployeesCommand { get; }
     public ICommand ChangeEmployeeCommand { get; }
@@ -156,6 +171,30 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
         }
     }
 
+    public void LoadPhoto(string filePath, string fileName)
+    {
+        var imagesMediaService = ImagesMediaService.GetMediaService();
+
+        var dirSaveImage = imagesMediaService.GetPathDirectoryBasedOnCurrentDate();
+        var newNameSaveImage = imagesMediaService.GeneratorNameLen64Image() + Path.GetExtension(fileName);
+
+        imagesMediaService.SaveImage(dirSaveImage, newNameSaveImage, new Bitmap(filePath));
+        var pathPhoto = Path.Combine(dirSaveImage, newNameSaveImage);
+        _pathPhoto = pathPhoto;
+    }
+    
+    public void LoadScanEmploymentContract(string filePath, string fileName)
+    {
+        var imagesMediaService = ImagesMediaService.GetMediaService();
+
+        var dirSaveImage = imagesMediaService.GetPathDirectoryBasedOnCurrentDate();
+        var newNameSaveImage = imagesMediaService.GeneratorNameLen64Image() + Path.GetExtension(fileName);
+
+        imagesMediaService.SaveImage(dirSaveImage, newNameSaveImage, new Bitmap(filePath));
+        var pathScanEmploymentContract = Path.Combine(dirSaveImage, newNameSaveImage);
+        _pathScanEmploymentContract = pathScanEmploymentContract;
+    }
+
     private void ExecuteChangeEmployee()
     {
         if (!ValidateInput())
@@ -166,6 +205,8 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
         _changeEmployee.FirstName = FirstName;
         _changeEmployee.LastName = LastName;
         _changeEmployee.MiddleName = MiddleName;
+        _changeEmployee.Photo = _pathPhoto;
+        _changeEmployee.ScanEmploymentContract = _pathScanEmploymentContract;
         _changeEmployee.Role = SelectedRoleFilter!.Role ?? EmployeeRole.Waiter;
         _changeEmployee.WorkStatus = WorkStatus;
         if (!string.IsNullOrWhiteSpace(NewPassword))
@@ -209,6 +250,19 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
             ErrorMessage = "Отчество сотрудника длинной не более 128 символов";
             return false;
         }
+        
+        if (string.IsNullOrWhiteSpace(_pathPhoto))
+        {
+            ErrorMessage = "Необходимо указать фото";
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(_pathScanEmploymentContract))
+        {
+            ErrorMessage = "Необходимо указать скан документа";
+            return false;
+        }
+
 
         if (string.IsNullOrWhiteSpace(Username) || Username.Length < 3 || Username.Length > 150)
         {
