@@ -65,7 +65,7 @@ public class Order
     public virtual Employee Waiter { get; set; } = null!;
     public virtual Employee Chef { get; set; } = null!;
     public virtual Table Table { get; set; } = null!;
-    public virtual ICollection<CashReceiptOrder> CashReceiptOrders { get; set; } = new List<CashReceiptOrder>();
+    public virtual ICollection<OrderOrderItem> OrderOrderItems { get; set; } = new List<OrderOrderItem>();
 
     public bool IsActive => Status == OrderStatus.Accepted;
     public string OrderInfo => $"{OrderCode} - Стол {Table?.TableCode} - {TotalCost:C} рублей";

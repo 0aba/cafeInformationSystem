@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
         xmlns:vm="using:cafeInformationSystem.ViewModels.Administrator"
         x:DataType="vm:NewEmployeeViewModel"
         x:Class="cafeInformationSystem.Views.Administrator.NewEmployeeWindow"
@@ -14,14 +15,15 @@
     <vm:NewEmployeeViewModel/>
   </Design.DataContext>
 
-  <DockPanel Margin="20">
-    <!-- Кнопка Назад вверху -->
-    <Button DockPanel.Dock="Top" Content="← Назад" Command="{Binding BackToEmployeesCommand}" 
-            HorizontalAlignment="Left" Margin="0,0,0,10" Width="80" Height="30" 
-            Background="Gray" Foreground="White"/>
-    
+  <DockPanel>
+    <!-- Header -->
+    <controls:HeaderControl DockPanel.Dock="Top"/>
+    <!-- Панель действий -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
+      <Button Content="Обратно к списку сотрудников" Command="{Binding BackToEmployeesCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+    </StackPanel>
     <!-- Основная форма -->
-    <Border Background="#6F4E37" CornerRadius="5">
+    <Border Background="#6F4E37" CornerRadius="5" Margin="20">
       <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="30" Spacing="15" VerticalAlignment="Top">
           

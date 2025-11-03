@@ -14,16 +14,45 @@ using System.IO;
 using System.Threading.Tasks;
 using cafeInformationSystem.Models.DataBase.DataAccess;
 using cafeInformationSystem.Models.Cryptography;
+using Avalonia.Platform;
 
 namespace cafeInformationSystem.ViewModels.Administrator;
 
-public partial class NewEmployeeViewModel : ViewModelBase
+public partial class ChangeEmployeeViewModel : ViewModelBase
 {
-    public NewEmployeeViewModel()
+    private const string _DEFAULT_PHOTO_USER_ASSETS_PATH = "avares://cafeInformationSystem/Assets/Default/default-employee-photo.png";
+    private const string _DEFAULT_NO_CONTRACT_ASSETS_PATH = "avares://cafeInformationSystem/Assets/Default/default-no-contract.jpeg";
+
+
+    private Employee _changeEmployee;
+
+    public ChangeEmployeeViewModel(string username)
     {
+        using var streamPhoto = AssetLoader.Open(new Uri(_DEFAULT_PHOTO_USER_ASSETS_PATH));
+        DefaultPhoto = new Bitmap(streamPhoto);
+
+        using var streamNoContract = AssetLoader.Open(new Uri(_DEFAULT_NO_CONTRACT_ASSETS_PATH));
+        DefaultNoContract = new Bitmap(streamNoContract);
+
+        var context = DatabaseService.GetContext();
+
+        var changeEmployee = context.Employee.FirstOrDefault(e => e.Username == username);
+
+        if (changeEmployee is null)
+        {
+            throw new Exception("User card does not exist");
+        }
+        _changeEmployee = changeEmployee;
+
+        FirstName = _changeEmployee.FirstName;
+        LastName = _changeEmployee.LastName;
+        MiddleName = _changeEmployee.MiddleName ?? string.Empty;
+        Username = _changeEmployee.Username;
         SelectedRoleFilter = AvailableRoles[0];
+        _workStatus = _changeEmployee.WorkStatus;
+
         BackToEmployeesCommand = new RelayCommand(ExecuteBackToEmployees);
-        CreateEmployeeCommand = new RelayCommand(ExecuteCreateEmployee);
+        ChangeEmployeeCommand = new RelayCommand(ExecuteChangeEmployee);
     }
 
     private string _firstName = string.Empty;
@@ -31,11 +60,14 @@ public partial class NewEmployeeViewModel : ViewModelBase
     private string _middleName = string.Empty;
 
     // TODO Photo
-    // TODO ScanEmploymentContract
+    // TODO ScanEmploymentPhoto 
+
     private string _username = string.Empty;
-    private string _password = string.Empty;
+    private string _newPassword = string.Empty;
     private string _confirmPassword = string.Empty;
     private string _errorMessage = string.Empty;
+
+    private bool _workStatus;
 
     private RoleFilterItem? _selectedRoleFilter;
 
@@ -66,19 +98,25 @@ public partial class NewEmployeeViewModel : ViewModelBase
     public string Username
     {
         get => _username;
-        set => SetProperty(ref _username, value);
+        private set => SetProperty(ref _username, value);
     }
 
-    public string Password
+    public string NewPassword
     {
-        get => _password;
-        set => SetProperty(ref _password, value);
+        get => _newPassword;
+        set => SetProperty(ref _newPassword, value);
     }
 
     public string ConfirmPassword
     {
         get => _confirmPassword;
         set => SetProperty(ref _confirmPassword, value);
+    }
+
+    public bool WorkStatus
+    {
+        get => _workStatus;
+        set => SetProperty(ref _workStatus, value);
     }
 
     public string ErrorMessage
@@ -93,8 +131,11 @@ public partial class NewEmployeeViewModel : ViewModelBase
         set => SetProperty(ref _selectedRoleFilter, value);
     }
 
+    public Bitmap DefaultPhoto { get; }
+    public Bitmap DefaultNoContract { get; }
+
     public ICommand BackToEmployeesCommand { get; }
-    public ICommand CreateEmployeeCommand { get; }
+    public ICommand ChangeEmployeeCommand { get; }
 
     private void ExecuteBackToEmployees()
     {
@@ -115,31 +156,26 @@ public partial class NewEmployeeViewModel : ViewModelBase
         }
     }
 
-    private void ExecuteCreateEmployee()
+    private void ExecuteChangeEmployee()
     {
         if (!ValidateInput())
         {
             return;
         }
-        
-        var employee = new Employee
+
+        _changeEmployee.FirstName = FirstName;
+        _changeEmployee.LastName = LastName;
+        _changeEmployee.MiddleName = MiddleName;
+        _changeEmployee.Role = SelectedRoleFilter!.Role ?? EmployeeRole.Waiter;
+        _changeEmployee.WorkStatus = WorkStatus;
+        if (!string.IsNullOrWhiteSpace(NewPassword))
         {
-            FirstName = FirstName,
-            LastName = LastName,
-            MiddleName = MiddleName,
-            Photo = null,  // TODO!
-            ScanEmploymentContract = null,  // TODO!
-            Username = Username,
-            Password = Password,
-            Role = SelectedRoleFilter!.Role ?? EmployeeRole.Waiter,
-            WorkStatus = true
-        };
+            _changeEmployee.Password = PasswordHashing.HashPassword(NewPassword);
+        }
 
         var context = DatabaseService.GetContext();
 
-        employee.Password = PasswordHashing.HashPassword(employee.Password);
-
-        context.Employee.Add(employee);
+        context.Employee.Update(_changeEmployee);
 
         try
         {
@@ -180,27 +216,13 @@ public partial class NewEmployeeViewModel : ViewModelBase
             return false;
         }
 
-        var userAlreadyExists = UtilsDataAccess.CheckExistsEmployee(Username);
-
-        if (userAlreadyExists)
-        {
-            ErrorMessage = "Сотрудник с таким логином уже существует";
-            return false;
-        }
-
-        if (string.IsNullOrWhiteSpace(Password))
-        {
-            ErrorMessage = "Введите пароль";
-            return false;
-        }
-
-        if (Password != ConfirmPassword)
+        if (!NewPassword.Equals(string.Empty) && NewPassword != ConfirmPassword)
         {
             ErrorMessage = "Пароли не совпадают";
             return false;
         }
 
-        if (Password.Length < 8)
+        if (!NewPassword.Equals(string.Empty) && NewPassword.Length < 8)
         {
             ErrorMessage = "Пароль должен содержать минимум 8 символов";
             return false;
@@ -209,6 +231,12 @@ public partial class NewEmployeeViewModel : ViewModelBase
         if (SelectedRoleFilter == null)
         {
             ErrorMessage = "Выберите роль сотрудника";
+            return false;
+        }
+
+        if (_changeEmployee.Role == EmployeeRole.Administrator)
+        {
+            ErrorMessage = "Ошибка сотрудник является администратором";
             return false;
         }
 

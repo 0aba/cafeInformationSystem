@@ -163,9 +163,21 @@ public partial class EmployeesViewModel : ViewModelBase
         {
             throw new Exception("Username is null or empty");
         }
-        // TODO!
-        // перейти к пользователю
-        // если его нет (Там обработать)
+        
+        Window window = new ChangeEmployeeWindow()
+        {
+            DataContext = new ChangeEmployeeViewModel(username)
+        };
+
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
+
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
+
+            currentWindow?.Close();
+        }
     }
 
     private void LoadEmployees()

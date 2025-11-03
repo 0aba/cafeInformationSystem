@@ -26,7 +26,7 @@ public class OrderItem
     [Column("cost", TypeName = "money")]
     public decimal Cost { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<OrderOrderItem> OrderOrderItems { get; set; } = new List<OrderOrderItem>();
 
     public string ItemInfo => $"{Name} - {Cost:C}";
 }

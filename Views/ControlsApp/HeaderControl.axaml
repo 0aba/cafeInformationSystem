@@ -22,8 +22,8 @@
 
             <!-- Справа -->
             <StackPanel Orientation="Horizontal" Spacing="10"
-                       VerticalAlignment="Center"
-                       Grid.Column="2">
+                        VerticalAlignment="Center"
+                        Grid.Column="2">
                 <Border Width="40" Height="40" CornerRadius="20" ClipToBounds="True">
                     <Image Source="{Binding UserPhoto}" 
                         Width="40" Height="40"

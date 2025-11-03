@@ -97,26 +97,18 @@ public class ApplicationDbContext : DbContext
             entity.ToTable(t => t.HasCheckConstraint("order_closed_at_ck", "closed_at IS NULL OR created_at < closed_at"));
             entity.ToTable(t => t.HasCheckConstraint("order_total_cost_ck", "total_cost > 0::money"));
             entity.ToTable(t => t.HasCheckConstraint("order_amount_clients_ck", "amount_clients > 0"));
+        });
 
-            entity.HasMany(e => e.OrderItems)
-                .WithMany(s => s.Orders)
-                .UsingEntity<Dictionary<string, object>>(
-                    "Order_OrderItem",
-                    j => j.HasOne<OrderItem>()
-                    .WithMany()
-                    .HasForeignKey("order_item_fk")
-                    .OnDelete(DeleteBehavior.Restrict),
-                    j => j.HasOne<Order>()
-                    .WithMany()
-                    .HasForeignKey("orders_fk")
-                    .OnDelete(DeleteBehavior.Restrict),
-                    j => j.ToTable("Order_OrderItem")
-                );
+        modelBuilder.Entity<OrderOrderItem>(entity =>
+        {
+            entity.HasKey(ooi => ooi.Id);
+            entity.HasIndex(ooi => new { ooi.OrderId, ooi.OrderItemId }).IsUnique();
 
-            entity.HasMany(e => e.CashReceiptOrders)
-                .WithOne(s => s.Order)
-                .HasForeignKey(s => s.OrderId)
-                .OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(ooi => ooi.ForOrder)
+                .WithMany(o => o.OrderOrderItems)
+                .HasForeignKey(ooi => ooi.OrderId);
+            
+            entity.ToTable(t => t.HasCheckConstraint("orderorderitem_amount_items_ck", "amount_items > 0"));
         });
 
         modelBuilder.Entity<OrderItem>(entity =>
