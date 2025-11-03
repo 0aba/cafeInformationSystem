@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
-
 using cafeInformationSystem.Views.Administrator;
 using cafeInformationSystem.ViewModels.Administrator;
 using Avalonia.Controls;

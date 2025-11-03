@@ -8,12 +8,11 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls;
 using cafeInformationSystem.Views.Administrator;
 using cafeInformationSystem.Models.DataBase;
-using System.Linq;
 using Avalonia.Media.Imaging;
-using System.IO;
-using System.Threading.Tasks;
 using cafeInformationSystem.Models.DataBase.DataAccess;
 using cafeInformationSystem.Models.Cryptography;
+using cafeInformationSystem.Models.MediaService;
+using System.IO;
 
 namespace cafeInformationSystem.ViewModels.Administrator;
 
@@ -29,9 +28,8 @@ public partial class NewEmployeeViewModel : ViewModelBase
     private string _firstName = string.Empty;
     private string _lastName = string.Empty;
     private string _middleName = string.Empty;
-
-    // TODO Photo
-    // TODO ScanEmploymentContract
+    private string? _pathPhoto = null;
+    private string? _pathScanEmploymentContract = null;
     private string _username = string.Empty;
     private string _password = string.Empty;
     private string _confirmPassword = string.Empty;
@@ -103,7 +101,6 @@ public partial class NewEmployeeViewModel : ViewModelBase
             DataContext = new EmployeesViewModel()
         };
 
-
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var currentWindow = desktop.MainWindow;
@@ -115,20 +112,44 @@ public partial class NewEmployeeViewModel : ViewModelBase
         }
     }
 
+    public void LoadPhoto(string filePath, string fileName)
+    {
+        var imagesMediaService = ImagesMediaService.GetMediaService();
+
+        var dirSaveImage = imagesMediaService.GetPathDirectoryBasedOnCurrentDate();
+        var newNameSaveImage = imagesMediaService.GeneratorNameLen64Image() + Path.GetExtension(fileName);
+
+        imagesMediaService.SaveImage(dirSaveImage, newNameSaveImage, new Bitmap(filePath));
+        var pathPhoto = Path.Combine(dirSaveImage, newNameSaveImage);
+        _pathPhoto = pathPhoto;
+    }
+    
+    public void LoadScanEmploymentContract(string filePath, string fileName)
+    {
+        var imagesMediaService = ImagesMediaService.GetMediaService();
+
+        var dirSaveImage = imagesMediaService.GetPathDirectoryBasedOnCurrentDate();
+        var newNameSaveImage = imagesMediaService.GeneratorNameLen64Image() + Path.GetExtension(fileName);
+
+        imagesMediaService.SaveImage(dirSaveImage, newNameSaveImage, new Bitmap(filePath));
+        var pathScanEmploymentContract = Path.Combine(dirSaveImage, newNameSaveImage);
+        _pathScanEmploymentContract = pathScanEmploymentContract;
+    }
+
     private void ExecuteCreateEmployee()
     {
         if (!ValidateInput())
         {
             return;
         }
-        
+
         var employee = new Employee
         {
             FirstName = FirstName,
             LastName = LastName,
             MiddleName = MiddleName,
-            Photo = null,  // TODO!
-            ScanEmploymentContract = null,  // TODO!
+            Photo = _pathPhoto,
+            ScanEmploymentContract = _pathScanEmploymentContract,
             Username = Username,
             Password = Password,
             Role = SelectedRoleFilter!.Role ?? EmployeeRole.Waiter,
@@ -171,6 +192,18 @@ public partial class NewEmployeeViewModel : ViewModelBase
         if (MiddleName.Length > 128)
         {
             ErrorMessage = "Отчество сотрудника длинной не более 128 символов";
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(_pathPhoto))
+        {
+            ErrorMessage = "Необходимо указать фото";
+            return false;
+        }
+
+        if (string.IsNullOrWhiteSpace(_pathScanEmploymentContract))
+        {
+            ErrorMessage = "Необходимо указать скан документа";
             return false;
         }
 
