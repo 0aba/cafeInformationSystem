@@ -83,7 +83,7 @@ public class LoginViewModel : ViewModelBase
 
         AuthStorage.LogInByUser(loginEmployee);
 
-        Window window = new LoginView();
+        Window window = new LoginWindow();
 
         switch (loginEmployee.Role)
         {

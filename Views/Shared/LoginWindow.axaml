@@ -1,0 +1,31 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="cafeInformationSystem.Views.Shared.LoginWindow"
+        xmlns:vm="using:cafeInformationSystem.ViewModels.Shared"
+        x:DataType="vm:LoginViewModel"
+        Title="Авторизация" 
+        Width="400" Height="300"
+        WindowStartupLocation="CenterScreen"
+        CanResize="False"
+        Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
+
+  <Design.DataContext>
+    <vm:LoginViewModel/>
+  </Design.DataContext>
+  
+  <Border Margin="30" Background="#6F4E37" CornerRadius="5">
+    <StackPanel Margin="30" Spacing="15" VerticalAlignment="Center" Background="#6F4E37">
+      <!-- Форма входа -->
+      <TextBlock Text="Вход в систему" FontSize="20" HorizontalAlignment="Center"/>
+      
+      <TextBox Watermark="Логин" Text="{Binding Login}"/>
+      <TextBox Watermark="Пароль" PasswordChar="*" Text="{Binding Password}"/>
+      
+      <Button Content="Войти" Command="{Binding LoginCommand}" 
+              HorizontalAlignment="Stretch" Height="35" Background="DarkOrchid" Foreground="White"/>
+      
+      <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
+                TextWrapping="Wrap" HorizontalAlignment="Center"/>
+    </StackPanel>
+  </Border>
+</Window>

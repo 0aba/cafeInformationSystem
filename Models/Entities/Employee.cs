@@ -68,5 +68,13 @@ public class Employee
     public virtual ICollection<Order> ChefOrders { get; set; } = new List<Order>();
     public virtual ICollection<Table> Tables { get; set; } = new List<Table>();
 
+    public string RoleName => Role switch
+    {
+        EmployeeRole.Administrator => "Администратор",
+        EmployeeRole.Chef => "Повар", 
+        EmployeeRole.Waiter => "Официант",
+        _ => Role.ToString()
+    };
+
     public string FullName => $"{LastName} {FirstName} {MiddleName}".Trim();
 }

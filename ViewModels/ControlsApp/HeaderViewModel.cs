@@ -18,13 +18,16 @@ public class HeaderViewModel : ViewModelBase
 
     public HeaderViewModel()
     {
+        using var stream = AssetLoader.Open(new Uri(_CAFE_LOGO_ASSETS_PATH));
+        AppIcon = new Bitmap(stream);
+                
         LogoutCommand = new RelayCommand(ExecuteLogout);
         LoadUserPhoto();
 
         AuthStorage.OnCurrentUserChanged += OnUserChanged;
     }
 
-    public string AppIcon => _CAFE_LOGO_ASSETS_PATH;
+    public Bitmap AppIcon { get; }
     private Bitmap? _userPhoto;
 
     public Bitmap? UserPhoto
@@ -43,7 +46,7 @@ public class HeaderViewModel : ViewModelBase
         {
             var currentWindow = desktop.MainWindow;
 
-            desktop.MainWindow = new LoginView();
+            desktop.MainWindow = new LoginWindow();
             desktop.MainWindow.Show();
 
             currentWindow?.Close();
@@ -57,7 +60,6 @@ public class HeaderViewModel : ViewModelBase
 
     private void LoadUserPhoto()
     {
-
         if (AuthStorage.CurrentUser?.Photo is not null)
         {
             try

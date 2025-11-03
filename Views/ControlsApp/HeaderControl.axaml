@@ -31,7 +31,7 @@
                 </Border>
                 <Button Content="Выйти" 
                         Command="{Binding LogoutCommand}"
-                        Background="#a64325ff" Foreground="White"
+                        Background="DarkOrchid" Foreground="White"
                         Padding="15,5"/>
             </StackPanel>
         </Grid>

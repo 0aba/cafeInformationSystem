@@ -1,0 +1,84 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="using:cafeInformationSystem.ViewModels.Administrator"
+        x:DataType="vm:NewEmployeeViewModel"
+        x:Class="cafeInformationSystem.Views.Administrator.NewEmployeeWindow"
+        Title="Создать сотрудника"
+        WindowStartupLocation="CenterScreen"
+        Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
+  
+  <Design.DataContext>
+    <vm:NewEmployeeViewModel/>
+  </Design.DataContext>
+
+  <DockPanel Margin="20">
+    <!-- Кнопка Назад вверху -->
+    <Button DockPanel.Dock="Top" Content="← Назад" Command="{Binding BackToEmployeesCommand}" 
+            HorizontalAlignment="Left" Margin="0,0,0,10" Width="80" Height="30" 
+            Background="Gray" Foreground="White"/>
+    
+    <!-- Основная форма -->
+    <Border Background="#6F4E37" CornerRadius="5">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="30" Spacing="15" VerticalAlignment="Top">
+          
+          <!-- Заголовок -->
+          <TextBlock Text="Создать пользователя" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
+          
+          <!-- Основные поля -->
+          <Grid ColumnDefinitions="100,*" RowDefinitions="*,*,*,*,*,*,*,*,*" VerticalAlignment="Top">
+            
+            <!-- Имя -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Watermark="Введите имя" Text="{Binding FirstName}"/>
+            
+            <!-- Фамилия -->
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Фамилия:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Watermark="Введите фамилию" Text="{Binding LastName}"/>
+            
+            <!-- Отчество -->
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Отчество:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Watermark="Введите отчество" Text="{Binding MiddleName}"/>
+            
+            <!-- TODO Фото -->
+            
+            <!-- TODO Договор -->
+            
+            <!-- Логин -->
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Логин:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Watermark="Введите логин" Text="{Binding Username}"/>
+            
+            <!-- Пароль -->
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Пароль:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Watermark="Введите пароль" PasswordChar="*" Text="{Binding Password}"/>
+            
+            <!-- Подтверждение пароля -->
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="Подтверждение:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="7" Grid.Column="1" Watermark="Повторите пароль" PasswordChar="*" Text="{Binding ConfirmPassword}"/>
+            
+            <!-- Роль -->
+            <TextBlock Grid.Row="8" Grid.Column="0" Text="Роль:" VerticalAlignment="Center" Foreground="White"/>
+            <ComboBox Grid.Row="8" Grid.Column="1" 
+                      ItemsSource="{Binding AvailableRoles}"
+                      SelectedItem="{Binding SelectedRoleFilter}"
+                      DisplayMemberBinding="{Binding Name}"/>
+            
+          </Grid>
+          
+          <!-- Сообщение об ошибке -->
+          <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
+                    TextWrapping="Wrap" HorizontalAlignment="Center"/>
+          
+          <!-- Кнопка Создать -->
+          <Button Content="Создать" Command="{Binding CreateEmployeeCommand}" 
+                  HorizontalAlignment="Center" Width="100" Height="35" 
+                  Background="DarkOrchid" Foreground="White"/>
+          
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+  </DockPanel>
+</Window>

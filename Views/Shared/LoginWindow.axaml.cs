@@ -3,9 +3,9 @@ using Avalonia.Interactivity;
 
 namespace cafeInformationSystem.Views.Shared;
 
-public partial class LoginView : Window
+public partial class LoginWindow : Window
 {
-    public LoginView()
+    public LoginWindow()
     {
         InitializeComponent();
     }
