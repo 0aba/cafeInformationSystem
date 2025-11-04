@@ -26,7 +26,7 @@ public partial class TablesViewModel : ViewModelBase
     private string _tableCodeFilter = string.Empty;
 
     private string _usernameWaiterFilter = string.Empty;
-    private bool _statusAssignedWaiter = true;
+    private bool _statusAssignedWaiterFilter = true;
 
     // INFO! ObservableCollection используется для ослеживания действий со списоком (Добавлени, изменение, удаление и так далее)
     // в данном случае можно было и просто List или ICollection/ использовать...
@@ -46,10 +46,10 @@ public partial class TablesViewModel : ViewModelBase
         set => SetProperty(ref _usernameWaiterFilter, value);
     }
 
-    public bool StatusAssignedWaiter
+    public bool StatusAssignedWaiterFilter
     {
-        get => _statusAssignedWaiter;
-        set => SetProperty(ref _statusAssignedWaiter, value);
+        get => _statusAssignedWaiterFilter;
+        set => SetProperty(ref _statusAssignedWaiterFilter, value);
     }
 
     public ObservableCollection<Table> Tables
@@ -158,7 +158,7 @@ public partial class TablesViewModel : ViewModelBase
                 query = query.Where(t => t.WaiterService != null && t.WaiterService.Username.Contains(UsernameWaiterFilter));
             }
             
-            query = query.Where(e => StatusAssignedWaiter ? e.WaiterService != null : e.WaiterService == null);
+            query = query.Where(e => StatusAssignedWaiterFilter ? e.WaiterService != null : e.WaiterService == null);
 
 
             var tables = query.ToList();

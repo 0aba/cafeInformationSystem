@@ -53,7 +53,10 @@ public class AdministratorMenuViewModel : ViewModelBase
                 };
                 break;
             case AdministratorMenuNavigatePage.Shifts:
-                // TODO! 3
+                window = new ShiftsWindow()
+                {
+                    DataContext = new ShiftsViewModel()
+                };
                 break;
             case AdministratorMenuNavigatePage.Orders:
                 // TODO! 2

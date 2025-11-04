@@ -51,6 +51,7 @@ public class HeaderViewModel : ViewModelBase
             {
                 DataContext = new LoginViewModel()
             };
+            
             desktop.MainWindow.Show();
 
             currentWindow?.Close();
