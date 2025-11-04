@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using cafeInformationSystem.Models.Entities;
-using System.Collections.Generic;
 using System;
 using System.Windows.Input;
 using Avalonia;
@@ -119,26 +118,25 @@ public partial class TablesViewModel : ViewModelBase
 
     private void ExecuteOpenTableCard(string? tableCode)
     {
-        // TODO! 
-        // if (string.IsNullOrEmpty(username))
-        // {
-        //     throw new Exception("Username is null or empty");
-        // }
+        if (string.IsNullOrEmpty(tableCode))
+        {
+            throw new Exception("Table code is null or empty");
+        }
         
-        // Window window = new ChangeEmployeeWindow()
-        // {
-        //     DataContext = new ChangeEmployeeViewModel(username)
-        // };
+        Window window = new ChangeTableWindow()
+        {
+            DataContext = new ChangeTableViewModel(tableCode)
+        };
 
-        // if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        // {
-        //     var currentWindow = desktop.MainWindow;
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
 
-        //     desktop.MainWindow = window;
-        //     desktop.MainWindow.Show();
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
 
-        //     currentWindow?.Close();
-        // }
+            currentWindow?.Close();
+        }
     }
 
     private void LoadTables()

@@ -1,0 +1,62 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
+        xmlns:vm="using:cafeInformationSystem.ViewModels.Administrator"
+        x:DataType="vm:ChangeTableViewModel"
+        x:Class="cafeInformationSystem.Views.Administrator.ChangeTableWindow"
+        Title="Карточка столика"
+        WindowStartupLocation="CenterScreen"
+        Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
+  
+  <Design.DataContext>
+    <vm:ChangeTableViewModel/>
+  </Design.DataContext>
+
+  <DockPanel>
+    <!-- Header -->
+    <controls:HeaderControl DockPanel.Dock="Top"/>
+    
+    <!-- Панель действий -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
+      <Button Content="Обратно к списку столиков" Command="{Binding BackToTablesCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+    </StackPanel>
+    
+    <!-- Основная форма -->
+    <Border Background="#6F4E37" CornerRadius="5" Margin="20">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="30" Spacing="15" VerticalAlignment="Top">
+          
+          <!-- Заголовок -->
+          <TextBlock Text="Карточка столика" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
+          
+          <!-- Основные поля -->
+          <Grid ColumnDefinitions="200,*" RowDefinitions="*,*" VerticalAlignment="Top" HorizontalAlignment="Center">
+            
+            <!-- Код столика -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Код столика:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Watermark="Введите код столика" Text="{Binding TableCode}" Width="300"/>
+            
+            <!-- Логин официанта -->
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Логин официанта:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Watermark="Введите логин официанта (необязательно)" 
+                     Text="{Binding UsernameWaiter}" Width="300"/>
+            
+          </Grid>
+          
+          <!-- Сообщение об ошибке -->
+          <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
+                    TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,10"/>
+          
+          <!-- Кнопка Сохранить -->
+          <Button Content="Сохранить изменения" Command="{Binding ChangeTableCommand}" 
+                  HorizontalAlignment="Center" Width="200" Height="35" 
+                  Background="DarkOrchid" Foreground="White" Margin="0,20"/>
+          
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+  </DockPanel>
+</Window>

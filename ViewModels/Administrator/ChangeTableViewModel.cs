@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
 using cafeInformationSystem.Models.Entities;
-using System.Collections.Generic;
 using System;
 using System.Windows.Input;
 using Avalonia;
@@ -8,22 +7,33 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls;
 using cafeInformationSystem.Views.Administrator;
 using cafeInformationSystem.Models.DataBase;
-using Avalonia.Media.Imaging;
-using cafeInformationSystem.Models.DataBase.DataAccess;
-using cafeInformationSystem.Models.Cryptography;
-using cafeInformationSystem.Models.MediaService;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace cafeInformationSystem.ViewModels.Administrator;
 
-public partial class NewTableViewModel : ViewModelBase
+public partial class ChangeTableViewModel : ViewModelBase
 {
-    public NewTableViewModel()
+    private Table _changeTable;
+
+    public ChangeTableViewModel(string tableCode)
     {
+        var context = DatabaseService.GetContext();
+
+        var changeTable = context.Table.Include(t => t.WaiterService).FirstOrDefault(t => t.TableCode == tableCode);
+
+        if (changeTable is null)
+        {
+            throw new Exception("Table card does not exist");
+        }
+
+        _changeTable = changeTable;
+
+        TableCode = _changeTable.TableCode;
+        UsernameWaiter = _changeTable.WaiterService?.Username;
+
         BackToTablesCommand = new RelayCommand(ExecuteBackToTables);
-        CreateTableCommand = new RelayCommand(ExecuteCreateTable);
+        ChangeTableCommand = new RelayCommand(ExecuteChangeTable);
     }
 
     private string _tableCode = string.Empty;
@@ -51,7 +61,7 @@ public partial class NewTableViewModel : ViewModelBase
     }
 
     public ICommand BackToTablesCommand { get; }
-    public ICommand CreateTableCommand { get; }
+    public ICommand ChangeTableCommand { get; }
 
     private void ExecuteBackToTables()
     {
@@ -59,6 +69,7 @@ public partial class NewTableViewModel : ViewModelBase
         {
             DataContext = new TablesViewModel()
         };
+
 
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -71,7 +82,7 @@ public partial class NewTableViewModel : ViewModelBase
         }
     }
 
-    private void ExecuteCreateTable()
+    private void ExecuteChangeTable()
     {
         if (!ValidateInput())
         {
@@ -81,13 +92,10 @@ public partial class NewTableViewModel : ViewModelBase
         var context = DatabaseService.GetContext();
         var employee = context.Employee.AsNoTracking().FirstOrDefault(e => e.Username == UsernameWaiter);
 
-        var table = new Table
-        {
-            TableCode = TableCode,
-            WaiterServiceId = employee?.Id
-        };
+        _changeTable.TableCode = TableCode;
+        _changeTable.WaiterServiceId = employee?.Id;
 
-        context.Table.Add(table);
+        context.Table.Update(_changeTable);
 
         try
         {
@@ -95,7 +103,7 @@ public partial class NewTableViewModel : ViewModelBase
         }
         catch (Exception)
         {
-            ErrorMessage = "Ошибка сохранения пользователя";
+            ErrorMessage = "Ошибка сохранения столика";
             return;
         }
 
@@ -109,12 +117,11 @@ public partial class NewTableViewModel : ViewModelBase
             ErrorMessage = "Обязательное поле код стола длинной не более 256 символов";
             return false;
         }
-        
-        var context = DatabaseService.GetContext();
 
+        var context = DatabaseService.GetContext();
         var table = context.Table.AsNoTracking().FirstOrDefault(e => e.TableCode == TableCode);
 
-        if (table is not null)
+        if (TableCode != _changeTable.TableCode && table is not null)
         {
             ErrorMessage = "Код стола не уникальный";
             return false;
