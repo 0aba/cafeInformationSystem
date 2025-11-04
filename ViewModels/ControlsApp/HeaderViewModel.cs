@@ -8,6 +8,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using cafeInformationSystem.Models.MediaService;
 using System;
 using Avalonia.Platform;
+using cafeInformationSystem.ViewModels.Shared;
 
 namespace cafeInformationSystem.ViewModels.ControlsApp;
 
@@ -46,7 +47,10 @@ public class HeaderViewModel : ViewModelBase
         {
             var currentWindow = desktop.MainWindow;
 
-            desktop.MainWindow = new LoginWindow();
+            desktop.MainWindow = new LoginWindow()
+            {
+                DataContext = new LoginViewModel()
+            };
             desktop.MainWindow.Show();
 
             currentWindow?.Close();
