@@ -109,21 +109,20 @@ public partial class ShiftsViewModel : ViewModelBase
 
     private void ExecuteNewShift()
     {
-        // TODO!
-        // Window window = new NewTableWindow()
-        // {
-        //     DataContext = new NewTableViewModel()
-        // };
+        Window window = new NewShiftWindow()
+        {
+            DataContext = new NewShiftViewModel()
+        };
 
-        // if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        // {
-        //     var currentWindow = desktop.MainWindow;
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
 
-        //     desktop.MainWindow = window;
-        //     desktop.MainWindow.Show();
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
 
-        //     currentWindow?.Close();
-        // }
+            currentWindow?.Close();
+        }
     }
 
     private void ExecuteOpenShiftCard(string? shiftCode)
