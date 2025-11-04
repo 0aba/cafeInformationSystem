@@ -63,10 +63,9 @@ public class Employee
 
 
     public virtual ICollection<Shift> Shifts { get; set; } = new List<Shift>();
-    public virtual ICollection<Shift> AdminShifts { get; set; } = new List<Shift>();
     public virtual ICollection<Order> WaiterOrders { get; set; } = new List<Order>();
     public virtual ICollection<Order> ChefOrders { get; set; } = new List<Order>();
-    public virtual ICollection<Table> Tables { get; set; } = new List<Table>();
+    public virtual ICollection<Table> WaiterTables { get; set; } = new List<Table>();
 
     public string RoleName => Role switch
     {

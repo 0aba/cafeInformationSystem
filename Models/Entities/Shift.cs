@@ -26,12 +26,7 @@ public class Shift
     [Column("time_end")]
     public DateTime TimeEnd { get; set; }
 
-    [Required]
-    [ForeignKey("admin_appointed_fk")]
-    public long AdminAppointedId { get; set; }
-
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
-    public virtual Employee AdminAppointed { get; set; } = null!;
 
     public string ShiftInfo => $"{ShiftCode} ({TimeStart:dd.MM.yyyy HH:mm} - {TimeEnd:dd.MM.yyyy HH:mm})";
 }

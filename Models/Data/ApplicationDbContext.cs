@@ -52,11 +52,6 @@ public class ApplicationDbContext : DbContext
                     j => j.ToTable("Employee_Shifts")
                 );
 
-            entity.HasMany(e => e.AdminShifts)
-                .WithOne(s => s.AdminAppointed)
-                .HasForeignKey(s => s.AdminAppointedId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             entity.HasMany(e => e.WaiterOrders)
                 .WithOne(s => s.Waiter)
                 .HasForeignKey(s => s.WaiterId)
@@ -67,7 +62,7 @@ public class ApplicationDbContext : DbContext
                 .HasForeignKey(s => s.ChefId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasMany(e => e.Tables)
+            entity.HasMany(e => e.WaiterTables)
                 .WithOne(s => s.WaiterService)
                 .HasForeignKey(s => s.WaiterServiceId)
                 .OnDelete(DeleteBehavior.SetNull);
