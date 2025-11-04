@@ -11,9 +11,10 @@ namespace cafeInformationSystem.ViewModels.Administrator;
 public enum AdministratorMenuNavigatePage : short
 {
     Employees = 1,
-    Orders = 2,
-    Shifts = 3,
-    Reports = 4
+    Shifts = 2,
+    Tables = 3,
+    Orders = 4,
+    Reports = 5
 }
 
 public class AdministratorMenuViewModel : ViewModelBase
@@ -21,14 +22,16 @@ public class AdministratorMenuViewModel : ViewModelBase
     public AdministratorMenuViewModel()
     {
         NavigateToEmployeesCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Employees));
-        NavigateToOrdersCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Orders));
+        NavigateToTablesCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Tables));
         NavigateToShiftsCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Shifts));
+        NavigateToOrdersCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Orders));
         NavigateToReportsCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Reports));
     }
 
     public ICommand NavigateToEmployeesCommand { get; }
-    public ICommand NavigateToOrdersCommand { get; }
+    public ICommand NavigateToTablesCommand { get; }
     public ICommand NavigateToShiftsCommand { get; }
+    public ICommand NavigateToOrdersCommand { get; }
     public ICommand NavigateToReportsCommand { get; }
 
     private void NavigateTo(AdministratorMenuNavigatePage navigatePage)
@@ -43,11 +46,17 @@ public class AdministratorMenuViewModel : ViewModelBase
                     DataContext = new EmployeesViewModel()
                 };
                 break;
-            case AdministratorMenuNavigatePage.Orders:
-                // TODO! 2
+            case AdministratorMenuNavigatePage.Tables:
+                window = new TablesWindow()
+                {
+                    DataContext = new TablesViewModel()
+                };
                 break;
             case AdministratorMenuNavigatePage.Shifts:
                 // TODO! 3
+                break;
+            case AdministratorMenuNavigatePage.Orders:
+                // TODO! 2
                 break;
             case AdministratorMenuNavigatePage.Reports:
                 // TODO! 4

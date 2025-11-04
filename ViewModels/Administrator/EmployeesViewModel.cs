@@ -193,7 +193,6 @@ public partial class EmployeesViewModel : ViewModelBase
                 query = query.Where(e => e.FirstName.Contains(FirstNameFilter));
             }
 
-
             if (!string.IsNullOrWhiteSpace(LastNameFilter))
             {
                 query = query.Where(e => e.LastName.Contains(LastNameFilter));

@@ -263,7 +263,6 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
             return false;
         }
 
-
         if (string.IsNullOrWhiteSpace(Username) || Username.Length < 3 || Username.Length > 150)
         {
             ErrorMessage = "Обязательное поле имя пользователя должно быть от 3 до 150 символов";

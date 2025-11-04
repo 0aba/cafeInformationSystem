@@ -23,6 +23,4 @@ public class Table
 
     public virtual Employee? WaiterService { get; set; }
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
-    public bool IsOccupied => Orders.Any(o => o.Status == OrderStatus.Accepted);
 }

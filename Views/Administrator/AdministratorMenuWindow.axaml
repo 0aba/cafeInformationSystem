@@ -74,9 +74,9 @@
               </StackPanel>
             </Button>
           </Border>
-          <!-- Плитка заказы -->
+          <!-- Плитка столики -->
           <Border Width="200" Height="150" 
-                  Background="#8B4513" 
+                  Background="#7B3F00" 
                   CornerRadius="10"
                   Cursor="Hand"
                   Margin="15"
@@ -93,7 +93,7 @@
               </Style>
             </Border.Styles>
             
-            <Button Command="{Binding NavigateToOrdersCommand}"
+            <Button Command="{Binding NavigateToTablesCommand}"
                     Background="Transparent" 
                     BorderThickness="0"
                     HorizontalContentAlignment="Center"
@@ -102,14 +102,14 @@
                           VerticalAlignment="Center"
                           Spacing="15"
                           Width="200">
-                <Path Data="M12,13A5,5 0 0,1 7,8H9A3,3 0 0,0 12,11A3,3 0 0,0 15,8H17A5,5 0 0,1 12,13M12,3A3,3 0 0,1 15,6H9A3,3 0 0,1 12,3M19,6H17A5,5 0 0,0 12,1A5,5 0 0,0 7,6H5C3.89,6 3,6.89 3,8V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V8C21,6.89 20.1,6 19,6Z"
+                <Path Data="M3,3H21V5H3V3M4,7H20V21H4V7M9,9V11H7V9H9M9,13V15H7V13H9M9,17V19H7V17H9M17,9V11H11V9H17M17,13V15H11V13H17M17,17V19H11V17H17Z"
                       Fill="White" 
                       Width="50" 
                       Height="50"
                       Stretch="Uniform"
                       HorizontalAlignment="Center"
                       Margin="0"/>
-                <TextBlock Text="Заказы" 
+                <TextBlock Text="Столики" 
                            Foreground="White" 
                            FontSize="16" 
                            FontWeight="SemiBold"
@@ -159,6 +159,50 @@
                            HorizontalAlignment="Center"
                            TextAlignment="Center"
                            Margin="0"/>
+              </StackPanel>
+            </Button>
+          </Border>
+          <!-- Плитка заказы -->
+          <Border Width="200" Height="150" 
+                  Background="#8B4513" 
+                  CornerRadius="10"
+                  Cursor="Hand"
+                  Margin="15"
+                  RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+              <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </Border.RenderTransform>
+          
+            <Border.Styles>
+              <Style Selector="Border:pointerover">
+                <Setter Property="RenderTransform">
+                  <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                </Setter>
+              </Style>
+            </Border.Styles>
+            
+            <Button Command="{Binding NavigateToOrdersCommand}"
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center">
+              <StackPanel HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Spacing="15"
+                          Width="200">
+                <Path Data="M12,13A5,5 0 0,1 7,8H9A3,3 0 0,0 12,11A3,3 0 0,0 15,8H17A5,5 0 0,1 12,13M12,3A3,3 0 0,1 15,6H9A3,3 0 0,1 12,3M19,6H17A5,5 0 0,0 12,1A5,5 0 0,0 7,6H5C3.89,6 3,6.89 3,8V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V8C21,6.89 20.1,6 19,6Z"
+                      Fill="White" 
+                      Width="50" 
+                      Height="50"
+                      Stretch="Uniform"
+                      HorizontalAlignment="Center"
+                      Margin="0"/>
+                <TextBlock Text="Заказы" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"/>
               </StackPanel>
             </Button>
           </Border>
