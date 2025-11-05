@@ -193,6 +193,13 @@ public partial class NewShiftViewModel : ViewModelBase
             return false;
         }
 
+        EmployeeShiftTable = new ObservableCollection<EmployeeShiftTable>(
+            EmployeeShiftTable
+            .GroupBy(e => e.Username.Trim())
+            .Select(g => g.First())
+            .ToList()
+        );
+
         if (EmployeeShiftTable.Count < 4 || EmployeeShiftTable.Count > 7)
         {
             ErrorMessage = "В смене должно быть от 4 до 7 сотрудников";
