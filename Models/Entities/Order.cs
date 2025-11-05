@@ -56,6 +56,10 @@ public class Order
     [Column("status")]
     public OrderStatus Status { get; set; }
 
+    [Required]
+    [Column("cooking_status")]
+    public bool CookingStatus { get; set; }
+
     [MaxLength(512)]
     [Column("note")]
     public string? Note { get; set; }
