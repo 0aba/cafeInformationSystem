@@ -87,7 +87,7 @@
                         <TextBlock Text="{Binding ShiftCode, StringFormat='Код смены: {0}'}" FontSize="14" FontWeight="Bold" Foreground="Black"/>
                         <TextBlock Text="{Binding TimeStart, StringFormat='Начало: {0:dd.MM.yyyy HH:mm}'}" FontSize="12" Foreground="Black"/>
                         <TextBlock Text="{Binding TimeEnd, StringFormat='Конец: {0:dd.MM.yyyy HH:mm}'}" FontSize="12" Foreground="Black"/>
-                        <TextBlock Text="{Binding IsCompletedText}" FontSize="12" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding IsCompletedText}" FontSize="12" FontWeight="Bold" Foreground="Black"/>
                       </StackPanel>
                       <!-- Кнопка перехода к карточке смены -->
                       <Button Grid.Column="2" 

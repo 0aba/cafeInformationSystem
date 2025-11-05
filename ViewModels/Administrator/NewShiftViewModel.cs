@@ -149,15 +149,20 @@ public partial class NewShiftViewModel : ViewModelBase
 
         var context = DatabaseService.GetContext();
 
-        var timeStart = DateShift.Date + StartShift;
-        var timeEnd = DateShift.Date + EndShift;
+        var employeeIds = _employeeShits.Select(e => e.Id).ToList();
+        var employeesFromContext = context.Employee
+            .Where(e => employeeIds.Contains(e.Id))
+            .ToList();
+
+        var timeStart = DateTime.SpecifyKind(DateShift.Date + StartShift, DateTimeKind.Utc);
+        var timeEnd = DateTime.SpecifyKind(DateShift.Date + EndShift, DateTimeKind.Utc);
 
         var shift = new Shift
         {
             ShiftCode = ShiftCode,
             TimeStart = timeStart,
             TimeEnd = timeEnd,
-            Employees = _employeeShits
+            Employees = employeesFromContext
         };
 
         context.Shift.Add(shift);
