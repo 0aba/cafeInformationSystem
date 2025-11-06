@@ -28,7 +28,7 @@ public class Shift
 
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
-    public bool IsCompleted => TimeEnd < DateTimeOffset.Now;
-    public string IsCompletedText => TimeEnd < DateTimeOffset.Now ? "завершена" : "не завершена";
+    public bool IsCompleted => TimeEnd < DateTime.Now;
+    public string IsCompletedText => IsCompleted ? "завершена" : "не завершена";
     public string ShiftInfo => $"{ShiftCode} ({TimeStart:dd.MM.yyyy HH:mm} - {TimeEnd:dd.MM.yyyy HH:mm})";
 }

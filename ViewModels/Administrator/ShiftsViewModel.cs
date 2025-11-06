@@ -161,11 +161,12 @@ public partial class ShiftsViewModel : ViewModelBase
                 query = query.Where(s => s.ShiftCode.Contains(ShiftCodeFilter));
             }
 
-            query = query.Where(s => s.TimeStart > MinStartShiftFilter.UtcDateTime);
-            query = query.Where(s => s.TimeEnd < MaxEndShiftFilter.UtcDateTime);
+            query = query.Where(s => s.TimeStart >= MinStartShiftFilter.UtcDateTime);
+            query = query.Where(s => s.TimeEnd <= MaxEndShiftFilter.UtcDateTime);
 
-            var currentTime = DateTimeOffset.UtcNow;
-            query = query.Where(s => CompletionStatusFilter ? s.TimeEnd < currentTime : s.TimeEnd > currentTime);
+            var currentTime = DateTime.SpecifyKind(DateTimeOffset.Now.DateTime, DateTimeKind.Utc);
+
+            query = query.Where(s => CompletionStatusFilter ? s.TimeEnd < currentTime : !(s.TimeEnd < currentTime));
 
             var shifts = query.ToList();
 
