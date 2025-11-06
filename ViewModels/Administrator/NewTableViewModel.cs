@@ -95,7 +95,7 @@ public partial class NewTableViewModel : ViewModelBase
         }
         catch (Exception)
         {
-            ErrorMessage = "Ошибка сохранения пользователя";
+            ErrorMessage = "Ошибка сохранения столика";
             return;
         }
 

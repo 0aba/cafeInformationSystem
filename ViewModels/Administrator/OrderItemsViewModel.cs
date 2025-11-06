@@ -99,20 +99,20 @@ public partial class OrderItemsViewModel : ViewModelBase
 
     private void ExecuteNewOrderItem()
     {
-        // Window window = new NewTableWindow()
-        // {
-        //     DataContext = new NewTableViewModel()
-        // };
+        Window window = new NewOrderItemWindow()
+        {
+            DataContext = new NewOrderItemViewModel()
+        };
 
-        // if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        // {
-        //     var currentWindow = desktop.MainWindow;
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
 
-        //     desktop.MainWindow = window;
-        //     desktop.MainWindow.Show();
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
 
-        //     currentWindow?.Close();
-        // }
+            currentWindow?.Close();
+        }
     }
 
     private void ExecuteOpenOrderItemCard(string? nameOrderItem)

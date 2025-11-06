@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
         xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
-        xmlns:controlsAvaloniaUI="https://github.com/avaloniaui"
+        xmlns:aui="https://github.com/avaloniaui"
         xmlns:vm="using:cafeInformationSystem.ViewModels.Administrator"
         x:DataType="vm:OrderItemsViewModel"
         x:Class="cafeInformationSystem.Views.Administrator.OrderItemsWindow"
@@ -39,19 +39,19 @@
           <TextBox Text="{Binding NameFilter}" Watermark="Введите название товара"/>
           <!-- Минимальная стоимость -->
           <TextBlock Text="Минимальная стоимость:" FontWeight="SemiBold" Margin="0,10,0,0"/>
-          <controlsAvaloniaUI:NumericUpDown Value="{Binding MinCostFilter}" 
-                                            Watermark="Мин. стоимость"
-                                            FormatString="C2"
-                                            Minimum="0"
-                                            Increment="10"/>
+          <aui:NumericUpDown Value="{Binding MinCostFilter}" 
+                             Watermark="Мин. стоимость"
+                             FormatString="C2"
+                             Minimum="0"
+                             Increment="10"/>
 
           <!-- Максимальная стоимость -->
           <TextBlock Text="Максимальная стоимость:" FontWeight="SemiBold" Margin="0,10,0,0"/>
-          <controlsAvaloniaUI:NumericUpDown Value="{Binding MaxCostFilter}" 
-                                            Watermark="Макс. стоимость"
-                                            FormatString="C2"
-                                            Minimum="0"
-                                            Increment="10"/>
+          <aui:NumericUpDown Value="{Binding MaxCostFilter}" 
+                             Watermark="Макс. стоимость"
+                             FormatString="C2"
+                             Minimum="0"
+                             Increment="10"/>
           <!-- Ошибки списка -->
           <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
                      TextWrapping="Wrap" HorizontalAlignment="Center"/>

@@ -1,0 +1,67 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
+        xmlns:vm="using:cafeInformationSystem.ViewModels.Administrator"
+        xmlns:aui="https://github.com/avaloniaui"
+        x:DataType="vm:NewOrderItemViewModel"
+        x:Class="cafeInformationSystem.Views.Administrator.NewOrderItemWindow"
+        Title="Создать товар"
+        WindowStartupLocation="CenterScreen"
+        Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
+  
+  <Design.DataContext>
+    <vm:NewOrderItemViewModel/>
+  </Design.DataContext>
+
+  <DockPanel>
+    <!-- Header -->
+    <controls:HeaderControl DockPanel.Dock="Top"/>
+    <!-- Панель действий -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
+      <Button Content="Обратно к списку товаров" Command="{Binding BackToOrderItemsCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+    </StackPanel>
+    <!-- Основная форма -->
+    <Border Background="#6F4E37" CornerRadius="5" Margin="20">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="30" Spacing="15" VerticalAlignment="Top">
+          
+          <!-- Заголовок -->
+          <TextBlock Text="Создать товар" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
+          
+          <!-- Основные поля -->
+          <Grid ColumnDefinitions="150,*" RowDefinitions="*,*,*" VerticalAlignment="Top" RowSpacing="15">
+            
+            <!-- Название товара -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Название товара:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Watermark="Введите название товара" Text="{Binding Name}"/>
+            
+            <!-- Стоимость -->
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Стоимость:" VerticalAlignment="Center" Foreground="White"/>
+            <aui:NumericUpDown Grid.Row="1" Grid.Column="1" 
+                               Value="{Binding Cost}"
+                               Watermark="Введите стоимость"
+                               FormatString="C2"
+                               Minimum="0.01"
+                               Maximum="100000"
+                               Increment="10"
+                               ShowButtonSpinner="True"/>
+            
+          </Grid>
+          
+          <!-- Сообщение об ошибке -->
+          <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
+                    TextWrapping="Wrap" HorizontalAlignment="Center"/>
+          
+          <!-- Кнопка Создать -->
+          <Button Content="Создать" Command="{Binding CreateOrderItemCommand}" 
+                  HorizontalAlignment="Center" Width="100" Height="35" 
+                  Background="DarkOrchid" Foreground="White"/>
+          
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+  </DockPanel>
+</Window>
