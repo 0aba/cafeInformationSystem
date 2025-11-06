@@ -15,7 +15,7 @@ public class OrderItem
 
     [Required]
     [Column("created_at")]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; } = DateTime.SpecifyKind(DateTimeOffset.Now.DateTime, DateTimeKind.Utc);
 
     [Required]
     [MaxLength(256)]

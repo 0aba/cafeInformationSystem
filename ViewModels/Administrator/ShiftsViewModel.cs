@@ -104,7 +104,7 @@ public partial class ShiftsViewModel : ViewModelBase
 
     private void ExecuteApplyFilters()
     {
-        LoadTables();
+        LoadShifts();
     }
 
     private void ExecuteNewShift()
@@ -148,7 +148,7 @@ public partial class ShiftsViewModel : ViewModelBase
         }
     }
 
-    private void LoadTables()
+    private void LoadShifts()
     {
         try
         {
