@@ -122,20 +122,20 @@ public partial class OrderItemsViewModel : ViewModelBase
             throw new Exception("Name order item is null or empty");
         }
         
-        // Window window = new ChangeTableWindow()
-        // {
-        //     DataContext = new ChangeTableViewModel(tableCode)
-        // };
+        Window window = new ChangeOrderItemWindow()
+        {
+            DataContext = new ChangeOrderItemViewModel(nameOrderItem)
+        };
 
-        // if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        // {
-        //     var currentWindow = desktop.MainWindow;
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
 
-        //     desktop.MainWindow = window;
-        //     desktop.MainWindow.Show();
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
 
-        //     currentWindow?.Close();
-        // }
+            currentWindow?.Close();
+        }
     }
 
     private void LoadOrderItems()
