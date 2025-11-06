@@ -8,25 +8,49 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls;
 using cafeInformationSystem.Views.Administrator;
 using cafeInformationSystem.Models.DataBase;
+using Avalonia.Media.Imaging;
 using cafeInformationSystem.Models.DataBase.DataAccess;
+using cafeInformationSystem.Models.Cryptography;
+using cafeInformationSystem.Models.MediaService;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 
 namespace cafeInformationSystem.ViewModels.Administrator;
 
-public class EmployeeShiftTable
+public partial class ChangeShiftViewModel : ViewModelBase
 {
-    public string Username { get; set; } = string.Empty;
-}
+    private Shift _changeShift;
 
-public partial class NewShiftViewModel : ViewModelBase
-{
-    public NewShiftViewModel()
+    public ChangeShiftViewModel(string shiftCode)
     {
+        var context = DatabaseService.GetContext();
+
+        var changeShift = context.Shift.Include(s => s.Employees).FirstOrDefault(s => s.ShiftCode == shiftCode);
+
+        if (changeShift is null)
+        {
+            throw new Exception("Shift card does not exist");
+        }
+
+        _changeShift = changeShift;
+
+        ShiftCode = _changeShift.ShiftCode;
+        DateShift = new DateTimeOffset(_changeShift.TimeStart.Date);
+        StartShift = _changeShift.TimeStart.TimeOfDay;
+        EndShift = _changeShift.TimeEnd.TimeOfDay;
+
+        foreach (var employee in _changeShift.Employees)
+        {
+            _employeeShiftTable.Add(new EmployeeShiftTable 
+            { 
+                Username=employee.Username
+            });
+        }
+
         BackToShiftsCommand = new RelayCommand(ExecuteBackToShifts);
-        CreateShiftCommand = new RelayCommand(ExecuteCreateShift);
+        ChangeShiftCommand = new RelayCommand(ExecuteChangeShift);
         AddEmployeeCommand = new RelayCommand(ExecuteAddEmployee);
         RemoveSelectedEmployeeCommand = new RelayCommand(ExecuteRemoveSelectedEmployee, CanExecuteRemoveSelectedEmployee);
     }
@@ -93,7 +117,7 @@ public partial class NewShiftViewModel : ViewModelBase
     }
 
     public ICommand BackToShiftsCommand { get; }
-    public ICommand CreateShiftCommand { get; }
+    public ICommand ChangeShiftCommand { get; }
     public ICommand AddEmployeeCommand { get; }
     public ICommand RemoveSelectedEmployeeCommand { get; }
 
@@ -137,7 +161,7 @@ public partial class NewShiftViewModel : ViewModelBase
         }
     }
 
-    private void ExecuteCreateShift()
+    private void ExecuteChangeShift()
     {
         if (!ValidateInput())
         {
@@ -154,15 +178,13 @@ public partial class NewShiftViewModel : ViewModelBase
         var timeStart = DateTime.SpecifyKind(DateShift.Date + StartShift, DateTimeKind.Utc);
         var timeEnd = DateTime.SpecifyKind(DateShift.Date + EndShift, DateTimeKind.Utc);
 
-        var shift = new Shift
-        {
-            ShiftCode = ShiftCode,
-            TimeStart = timeStart,
-            TimeEnd = timeEnd,
-            Employees = employeesFromContext
-        };
+        _changeShift.ShiftCode = ShiftCode;
+        _changeShift.TimeStart = timeStart;
+        _changeShift.TimeEnd = timeEnd;
+        _changeShift.Employees.Clear();
+        _changeShift.Employees = employeesFromContext;
 
-        context.Shift.Add(shift);
+        context.Shift.Update(_changeShift);
 
         try
         {
@@ -179,6 +201,12 @@ public partial class NewShiftViewModel : ViewModelBase
 
     private bool ValidateInput()
     {
+        if (_changeShift.TimeEnd < DateTime.Now)
+        {
+            ErrorMessage = "Смены, которые были завершены нельзя изменять";
+            return false;
+        }
+
         if (string.IsNullOrWhiteSpace(ShiftCode) || ShiftCode.Length > 256)
         {
             ErrorMessage = "Обязательное поле код стола длинной не более 256 символов";
@@ -189,7 +217,7 @@ public partial class NewShiftViewModel : ViewModelBase
 
         var shift = context.Shift.AsNoTracking().FirstOrDefault(s => s.ShiftCode == ShiftCode);
 
-        if (shift is not null)
+        if (ShiftCode != _changeShift.ShiftCode && shift is not null)
         {
             ErrorMessage = "Код смены не уникальный";
             return false;
@@ -243,12 +271,13 @@ public partial class NewShiftViewModel : ViewModelBase
                 {
                     ErrorMessage = $"Сотрудника {employeeShift.Username} не является поваром и не является официантом";
                     return false;
-                } 
+                }
                 else if (!employee.WorkStatus)
                 {
                     ErrorMessage = $"Сотрудника {employeeShift.Username} больше не работает";
                     return false;
                 }
+
                 _employeeShits.Add(employee);
             }
             catch (Exception)

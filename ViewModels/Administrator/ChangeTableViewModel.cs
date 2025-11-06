@@ -90,7 +90,7 @@ public partial class ChangeTableViewModel : ViewModelBase
         }
 
         var context = DatabaseService.GetContext();
-        var employee = context.Employee.AsNoTracking().FirstOrDefault(e => e.Username == UsernameWaiter);
+        var employee = context.Employee.FirstOrDefault(e => e.Username == UsernameWaiter);
 
         _changeTable.TableCode = TableCode;
         _changeTable.WaiterServiceId = employee?.Id;

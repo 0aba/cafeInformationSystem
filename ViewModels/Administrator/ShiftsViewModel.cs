@@ -127,26 +127,25 @@ public partial class ShiftsViewModel : ViewModelBase
 
     private void ExecuteOpenShiftCard(string? shiftCode)
     {
-        // TODO!
-        // if (string.IsNullOrEmpty(tableCode))
-        // {
-        //     throw new Exception("Table code is null or empty");
-        // }
+        if (string.IsNullOrEmpty(shiftCode))
+        {
+            throw new Exception("Shift code is null or empty");
+        }
         
-        // Window window = new ChangeTableWindow()
-        // {
-        //     DataContext = new ChangeTableViewModel(tableCode)
-        // };
+        Window window = new ChangeShiftWindow()
+        {
+            DataContext = new ChangeShiftViewModel(shiftCode)
+        };
 
-        // if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        // {
-        //     var currentWindow = desktop.MainWindow;
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
 
-        //     desktop.MainWindow = window;
-        //     desktop.MainWindow.Show();
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
 
-        //     currentWindow?.Close();
-        // }
+            currentWindow?.Close();
+        }
     }
 
     private void LoadTables()
