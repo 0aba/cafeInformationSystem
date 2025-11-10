@@ -48,7 +48,6 @@ public class Order
     [ForeignKey("table_fk")]
     public long TableId { get; set; }
 
-    [Required]
     [ForeignKey("chef_fk")]
     public long ChefId { get; set; }
 
