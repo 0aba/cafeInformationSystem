@@ -358,10 +358,14 @@ public partial class OrderReportViewModel : ViewModelBase
             worksheet.Cell(row, 2).Style.NumberFormat.Format = "dd.MM.yyyy HH:mm";
             worksheet.Cell(row, 3).Value = order.ClosedAt;
             if (order.ClosedAt.HasValue)
+            {
                 worksheet.Cell(row, 3).Style.NumberFormat.Format = "dd.MM.yyyy HH:mm";
+            }
             worksheet.Cell(row, 4).Value = order.TotalCost;
             if (order.TotalCost.HasValue)
+            {
                 worksheet.Cell(row, 4).Style.NumberFormat.Format = "#,##0.00\"р\"";
+            }
             worksheet.Cell(row, 5).Value = order.AmountClients;
             worksheet.Cell(row, 6).Value = order.Waiter?.Username ?? "";
             worksheet.Cell(row, 7).Value = order.Table?.TableCode ?? "";

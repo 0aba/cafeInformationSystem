@@ -25,7 +25,7 @@ public class AdministratorMenuViewModel : ViewModelBase
         NavigateToEmployeesCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Employees));
         NavigateToTablesCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Tables));
         NavigateToShiftsCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Shifts));
-        NavigateToProductsCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.OrderItems));
+        NavigateToOrderItemsCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.OrderItems));
         NavigateToOrdersCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Orders));
         NavigateToReportsCommand = new RelayCommand(() => NavigateTo(AdministratorMenuNavigatePage.Reports));
     }
@@ -33,7 +33,7 @@ public class AdministratorMenuViewModel : ViewModelBase
     public ICommand NavigateToEmployeesCommand { get; }
     public ICommand NavigateToTablesCommand { get; }
     public ICommand NavigateToShiftsCommand { get; }
-    public ICommand NavigateToProductsCommand { get; }
+    public ICommand NavigateToOrderItemsCommand { get; }
     public ICommand NavigateToOrdersCommand { get; }
     public ICommand NavigateToReportsCommand { get; }
 
@@ -88,5 +88,4 @@ public class AdministratorMenuViewModel : ViewModelBase
             currentWindow?.Close();
         }
     }
-
 }
