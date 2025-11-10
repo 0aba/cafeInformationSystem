@@ -120,6 +120,51 @@
               </StackPanel>
             </Button>
           </Border>
+
+          <!-- Плитка отчеты -->
+          <Border Width="200" Height="150" 
+                  Background="#CD853F" 
+                  CornerRadius="10"
+                  Cursor="Hand"
+                  Margin="15"
+                  RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+              <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </Border.RenderTransform>
+          
+            <Border.Styles>
+              <Style Selector="Border:pointerover">
+                <Setter Property="RenderTransform">
+                  <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                </Setter>
+              </Style>
+            </Border.Styles>
+            
+            <Button Command="{Binding NavigateToReportsCommand}"
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center">
+              <StackPanel HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Spacing="15"
+                          Width="200">
+                <Path Data="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M7,20H9V14H7V20M11,20H13V12H11V20M15,20H17V16H15V20Z"
+                      Fill="White" 
+                      Width="50" 
+                      Height="50"
+                      Stretch="Uniform"
+                      HorizontalAlignment="Center"
+                      Margin="0"/>
+                <TextBlock Text="Отчеты" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"/>
+              </StackPanel>
+            </Button>
+          </Border>
           
         </WrapPanel>
         

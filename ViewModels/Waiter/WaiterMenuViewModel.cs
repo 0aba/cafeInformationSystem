@@ -11,7 +11,8 @@ namespace cafeInformationSystem.ViewModels.Waiter;
 public enum WaiterMenuNavigatePage : short
 {
     OrderItems = 1,
-    Orders = 2
+    Orders = 2,
+    Reports = 3
 }
 
 public class WaiterMenuViewModel : ViewModelBase
@@ -20,10 +21,12 @@ public class WaiterMenuViewModel : ViewModelBase
     {
         NavigateToOrderItemsCommand = new RelayCommand(() => NavigateTo(WaiterMenuNavigatePage.OrderItems));
         NavigateToOrdersCommand = new RelayCommand(() => NavigateTo(WaiterMenuNavigatePage.Orders));
+        NavigateToReportsCommand = new RelayCommand(() => NavigateTo(WaiterMenuNavigatePage.Reports));
     }
 
     public ICommand NavigateToOrderItemsCommand { get; }
     public ICommand NavigateToOrdersCommand { get; }
+    public ICommand NavigateToReportsCommand { get; }
 
     private void NavigateTo(WaiterMenuNavigatePage navigatePage)
     {
@@ -38,8 +41,11 @@ public class WaiterMenuViewModel : ViewModelBase
                 };
                 break;
             case WaiterMenuNavigatePage.Orders:
-                // TODO! 
-                break; 
+                // TODO! 2
+                break;
+            case WaiterMenuNavigatePage.Reports:
+                // TODO! 3
+                break;
         }
 
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
