@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace cafeInformationSystem.Models.Entities;
 
@@ -27,14 +28,13 @@ public class Order
 
     [Required]
     [Column("created_at")]
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     [Column("closed_at")]
     public DateTime? ClosedAt { get; set; }
 
-    [Required]
     [Column("total_cost", TypeName = "money")]
-    public decimal TotalCost { get; set; }
+    public decimal? TotalCost { get; set; }
 
     [Required]
     [Column("amount_clients")]
@@ -54,11 +54,11 @@ public class Order
 
     [Required]
     [Column("status")]
-    public OrderStatus Status { get; set; }
+    public OrderStatus Status { get; set; } = OrderStatus.Accepted;
 
     [Required]
     [Column("cooking_status")]
-    public bool CookingStatus { get; set; }
+    public bool CookingStatus { get; set; } = false;
 
     [MaxLength(512)]
     [Column("note")]

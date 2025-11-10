@@ -208,7 +208,7 @@ public partial class EmployeesViewModel : ViewModelBase
                 query = query.Where(e => e.Username.Contains(UsernameFilter));
             }
 
-            if (SelectedRoleFilter?.Role != null)
+            if (SelectedRoleFilter?.Role is not null)
             {
                 query = query.Where(e => e.Role == SelectedRoleFilter.Role);
             }

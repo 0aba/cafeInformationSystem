@@ -90,7 +90,7 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(o => o.OrderCode).IsUnique();
 
             entity.ToTable(t => t.HasCheckConstraint("order_closed_at_ck", "closed_at IS NULL OR created_at < closed_at"));
-            entity.ToTable(t => t.HasCheckConstraint("order_total_cost_ck", "total_cost > 0::money"));
+            entity.ToTable(t => t.HasCheckConstraint("order_total_cost_ck", "total_cost IS NULL OR total_cost > 0::MONEY"));
             entity.ToTable(t => t.HasCheckConstraint("order_amount_clients_ck", "amount_clients > 0"));
         });
 

@@ -3,6 +3,7 @@ using System;
 using dotenv.net;
 using System.Linq;
 using cafeInformationSystem.Commands;
+using QuestPDF.Infrastructure;
 
 namespace cafeInformationSystem;
 
@@ -18,6 +19,7 @@ sealed class Program
     [STAThread]
     public static void Main(string[] args)
     {
+        QuestPDF.Settings.License = LicenseType.Community;
         DotEnv.Load();
 
         var commandEnable = Environment.GetEnvironmentVariable("COMMANDS_ENABLE")!;

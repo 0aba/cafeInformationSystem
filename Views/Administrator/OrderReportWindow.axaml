@@ -1,0 +1,178 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aui="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="700"
+        xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
+        xmlns:vm="using:cafeInformationSystem.ViewModels.Administrator"
+        x:DataType="vm:OrderReportViewModel"
+        x:Class="cafeInformationSystem.Views.Administrator.OrderReportWindow"
+        Title="Отчет по заказам"
+        Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
+
+  <Design.DataContext>
+    <vm:OrderReportViewModel/>
+  </Design.DataContext>
+
+  <DockPanel>
+    <!-- Header -->
+    <controls:HeaderControl DockPanel.Dock="Top"/>
+    
+    <!-- Панель действий -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
+      <Button Content="Обратно в меню администратора" 
+              Command="{Binding BackToAdministratorMenuCommand}" 
+              Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+    </StackPanel>
+
+    <!-- Основной контент -->
+    <Grid Margin="10">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="0.4*"/>
+        <ColumnDefinition Width="10"/>
+        <ColumnDefinition Width="0.6*"/>
+      </Grid.ColumnDefinitions>
+
+      <!-- Блок фильтрации -->
+      <Border Grid.Column="0" Background="#6F4E37" CornerRadius="5" Padding="15">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel Spacing="10">
+            <TextBlock Text="Фильтры отчета" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" Foreground="White"/>
+            
+            <!-- Код заказа -->
+            <TextBlock Text="Код заказа:" FontWeight="SemiBold" Foreground="White"/>
+            <TextBox Text="{Binding OrderCodeFilter}" Watermark="Введите код заказа"/>
+            
+            <!-- Дата создания -->
+            <TextBlock Text="Дата создания с:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
+            <DatePicker SelectedDate="{Binding MinCreatedAtFilter}"/>
+            <TextBlock Text="Дата создания по:" FontWeight="SemiBold" Margin="0,5,0,0" Foreground="White"/>
+            <DatePicker SelectedDate="{Binding MaxCreatedAtFilter}"/>
+            
+            <!-- Дата закрытия -->
+            <TextBlock Text="Дата закрытия с:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
+            <DatePicker SelectedDate="{Binding MinClosedAtFilter}"/>
+            <TextBlock Text="Дата закрытия по:" FontWeight="SemiBold" Margin="0,5,0,0" Foreground="White"/>
+            <DatePicker SelectedDate="{Binding MaxClosedAtFilter}"/>
+            
+            <!-- Стоимость -->
+            <TextBlock Text="Стоимость от:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
+            <aui:NumericUpDown Value="{Binding MinCostFilter}" 
+                               Watermark="Мин. стоимость"
+                               FormatString="C2"
+                               Minimum="0"
+                               Increment="10"/>
+            <TextBlock Text="Стоимость до:" FontWeight="SemiBold" Margin="0,5,0,0" Foreground="White"/>
+            <aui:NumericUpDown Value="{Binding MaxCostFilter}" 
+                             Watermark="Макс. стоимость"
+                             FormatString="C2"
+                             Minimum="0"
+                             Increment="10"/>
+            
+            <!-- Количество клиентов -->
+            <TextBlock Text="Количество клиентов от:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
+            <aui:NumericUpDown Value="{Binding MinAmountClientsFilter}" 
+                               Watermark="Мин. количество"
+                               FormatString="N0"
+                               Minimum="0"
+                               Increment="1"/>
+            <TextBlock Text="Количество клиентов до:" FontWeight="SemiBold" Margin="0,5,0,0" Foreground="White"/>
+            <aui:NumericUpDown Value="{Binding MaxAmountClientsFilter}" 
+                             Watermark="Макс. количество"
+                             FormatString="N0"
+                             Minimum="0"
+                             Increment="1"/>
+            
+            <!-- Логин официанта -->
+            <TextBlock Text="Логин официанта:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
+            <TextBox Text="{Binding WaiterLoginFilter}" Watermark="Введите логин официанта"/>
+            
+            <!-- Код столика -->
+            <TextBlock Text="Код столика:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
+            <TextBox Text="{Binding TableCodeFilter}" Watermark="Введите код столика"/>
+            
+            <!-- Логин повара -->
+            <TextBlock Text="Логин повара:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
+            <TextBox Text="{Binding ChefLoginFilter}" Watermark="Введите логин повара"/>
+            
+            <!-- Статус заказа -->
+            <TextBlock Text="Статус заказа:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
+            <ComboBox ItemsSource="{Binding AvailableStatusOrder}" 
+                    SelectedItem="{Binding SelectedStatusOrderFilter}"
+                    DisplayMemberBinding="{Binding Name}"/>
+            
+            <!-- Статус готовности -->
+            <TextBlock Text="Статус готовности:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
+            <ComboBox ItemsSource="{Binding AvailableStatusCookingOrder}" 
+                    SelectedItem="{Binding SelectedStatusCookingOrderFilter}"
+                    DisplayMemberBinding="{Binding Name}"/>
+            
+            <!-- Ошибки -->
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
+                       TextWrapping="Wrap" HorizontalAlignment="Center"
+                       Margin="0,15,0,0"/>
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+
+      <!-- Блок формирования отчетов -->
+      <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" Background="#6F4E37">
+        <Border Margin="30" Background="#6F4E37" CornerRadius="5">
+          <StackPanel Spacing="20" Background="#6F4E37">
+            <!-- Кнопки формирования отчетов внизу -->
+            <Border Background="#444444" CornerRadius="5" Padding="20" Margin="0,20,0,0">
+              <StackPanel Spacing="15" HorizontalAlignment="Center">
+                <TextBlock Text="Формирование отчетов" 
+                          FontSize="16" 
+                          FontWeight="Bold"
+                          Foreground="White"
+                          HorizontalAlignment="Center"/>
+                
+                <Button Content="Загрузить отчет PDF" 
+                        Command="{Binding GetPDFReportCommand}"
+                        Background="DarkOrchid"
+                        Foreground="White"
+                        Padding="20,10"
+                        FontSize="14"
+                        HorizontalAlignment="Center"/>
+                
+                <Button Content="Загрузить отчет XLSX" 
+                        Command="{Binding GetXLSXReportCommand}"
+                        Background="DarkOrchid"
+                        Foreground="White"
+                        Padding="20,10"
+                        FontSize="14"
+                        HorizontalAlignment="Center"/>
+              </StackPanel>
+            </Border>
+
+            <!-- Информация о отчете -->
+            <Border Background="#444444" CornerRadius="5" Padding="15" Margin="0,10,0,0">
+              <StackPanel Spacing="8">
+                <TextBlock Text="Информация об отчете:" 
+                          FontSize="14" 
+                          FontWeight="Bold"
+                          Foreground="White"/>
+                <TextBlock Text="• PDF отчет - для печати и просмотра" 
+                          FontSize="12" 
+                          Foreground="LightGray"/>
+                <TextBlock Text="• XLSX отчет - для анализа в Excel" 
+                          FontSize="12" 
+                          Foreground="LightGray"/>
+                <TextBlock Text="• Отчет будет содержать все заказы, соответствующие фильтрам" 
+                          FontSize="12" 
+                          Foreground="LightGray"
+                          TextWrapping="Wrap"/>
+                <TextBlock Text="• Фильтры дата закрытия работают только, если установлен статус заказа 'Закрыт' или 'Оплачен'" 
+                          FontSize="12" 
+                          Foreground="LightGray"
+                          TextWrapping="Wrap"/>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Border>
+      </ScrollViewer>
+    </Grid>
+  </DockPanel>
+</Window>

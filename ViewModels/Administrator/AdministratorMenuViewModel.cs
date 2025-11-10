@@ -71,7 +71,10 @@ public class AdministratorMenuViewModel : ViewModelBase
                 // TODO! 5
                 break;
             case AdministratorMenuNavigatePage.Reports:
-                // TODO! 6
+                window = new OrderReportWindow()
+                {
+                    DataContext = new OrderReportViewModel()
+                };
                 break;
         }
 

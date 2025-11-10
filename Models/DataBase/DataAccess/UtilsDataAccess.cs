@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace cafeInformationSystem.Models.DataBase.DataAccess;
 
+// INFO! Почему-то такой подход с Dataccess приномит проблемы в случае с EF
 public static class UtilsDataAccess
 {
     public static Employee GetEmployee(string username)
