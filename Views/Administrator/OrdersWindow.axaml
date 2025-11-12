@@ -53,6 +53,11 @@
           <!-- Ошибки списка -->
           <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
                      TextWrapping="Wrap" HorizontalAlignment="Center"/>
+          <!-- Статус заказа -->
+            <TextBlock Text="Статус заказа:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
+            <ComboBox ItemsSource="{Binding AvailableStatusOrder}" 
+                    SelectedItem="{Binding SelectedStatusOrderFilter}"
+                    DisplayMemberBinding="{Binding Name}"/>
           <!-- Кнопка применения фильтров -->
           <Button Content="Применить фильтры" 
                   Command="{Binding ApplyFiltersCommand}"

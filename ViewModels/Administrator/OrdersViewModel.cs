@@ -10,6 +10,7 @@ using cafeInformationSystem.Views.Administrator;
 using cafeInformationSystem.Models.DataBase;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace cafeInformationSystem.ViewModels.Administrator;
 
@@ -17,6 +18,8 @@ public partial class OrdersViewModel : ViewModelBase
 {
     public OrdersViewModel()
     {
+        SelectedStatusOrderFilter = AvailableStatusOrder[0];
+
         BackToAdministratorMenuCommand = new RelayCommand(ExecuteBackToAdministratorMenu);
         ApplyFiltersCommand = new RelayCommand(ExecuteApplyFilters);
         OpenOrderCardCommand = new RelayCommand<string?>(ExecuteOpenOrderCard);
@@ -28,6 +31,15 @@ public partial class OrdersViewModel : ViewModelBase
     private string _waiterLoginFilter = string.Empty;
     private string _tableCodeFilter = string.Empty;
     private string _chefLoginFilter = string.Empty;
+
+    public List<OrderStatusFilterItem> AvailableStatusOrder { get; } = new()
+    {
+        new OrderStatusFilterItem { Name = "Все", Status = null },
+        new OrderStatusFilterItem { Name = "Принят", Status = OrderStatus.Accepted },
+        new OrderStatusFilterItem { Name = "Оплачен", Status = OrderStatus.Paid },
+        new OrderStatusFilterItem { Name = "Отменен", Status = OrderStatus.Cancelled },
+    };
+    private OrderStatusFilterItem? _selectedStatusOrderFilter;
 
     // INFO! ObservableCollection используется для ослеживания действий со списоком (Добавлени, изменение, удаление и так далее)
     // в данном случае можно было и просто List или ICollection/ использовать...
@@ -69,6 +81,12 @@ public partial class OrdersViewModel : ViewModelBase
     {
         get => _chefLoginFilter;
         set => SetProperty(ref _chefLoginFilter, value);
+    }
+
+    public OrderStatusFilterItem? SelectedStatusOrderFilter
+    {
+        get => _selectedStatusOrderFilter;
+        set => SetProperty(ref _selectedStatusOrderFilter, value);
     }
 
     public ObservableCollection<Order> Orders
@@ -113,7 +131,7 @@ public partial class OrdersViewModel : ViewModelBase
 
     private void ExecuteApplyFilters()
     {
-        LoadShifts();
+        LoadOrders();
     }
 
     private void ExecuteOpenOrderCard(string? orderCode)
@@ -140,7 +158,7 @@ public partial class OrdersViewModel : ViewModelBase
         // }
     }
 
-    private void LoadShifts()
+    private void LoadOrders()
     {
         try
         {
@@ -148,8 +166,6 @@ public partial class OrdersViewModel : ViewModelBase
 
             var query = context.Order.Include(o => o.Waiter).Include(o => o.Chef).Include(o => o.Table)
                                      .AsNoTracking().AsQueryable();
-
-            query.Where(o => o.Status == OrderStatus.Accepted);
 
             if (!string.IsNullOrWhiteSpace(OrderCodeFilter))
             {
@@ -171,7 +187,7 @@ public partial class OrdersViewModel : ViewModelBase
                     return;
                 }
 
-                query.Where(o => o.WaiterId == waiter.Id);
+                query = query.Where(o => o.WaiterId == waiter.Id);
             }
 
             if (!string.IsNullOrWhiteSpace(TableCodeFilter))
@@ -184,7 +200,7 @@ public partial class OrdersViewModel : ViewModelBase
                     return;
                 }
 
-                query.Where(o => o.TableId == table.Id);
+                query = query.Where(o => o.TableId == table.Id);
             }
 
             if (!string.IsNullOrWhiteSpace(ChefLoginFilter))
@@ -197,9 +213,15 @@ public partial class OrdersViewModel : ViewModelBase
                     return;
                 }
 
-                query.Where(o => o.ChefId == chef.Id);
+                query = query.Where(o => o.ChefId == chef.Id);
             }
 
+            if (SelectedStatusOrderFilter?.Status is not null)
+            {
+                query = query.Where(o => o.Status == SelectedStatusOrderFilter!.Status);
+            }
+
+            ErrorMessage = string.Empty;
             var orders = query.ToList();
 
             Orders = new ObservableCollection<Order>(orders);
