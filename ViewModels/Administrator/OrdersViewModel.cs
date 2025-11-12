@@ -1,0 +1,215 @@
+using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
+using cafeInformationSystem.Models.Entities;
+using System;
+using System.Windows.Input;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls;
+using cafeInformationSystem.Views.Administrator;
+using cafeInformationSystem.Models.DataBase;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+
+namespace cafeInformationSystem.ViewModels.Administrator;
+
+public partial class OrdersViewModel : ViewModelBase
+{
+    public OrdersViewModel()
+    {
+        BackToAdministratorMenuCommand = new RelayCommand(ExecuteBackToAdministratorMenu);
+        ApplyFiltersCommand = new RelayCommand(ExecuteApplyFilters);
+        OpenOrderCardCommand = new RelayCommand<string?>(ExecuteOpenOrderCard);
+    }
+
+    private string _orderCodeFilter = string.Empty;
+    private DateTimeOffset _minCreatedAtFilter = DateTimeOffset.Now.AddMonths(-1);
+    private DateTimeOffset _maxCreatedAtFilter = DateTimeOffset.Now.AddMonths(1);
+    private string _waiterLoginFilter = string.Empty;
+    private string _tableCodeFilter = string.Empty;
+    private string _chefLoginFilter = string.Empty;
+
+    // INFO! ObservableCollection используется для ослеживания действий со списоком (Добавлени, изменение, удаление и так далее)
+    // в данном случае можно было и просто List или ICollection/ использовать...
+    public ObservableCollection<Order> _orders = new();
+
+    private string _errorMessage = string.Empty;
+
+    public string OrderCodeFilter
+    {
+        get => _orderCodeFilter;
+        set => SetProperty(ref _orderCodeFilter, value);
+    }
+
+    public DateTimeOffset MinCreatedAtFilter
+    {
+        get => _minCreatedAtFilter;
+        set => SetProperty(ref _minCreatedAtFilter, value);
+    }
+
+    public DateTimeOffset MaxCreatedAtFilter
+    {
+        get => _maxCreatedAtFilter;
+        set => SetProperty(ref _maxCreatedAtFilter, value);
+    }
+
+    public string WaiterLoginFilter
+    {
+        get => _waiterLoginFilter;
+        set => SetProperty(ref _waiterLoginFilter, value);
+    }
+
+    public string TableCodeFilter
+    {
+        get => _tableCodeFilter;
+        set => SetProperty(ref _tableCodeFilter, value);
+    }
+
+    public string ChefLoginFilter
+    {
+        get => _chefLoginFilter;
+        set => SetProperty(ref _chefLoginFilter, value);
+    }
+
+    public ObservableCollection<Order> Orders
+    {
+        get => _orders;
+        private set
+        {
+            if (SetProperty(ref _orders, value))
+            {
+                OnPropertyChanged(nameof(HasNoOrders));
+            }
+        }
+    }
+
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set => SetProperty(ref _errorMessage, value);
+    }
+
+    public ICommand BackToAdministratorMenuCommand { get; }
+    public ICommand ApplyFiltersCommand { get; }
+    public ICommand OpenOrderCardCommand { get; }
+
+    private void ExecuteBackToAdministratorMenu()
+    {
+        Window window = new AdministratorMenuWindow()
+        {
+            DataContext = new AdministratorMenuViewModel()
+        };
+
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
+
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
+
+            currentWindow?.Close();
+        }
+    }
+
+    private void ExecuteApplyFilters()
+    {
+        LoadShifts();
+    }
+
+    private void ExecuteOpenOrderCard(string? orderCode)
+    {
+        if (string.IsNullOrEmpty(orderCode))
+        {
+            throw new Exception("Order code is null or empty");
+        }
+        
+        // TODO
+        // Window window = new ChangeOrderWindow()
+        // {
+        //     DataContext = new ChangeOrderViewModel(orderCode)
+        // };
+
+        // if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        // {
+        //     var currentWindow = desktop.MainWindow;
+
+        //     desktop.MainWindow = window;
+        //     desktop.MainWindow.Show();
+
+        //     currentWindow?.Close();
+        // }
+    }
+
+    private void LoadShifts()
+    {
+        try
+        {
+            var context = DatabaseService.GetContext();
+
+            var query = context.Order.Include(o => o.Waiter).Include(o => o.Chef).Include(o => o.Table)
+                                     .AsNoTracking().AsQueryable();
+
+            query.Where(o => o.Status == OrderStatus.Accepted);
+
+            if (!string.IsNullOrWhiteSpace(OrderCodeFilter))
+            {
+                query = query.Where(o => o.OrderCode.Contains(OrderCodeFilter));
+            }
+
+            query = query.Where(o => o.CreatedAt >= MinCreatedAtFilter.UtcDateTime);
+            query = query.Where(o => o.CreatedAt <= MaxCreatedAtFilter.UtcDateTime);
+
+            var currentTime = DateTime.SpecifyKind(DateTimeOffset.Now.DateTime, DateTimeKind.Utc);
+
+            if (!string.IsNullOrWhiteSpace(WaiterLoginFilter))
+            {
+                var waiter = context.Employee.AsNoTracking().FirstOrDefault(e => e.Username == WaiterLoginFilter);
+
+                if (waiter is null)
+                {
+                    ErrorMessage = "Официанта с таким логином не существует";
+                    return;
+                }
+
+                query.Where(o => o.WaiterId == waiter.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(TableCodeFilter))
+            {
+                var table = context.Table.AsNoTracking().FirstOrDefault(t => t.TableCode == TableCodeFilter);
+
+                if (table is null)
+                {
+                    ErrorMessage = "Столик с таким кодом не существует";
+                    return;
+                }
+
+                query.Where(o => o.TableId == table.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(ChefLoginFilter))
+            {
+                var chef = context.Employee.AsNoTracking().FirstOrDefault(e => e.Username == ChefLoginFilter);
+
+                if (chef is null)
+                {
+                    ErrorMessage = "Повар с таким логином не существует";
+                    return;
+                }
+
+                query.Where(o => o.ChefId == chef.Id);
+            }
+
+            var orders = query.ToList();
+
+            Orders = new ObservableCollection<Order>(orders);
+        }
+        catch (Exception)
+        {
+            ErrorMessage = "Ошибка загрузки заказов";
+            Orders = new();
+        }
+    }
+
+    public bool HasNoOrders => Orders.Count == 0;
+}

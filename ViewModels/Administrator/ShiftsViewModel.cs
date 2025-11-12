@@ -21,14 +21,11 @@ public partial class ShiftsViewModel : ViewModelBase
         NewShiftCommand = new RelayCommand(ExecuteNewShift);
         ApplyFiltersCommand = new RelayCommand(ExecuteApplyFilters);
         OpenShiftCardCommand = new RelayCommand<string?>(ExecuteOpenShiftCard);
-
-        MinStartShiftFilter = DateTimeOffset.Now.AddMonths(-1);
-        MaxEndShiftFilter = DateTimeOffset.Now.AddMonths(1);
     }
 
     private string _shiftCodeFilter = string.Empty;
-    private DateTimeOffset _minStartShiftFilter = new();
-    private DateTimeOffset _maxEndShiftFilter = new();
+    private DateTimeOffset _minStartShiftFilter = DateTimeOffset.Now.AddMonths(-1);
+    private DateTimeOffset _maxEndShiftFilter = DateTimeOffset.Now.AddMonths(1);
     private bool _completionStatusFilter  = false;
 
     // INFO! ObservableCollection используется для ослеживания действий со списоком (Добавлени, изменение, удаление и так далее)

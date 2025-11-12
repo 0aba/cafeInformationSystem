@@ -68,7 +68,10 @@ public class AdministratorMenuViewModel : ViewModelBase
                 };
                 break;
             case AdministratorMenuNavigatePage.Orders:
-                // TODO! 5
+                window = new OrdersWindow()
+                {
+                    DataContext = new OrdersViewModel()
+                };
                 break;
             case AdministratorMenuNavigatePage.Reports:
                 window = new OrderReportWindow()
