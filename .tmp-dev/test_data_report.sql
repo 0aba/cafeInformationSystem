@@ -10,3 +10,6 @@ INSERT INTO "Order"(order_code, created_at, amount_clients,
 ('code-2', now(), 1, 1, 3, 1, 1, true),
 ('code-3', now(), 1, 1, 2, 1, 1, false);
 
+INSERT INTO "CashReceiptOrder"(payed_at, payment_amount, "OrderId", type_pay) VALUES 
+(now(), 190, 1, false);
+

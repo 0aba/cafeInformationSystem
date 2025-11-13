@@ -140,22 +140,21 @@ public partial class OrdersViewModel : ViewModelBase
         {
             throw new Exception("Order code is null or empty");
         }
-        
-        // TODO
-        // Window window = new ChangeOrderWindow()
-        // {
-        //     DataContext = new ChangeOrderViewModel(orderCode)
-        // };
 
-        // if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        // {
-        //     var currentWindow = desktop.MainWindow;
+        Window window = new ChangeOrderWindow()
+        {
+            DataContext = new ChangeOrderViewModel(orderCode)
+        };
 
-        //     desktop.MainWindow = window;
-        //     desktop.MainWindow.Show();
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
 
-        //     currentWindow?.Close();
-        // }
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
+
+            currentWindow?.Close();
+        }
     }
 
     private void LoadOrders()

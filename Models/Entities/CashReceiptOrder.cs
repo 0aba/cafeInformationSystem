@@ -14,7 +14,7 @@ public class CashReceiptOrder
 
     [Required]
     [Column("payed_at")]
-    public DateTime PayedAt { get; set; } = DateTime.UtcNow;
+    public DateTime PayedAt { get; set; } = DateTime.Now;
 
     [Required]
     [Column("payment_amount", TypeName = "money")]
@@ -25,7 +25,7 @@ public class CashReceiptOrder
     public long OrderId { get; set; }
 
     [Required]
-    [ForeignKey("type_pay")]
+    [Column("type_pay")]
     public bool TypePay { get; set; }
 
     public virtual Order Order { get; set; } = null!;

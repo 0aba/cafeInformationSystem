@@ -26,6 +26,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Table> Table { get; set; }
     public DbSet<Order> Order { get; set; }
     public DbSet<OrderItem> OrderItem { get; set; }
+    public DbSet<OrderOrderItem> OrderOrderItem { get; set; }
     public DbSet<CashReceiptOrder> CashReceiptOrder { get; set; }
 
 

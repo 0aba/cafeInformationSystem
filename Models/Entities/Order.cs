@@ -49,7 +49,7 @@ public class Order
     public long TableId { get; set; }
 
     [ForeignKey("chef_fk")]
-    public long ChefId { get; set; }
+    public long? ChefId { get; set; }
 
     [Required]
     [Column("status")]
@@ -63,10 +63,10 @@ public class Order
     [Column("note")]
     public string? Note { get; set; }
 
-    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public virtual ICollection<CashReceiptOrder> CashReceiptOrderItems { get; set; } = new List<CashReceiptOrder>();
 
     public virtual Employee Waiter { get; set; } = null!;
-    public virtual Employee Chef { get; set; } = null!;
+    public virtual Employee? Chef { get; set; } = null;
     public virtual Table Table { get; set; } = null!;
     public virtual ICollection<OrderOrderItem> OrderOrderItems { get; set; } = new List<OrderOrderItem>();
 
