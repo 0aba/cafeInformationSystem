@@ -306,8 +306,14 @@ public partial class ChangeOrderViewModel : ViewModelBase
 
         if (!string.IsNullOrEmpty(Note) && Note.Length > 512)
         {
-                ErrorMessage = "Заметка к заказу должна быть не более 512 символов";
-                return false;
+            ErrorMessage = "Заметка к заказу должна быть не более 512 символов";
+            return false;
+        }
+
+        if (_changeOrder!.Status != OrderStatus.Accepted)
+        {
+            ErrorMessage = "Можно изменять только не завершенные заказы";
+            return false;
         }
 
         ErrorMessage = string.Empty;
