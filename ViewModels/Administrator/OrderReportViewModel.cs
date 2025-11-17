@@ -61,6 +61,7 @@ public partial class OrderReportViewModel : ViewModelBase
     private string _waiterLoginFilter = string.Empty;
     private string _tableCodeFilter = string.Empty;
     private string _chefLoginFilter = string.Empty;
+    private string _shiftCodeFilter = string.Empty;
 
     public List<OrderStatusFilterItem> AvailableStatusOrder { get; } = new()
     {
@@ -150,6 +151,12 @@ public partial class OrderReportViewModel : ViewModelBase
     {
         get => _chefLoginFilter;
         set => SetProperty(ref _chefLoginFilter, value);
+    }
+
+    public string ShiftCodeFilter
+    {
+        get => _shiftCodeFilter;
+        set => SetProperty(ref _shiftCodeFilter, value);
     }
 
     public OrderStatusFilterItem? SelectedStatusOrderFilter
@@ -256,6 +263,8 @@ public partial class OrderReportViewModel : ViewModelBase
 
     private Document CreatePdfDocument(List<Order> orders)
     {
+        decimal totalSum = orders.Where(o => o.TotalCost.HasValue).Sum(o => o.TotalCost ?? 0);
+
         return Document.Create(container =>
         {
             container.Page(page =>
@@ -286,6 +295,7 @@ public partial class OrderReportViewModel : ViewModelBase
                             columns.ConstantColumn(80);  // INFO! Повар
                             columns.ConstantColumn(70);  // INFO! Статус заказа
                             columns.ConstantColumn(70);  // INFO! Статус готовки
+                            columns.ConstantColumn(70);  // INFO! Код смены
                         });
 
                         table.Header(header =>
@@ -300,6 +310,7 @@ public partial class OrderReportViewModel : ViewModelBase
                             header.Cell().Background(Colors.Grey.Lighten3).Padding(3).Text("Повар").SemiBold();
                             header.Cell().Background(Colors.Grey.Lighten3).Padding(3).Text("Статус заказа").SemiBold();
                             header.Cell().Background(Colors.Grey.Lighten3).Padding(3).Text("Статус готовки").SemiBold();
+                            header.Cell().Background(Colors.Grey.Lighten3).Padding(3).Text("Код смены").SemiBold();
                         });
 
                         foreach (var order in orders)
@@ -314,7 +325,12 @@ public partial class OrderReportViewModel : ViewModelBase
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(order.Chef?.Username ?? "");
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(GetOrderStatusText(order.Status));
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(GetCookingStatusText(order.CookingStatus));
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(order.Shift?.ShiftCode ?? "");
                         }
+
+                        table.Cell().ColumnSpan(3).Background(Colors.Grey.Lighten4).Padding(3).AlignRight().Text("Итог:").SemiBold();
+                        table.Cell().Background(Colors.Grey.Lighten4).Padding(3).Text(totalSum.ToString("C")).SemiBold();
+                        table.Cell().ColumnSpan(7).Background(Colors.Grey.Lighten4).Padding(3).Text("");
                     });
 
                 page.Footer()
@@ -333,6 +349,8 @@ public partial class OrderReportViewModel : ViewModelBase
 
     private byte[] CreateXlsxDocument(List<Order> orders)
     {
+        decimal totalSum = orders.Where(o => o.TotalCost.HasValue).Sum(o => o.TotalCost ?? 0);
+
         using var workbook = new XLWorkbook();
         var worksheet = workbook.Worksheets.Add("Заказы");
 
@@ -340,7 +358,7 @@ public partial class OrderReportViewModel : ViewModelBase
         {
             "Код заказа", "Дата создания", "Дата закрытия", "Итоговая сумма",
             "Количество клиентов", "Обслужил официант", "Код стола", 
-            "Обслужил повар", "Статус заказа", "Статус готовки"
+            "Обслужил повар", "Статус заказа", "Статус готовки", "Код смены"
         };
 
         for (int i = 0; i < headers.Length; i++)
@@ -372,8 +390,18 @@ public partial class OrderReportViewModel : ViewModelBase
             worksheet.Cell(row, 8).Value = order.Chef?.Username ?? "";
             worksheet.Cell(row, 9).Value = GetOrderStatusText(order.Status);
             worksheet.Cell(row, 10).Value = GetCookingStatusText(order.CookingStatus);
+            worksheet.Cell(row, 11).Value = order.Shift?.ShiftCode ?? "";
             row++;
         }
+
+        worksheet.Cell(row, 1).Value = "Итог:";
+        worksheet.Cell(row, 1).Style.Font.Bold = true;
+        worksheet.Cell(row, 4).Value = totalSum;
+        worksheet.Cell(row, 4).Style.NumberFormat.Format = "#,##0.00\"р\"";
+        worksheet.Cell(row, 4).Style.Font.Bold = true;
+
+        worksheet.Range(row, 1, row, 3).Merge().Style.Fill.BackgroundColor = XLColor.LightGray;
+        worksheet.Range(row, 4, row, 11).Merge().Style.Fill.BackgroundColor = XLColor.LightGray;
 
         worksheet.Columns().AdjustToContents();
 
@@ -441,7 +469,7 @@ public partial class OrderReportViewModel : ViewModelBase
         {
             var context = DatabaseService.GetContext();
 
-            var query = context.Order.Include(o => o.Waiter).Include(o => o.Chef).Include(o => o.Table)
+            var query = context.Order.Include(o => o.Waiter).Include(o => o.Chef).Include(o => o.Table).Include(o => o.Shift)
                                      .AsNoTracking().AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(OrderCodeFilter))
@@ -499,6 +527,13 @@ public partial class OrderReportViewModel : ViewModelBase
                 var chef = context.Employee.AsNoTracking().FirstOrDefault(e => e.Username == ChefLoginFilter);
 
                 query = query.Where(o => o.ChefId == chef!.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(ShiftCodeFilter))
+            {
+                var shift = context.Shift.AsNoTracking().FirstOrDefault(s => s.ShiftCode == ShiftCodeFilter);
+
+                query = query.Where(o => o.ShiftId == shift!.Id);
             }
 
             if (SelectedStatusOrderFilter?.Status is not null)

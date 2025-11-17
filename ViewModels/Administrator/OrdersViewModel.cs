@@ -31,6 +31,7 @@ public partial class OrdersViewModel : ViewModelBase
     private string _waiterLoginFilter = string.Empty;
     private string _tableCodeFilter = string.Empty;
     private string _chefLoginFilter = string.Empty;
+    private string _shiftCodeFilter = string.Empty;
 
     public List<OrderStatusFilterItem> AvailableStatusOrder { get; } = new()
     {
@@ -81,6 +82,12 @@ public partial class OrdersViewModel : ViewModelBase
     {
         get => _chefLoginFilter;
         set => SetProperty(ref _chefLoginFilter, value);
+    }
+
+    public string ShiftCodeFilter
+    {
+        get => _shiftCodeFilter;
+        set => SetProperty(ref _shiftCodeFilter, value);
     }
 
     public OrderStatusFilterItem? SelectedStatusOrderFilter
@@ -213,6 +220,19 @@ public partial class OrdersViewModel : ViewModelBase
                 }
 
                 query = query.Where(o => o.ChefId == chef.Id);
+            }
+
+            if (!string.IsNullOrWhiteSpace(ShiftCodeFilter))
+            {
+                var shift = context.Shift.AsNoTracking().FirstOrDefault(e => e.ShiftCode == ShiftCodeFilter);
+
+                if (shift is null)
+                {
+                    ErrorMessage = "Смена с таким кодом не существует";
+                    return;
+                }
+
+                query = query.Where(o => o.ShiftId == shift.Id);
             }
 
             if (SelectedStatusOrderFilter?.Status is not null)
