@@ -1,0 +1,100 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
+        xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
+        xmlns:vm="using:cafeInformationSystem.ViewModels.Waiter"
+        x:DataType="vm:MyTablesViewModel"
+        x:Class="cafeInformationSystem.Views.Waiter.MyTablesWindow"
+        Title="Список моих столиков"
+        Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
+
+  <Design.DataContext>
+    <vm:MyTablesViewModel/>
+  </Design.DataContext>
+
+  <DockPanel>
+    <!-- Header -->
+    <controls:HeaderControl DockPanel.Dock="Top"/>
+    <!-- Панель действий -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
+      <Button Content="Обратно в меню официанта" 
+              Command="{Binding BackToWaiterMenuCommand}" 
+              Padding="15,5" 
+              Background="DarkOrchid" 
+              Foreground="White"/>
+    </StackPanel>
+    <!-- Основной контент -->
+    <Grid Margin="10">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="0.25*"/>
+        <ColumnDefinition Width="10"/>
+        <ColumnDefinition Width="0.75*"/>
+      </Grid.ColumnDefinitions>
+      <!-- Блок фильтрации -->
+      <Border Grid.Column="0" Background="#6F4E37" CornerRadius="5" Padding="15">
+        <StackPanel Spacing="10">
+          <TextBlock Text="Фильтрация столиков" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+          <!-- Код столика -->
+          <TextBlock Text="Код столика:" FontWeight="SemiBold"/>
+          <TextBox Text="{Binding TableCodeFilter}" Watermark="Введите код столика"/>
+          <!-- Ошибки списка -->
+          <TextBlock Text="{Binding ErrorMessage}" 
+                     Foreground="Red" 
+                     TextWrapping="Wrap" 
+                     HorizontalAlignment="Center"/>
+          <!-- Кнопка применения фильтров -->
+          <Button Content="Применить фильтры" 
+                  Command="{Binding ApplyFiltersCommand}"
+                  Background="DarkOrchid" 
+                  Foreground="White"
+                  HorizontalAlignment="Stretch"
+                  Margin="0,20,0,0"
+                  Padding="10,5"/>
+        </StackPanel>
+      </Border>
+      <!-- Блок списка столиков -->
+      <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" Background="#6F4E37">
+        <Border Margin="30" Background="#6F4E37" CornerRadius="5">
+          <StackPanel Spacing="10" Background="#6F4E37">
+            <!-- Если список пуст -->
+            <TextBlock Text="Список пуст" 
+                      FontSize="18" 
+                      FontWeight="Bold"
+                      Foreground="White"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Margin="0,50,0,0"
+                      IsVisible="{Binding HasNoTables}"/>
+            <!-- Список столиков -->
+            <ItemsControl ItemsSource="{Binding Tables}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Background="#666666" 
+                          BorderThickness="1" 
+                          CornerRadius="5" 
+                          Padding="15"
+                          Margin="0,0,0,10">
+                    <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+                      <!-- Информация -->
+                      <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding TableCode, StringFormat='Код столика: {0}'}" 
+                                   FontSize="14" 
+                                   FontWeight="Bold" 
+                                   Foreground="Black"/>
+                        <TextBlock Text="{Binding WaiterService?.Username, StringFormat='Официант: {0}', TargetNullValue='Официант: столик не закреплен'}" 
+                                   FontSize="12" 
+                                   Foreground="Black"/>
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </Border>
+      </ScrollViewer>
+    </Grid>
+  </DockPanel>
+</Window>

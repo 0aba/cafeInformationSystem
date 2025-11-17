@@ -31,6 +31,96 @@
         
         <!-- Плитки с функциями -->
         <WrapPanel HorizontalAlignment="Center" Margin="20">
+          <!-- Плитка мои столики -->
+          <Border Width="200" Height="150" 
+                  Background="#7B3F00" 
+                  CornerRadius="10"
+                  Cursor="Hand"
+                  Margin="15"
+                  RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+              <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </Border.RenderTransform>
+          
+            <Border.Styles>
+              <Style Selector="Border:pointerover">
+                <Setter Property="RenderTransform">
+                  <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                </Setter>
+              </Style>
+            </Border.Styles>
+            
+            <Button Command="{Binding NavigateToMyTablesCommand}"
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center">
+              <StackPanel HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Spacing="15"
+                          Width="200">
+                <Path Data="M3,3H21V5H3V3M4,7H20V21H4V7M9,9V11H7V9H9M9,13V15H7V13H9M9,17V19H7V17H9M17,9V11H11V9H17M17,13V15H11V13H17M17,17V19H11V17H17Z"
+                      Fill="White" 
+                      Width="50" 
+                      Height="50"
+                      Stretch="Uniform"
+                      HorizontalAlignment="Center"
+                      Margin="0"/>
+                <TextBlock Text="Мои столики" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"/>
+              </StackPanel>
+            </Button>
+          </Border>
+
+          <!-- Плитка мои смены -->
+          <Border Width="200" Height="150" 
+                  Background="#A0522D" 
+                  CornerRadius="10"
+                  Cursor="Hand"
+                  Margin="15"
+                  RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+              <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </Border.RenderTransform>
+          
+            <Border.Styles>
+              <Style Selector="Border:pointerover">
+                <Setter Property="RenderTransform">
+                  <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                </Setter>
+              </Style>
+            </Border.Styles>
+            
+            <Button Command="{Binding NavigateToMyShiftsCommand}"
+                    Background="Transparent" 
+                    BorderThickness="0"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center">
+              <StackPanel HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Spacing="15"
+                          Width="200">
+                <Path Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,7.5A4.5,4.5 0 0,1 16.5,12A4.5,4.5 0 0,1 12,16.5A4.5,4.5 0 0,1 7.5,12A4.5,4.5 0 0,1 12,7.5M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10Z"
+                      Fill="White" 
+                      Width="50" 
+                      Height="50"
+                      Stretch="Uniform"
+                      HorizontalAlignment="Center"/>
+                <TextBlock Text="Мои смены" 
+                           Foreground="White" 
+                           FontSize="16" 
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"
+                           Margin="0"/>
+              </StackPanel>
+            </Button>
+          </Border>
+          
           <!-- Плитка товары -->
           <Border Width="200" Height="150" 
                   Background="#8B7355" 
