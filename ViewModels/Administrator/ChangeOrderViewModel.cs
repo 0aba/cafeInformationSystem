@@ -11,21 +11,9 @@ using cafeInformationSystem.Models.DataBase;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Collections.ObjectModel;
+using cafeInformationSystem.ViewModels.Shared;
 
 namespace cafeInformationSystem.ViewModels.Administrator;
-
-public class OrderItemItem
-{
-    public string Name { get; set; } = string.Empty;
-    public decimal Cost { get; set; }
-    public short AmountItems { get; set; }
-}
-
-public class CashReceiptOrderItem
-{
-    public decimal PaymentAmount { get; set; }
-    public bool TypePay { get; set; }
-}
 
 public partial class ChangeOrderViewModel : ViewModelBase
 {

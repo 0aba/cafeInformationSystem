@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
 using cafeInformationSystem.Models.Entities;
-using System.Collections.Generic;
 using System;
 using System.Windows.Input;
 using Avalonia;
@@ -8,11 +7,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls;
 using cafeInformationSystem.Views.Administrator;
 using cafeInformationSystem.Models.DataBase;
-using Avalonia.Media.Imaging;
-using cafeInformationSystem.Models.DataBase.DataAccess;
-using cafeInformationSystem.Models.Cryptography;
-using cafeInformationSystem.Models.MediaService;
-using System.IO;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 

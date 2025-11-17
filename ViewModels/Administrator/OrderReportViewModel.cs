@@ -17,20 +17,9 @@ using ClosedXML.Excel;
 using Avalonia.Platform.Storage;
 using System.IO;
 using System.Threading.Tasks;
+using cafeInformationSystem.ViewModels.Shared;
 
 namespace cafeInformationSystem.ViewModels.Administrator;
-
-public class OrderStatusFilterItem
-{
-    public string Name { get; set; } = string.Empty;
-    public OrderStatus? Status { get; set; }
-}
-
-public class OrderCookingStatusFilterItem
-{
-    public string Name { get; set; } = string.Empty;
-    public bool? Cooked { get; set; }
-}
 
 public partial class OrderReportViewModel : ViewModelBase
 {

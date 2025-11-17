@@ -11,8 +11,6 @@ using cafeInformationSystem.Models.DataBase;
 using System.Linq;
 using Avalonia.Media.Imaging;
 using System.IO;
-using System.Threading.Tasks;
-using cafeInformationSystem.Models.DataBase.DataAccess;
 using cafeInformationSystem.Models.Cryptography;
 using Avalonia.Platform;
 using cafeInformationSystem.Models.MediaService;
