@@ -27,6 +27,7 @@ public class Shift
     public DateTime TimeEnd { get; set; }
 
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public bool IsCompleted => TimeEnd < DateTime.Now;
     public string IsCompletedText => IsCompleted ? "завершена" : "не завершена";

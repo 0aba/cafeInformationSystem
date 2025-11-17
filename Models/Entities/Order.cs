@@ -52,6 +52,10 @@ public class Order
     public long? ChefId { get; set; }
 
     [Required]
+    [ForeignKey("shift_fk")]
+    public long ShiftId { get; set; }
+
+    [Required]
     [Column("status")]
     public OrderStatus Status { get; set; } = OrderStatus.Accepted;
 
@@ -68,6 +72,7 @@ public class Order
     public virtual Employee Waiter { get; set; } = null!;
     public virtual Employee? Chef { get; set; } = null;
     public virtual Table Table { get; set; } = null!;
+    public virtual Shift Shift { get; set; } = null!;
     public virtual ICollection<OrderOrderItem> OrderOrderItems { get; set; } = new List<OrderOrderItem>();
 
     public bool IsActive => Status == OrderStatus.Accepted;

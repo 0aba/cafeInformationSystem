@@ -74,6 +74,11 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(e => e.ShiftCode).IsUnique();
 
             entity.ToTable(t => t.HasCheckConstraint("shift_time_ck", "time_start < time_end"));
+
+            entity.HasMany(e => e.Orders)
+                .WithOne(s => s.Shift)
+                .HasForeignKey(s => s.ShiftId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<Table>(entity =>
