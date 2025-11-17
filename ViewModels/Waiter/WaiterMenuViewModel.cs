@@ -12,7 +12,8 @@ public enum WaiterMenuNavigatePage : short
 {
     OrderItems = 1,
     Orders = 2,
-    Reports = 3
+    Reports = 3,
+    MyShifts = 4
 }
 
 public class WaiterMenuViewModel : ViewModelBase
@@ -22,11 +23,13 @@ public class WaiterMenuViewModel : ViewModelBase
         NavigateToOrderItemsCommand = new RelayCommand(() => NavigateTo(WaiterMenuNavigatePage.OrderItems));
         NavigateToOrdersCommand = new RelayCommand(() => NavigateTo(WaiterMenuNavigatePage.Orders));
         NavigateToReportsCommand = new RelayCommand(() => NavigateTo(WaiterMenuNavigatePage.Reports));
+        NavigateToMyShiftsCommand = new RelayCommand(() => NavigateTo(WaiterMenuNavigatePage.MyShifts));
     }
 
     public ICommand NavigateToOrderItemsCommand { get; }
     public ICommand NavigateToOrdersCommand { get; }
     public ICommand NavigateToReportsCommand { get; }
+    public ICommand NavigateToMyShiftsCommand { get; }
 
     private void NavigateTo(WaiterMenuNavigatePage navigatePage)
     {
@@ -41,9 +44,15 @@ public class WaiterMenuViewModel : ViewModelBase
                 };
                 break;
             case WaiterMenuNavigatePage.Orders:
-                // TODO! 2
+                window = new OrdersWindow()
+                {
+                    DataContext = new OrdersViewModel()
+                };
                 break;
             case WaiterMenuNavigatePage.Reports:
+                // TODO! 3
+                break;
+            case WaiterMenuNavigatePage.MyShifts:
                 // TODO! 3
                 break;
         }

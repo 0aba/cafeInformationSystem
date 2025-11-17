@@ -1,7 +1,4 @@
 using System;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using cafeInformationSystem.ViewModels.Administrator;
 
 namespace cafeInformationSystem.Views.Administrator;

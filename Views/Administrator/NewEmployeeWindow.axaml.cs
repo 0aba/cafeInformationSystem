@@ -1,10 +1,4 @@
 using System;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Platform.Storage;
-using System.Linq;
-using System.Threading.Tasks;
 using cafeInformationSystem.ViewModels.Administrator;
 
 
