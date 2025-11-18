@@ -90,7 +90,7 @@ public partial class MyTablesViewModel : ViewModelBase
                                      .AsNoTracking().AsQueryable();
 
             var currentUser = AuthStorage.CurrentUser;
-            query.Where(t => t.WaiterServiceId == currentUser!.Id);
+            query = query.Where(t => t.WaiterServiceId == currentUser!.Id);
 
             if (!string.IsNullOrWhiteSpace(TableCodeFilter))
             {

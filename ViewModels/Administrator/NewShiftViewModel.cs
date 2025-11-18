@@ -106,7 +106,7 @@ public partial class NewShiftViewModel : ViewModelBase
 
     private void ExecuteRemoveSelectedEmployee()
     {
-        if (SelectedEmployee != null)
+        if (SelectedEmployee is not null)
         {
             EmployeeShiftTable.Remove(SelectedEmployee);
             SelectedEmployee = null;
@@ -115,7 +115,7 @@ public partial class NewShiftViewModel : ViewModelBase
 
     private bool CanExecuteRemoveSelectedEmployee()
     {
-        return SelectedEmployee != null;
+        return SelectedEmployee is not null;
     }
 
     private void ExecuteBackToShifts()

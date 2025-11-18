@@ -154,21 +154,20 @@ public partial class OrdersViewModel : ViewModelBase
 
     private void ExecuteNewOrder()
     {
-        // TODO!
-        // Window window = new NewOrderWindow()
-        // {
-        //     DataContext = new NewOrderViewModel()
-        // };
+        Window window = new NewOrderWindow()
+        {
+            DataContext = new NewOrderViewModel()
+        };
 
-        // if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        // {
-        //     var currentWindow = desktop.MainWindow;
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
 
-        //     desktop.MainWindow = window;
-        //     desktop.MainWindow.Show();
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
 
-        //     currentWindow?.Close();
-        // }
+            currentWindow?.Close();
+        }
     }
 
     private void ExecuteOpenOrderCard(string? orderCode)

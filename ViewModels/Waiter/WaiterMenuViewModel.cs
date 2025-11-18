@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
 using cafeInformationSystem.Views.Waiter;
-using cafeInformationSystem.ViewModels.Waiter;
 using Avalonia.Controls;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;

@@ -5,8 +5,8 @@ namespace cafeInformationSystem.ViewModels.Shared;
 public class OrderItemItem
 {
     public string Name { get; set; } = string.Empty;
-    public decimal Cost { get; set; }
-    public short AmountItems { get; set; }
+    public decimal? CostItem { get; set; } // INFO! Может отсутствововать при создании и изменении, но при просомотре подгружается
+    public short AmountItems { get; set; } = 1;
 }
 
 public class CashReceiptOrderItem

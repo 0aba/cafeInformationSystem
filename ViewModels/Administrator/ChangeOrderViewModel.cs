@@ -65,11 +65,10 @@ public partial class ChangeOrderViewModel : ViewModelBase
             _orderItems.Add(new OrderItemItem
             {
                 Name = orderOrderItem.СertainOrderItem.Name,
-                Cost = orderOrderItem.СertainOrderItem.Cost,
+                CostItem = orderOrderItem.СertainOrderItem.Cost,
                 AmountItems = orderOrderItem.AmountItems
             });
         }
-
 
         BackToOrdersCommand = new RelayCommand(ExecuteBackToOrders);
         ChangeOrderCommand = new RelayCommand(ExecuteChangeOrder);

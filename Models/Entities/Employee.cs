@@ -61,7 +61,6 @@ public class Employee
     [Column("work_status")]
     public bool WorkStatus { get; set; } = true;
 
-
     public virtual ICollection<Shift> Shifts { get; set; } = new List<Shift>();
     public virtual ICollection<Order> WaiterOrders { get; set; } = new List<Order>();
     public virtual ICollection<Order> ChefOrders { get; set; } = new List<Order>();

@@ -115,8 +115,8 @@
                   <DataGridTextColumn Header="Название позиции" 
                                     Binding="{Binding Name}" 
                                     Width="*"/>
-                  <DataGridTextColumn Header="Стоимость" 
-                                    Binding="{Binding Cost, StringFormat='{}{0:C}'}" 
+                  <DataGridTextColumn Header="Стоимость шт." 
+                                    Binding="{Binding CostItem, StringFormat='{}{0:C}'}" 
                                     Width="200"/>
                   <DataGridTextColumn Header="Количество" 
                                     Binding="{Binding AmountItems}" 
