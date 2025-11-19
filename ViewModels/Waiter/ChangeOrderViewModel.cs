@@ -234,11 +234,20 @@ public partial class ChangeOrderViewModel : ViewModelBase
             ErrorMessage = "Нельзя завершить уже отмененный заказ";
             return;
         }
-        //TODO!
-        /*
+        if (_changeOrder.ChefId is null)
+        {
+            ErrorMessage = "Нельзя завершить заказ повар еще за него не взялся";
+            return;
+        }
+        if (_changeOrder.CookingStatus == false)
+        {
+            ErrorMessage = "Нельзя завершить уже повар его еще не приготовил";
+            return;
+        }
+
         Window window = new CompleteOrderWindow()
         {
-            DataContext = new CompleteOrderViewModel()
+            DataContext = new CompleteOrderViewModel(_changeOrder.OrderCode)
         };
 
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
@@ -250,7 +259,6 @@ public partial class ChangeOrderViewModel : ViewModelBase
 
             currentWindow?.Close();
         }
-        */
     }
 
     private void ExecuteGetCheck()
