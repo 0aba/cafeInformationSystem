@@ -1,0 +1,143 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
+        xmlns:vm="using:cafeInformationSystem.ViewModels.Waiter"
+        x:DataType="vm:ChangeOrderViewModel"
+        x:Class="cafeInformationSystem.Views.Waiter.ChangeOrderWindow"
+        Title="Изменение заказа"
+        WindowStartupLocation="CenterScreen"
+        Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
+  
+  <Design.DataContext>
+    <vm:ChangeOrderViewModel/>
+  </Design.DataContext>
+
+  <DockPanel>
+    <!-- Header -->
+    <controls:HeaderControl DockPanel.Dock="Top"/>
+    
+    <!-- Панель действий -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
+      <Button Content="Обратно" Command="{Binding BackToOrdersCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+      <Button Content="Отменить заказ" Command="{Binding CancelOrderCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+      <Button Content="Завершить заказ" Command="{Binding CompleteOrderCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+      <Button Content="Получить чек" Command="{Binding GetCheckCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+    </StackPanel>
+    
+    <!-- Основная форма -->
+    <Border Background="#6F4E37" CornerRadius="5" Margin="20">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="30" Spacing="15" VerticalAlignment="Top">
+          
+          <!-- Заголовок -->
+          <TextBlock Text="Изменение заказа" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
+          
+          <!-- Основные поля -->
+          <Grid ColumnDefinitions="150,*" RowDefinitions="*,*,*,*,*,*,*" VerticalAlignment="Top" RowSpacing="10">
+            
+            <!-- Код заказа -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Код заказа:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Watermark="Введите код заказа" Text="{Binding OrderCode}"/>
+            
+            <!-- Количество клиентов -->
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Количество клиентов:" VerticalAlignment="Center" Foreground="White"/>
+            <NumericUpDown Grid.Row="1" Grid.Column="1" Minimum="1" Maximum="32767" Increment="1"
+                           Value="{Binding AmountClients, Mode=TwoWay}"/>
+            
+            <!-- Код столика -->
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Код столика:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Watermark="Введите код столика" Text="{Binding TableCode}"/>
+            
+            <!-- Логин повара -->
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Повар:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ChefLogin}" IsReadOnly="True" Background="LightGray"/>
+            
+            <!-- Статус заказа -->
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Статус заказа:" VerticalAlignment="Center" Foreground="White"/>
+            <ComboBox Grid.Row="4" Grid.Column="1" 
+                      ItemsSource="{Binding AvailableStatusOrder}"
+                      SelectedItem="{Binding ChoiceStatusOrder}"
+                      DisplayMemberBinding="{Binding Name}"
+                      IsEnabled="False"/>
+            
+            <!-- Статус готовки -->
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Статус готовки:" VerticalAlignment="Center" Foreground="White"/>
+            <CheckBox Grid.Row="5" Grid.Column="1" Content="Готовится" IsChecked="{Binding StatusCookingOrder}" IsEnabled="False" VerticalAlignment="Center"/>
+            
+            <!-- Примечание -->
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Примечание:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Watermark="Введите примечание к заказу" Text="{Binding Note}" 
+                     AcceptsReturn="True" Height="60" TextWrapping="Wrap"/>
+            
+          </Grid>
+          
+          <!-- Секция позиций заказа -->
+          <Border Background="#8B7355" CornerRadius="5" Padding="15" Margin="0,10">
+            <StackPanel Spacing="10">
+              <TextBlock Text="Позиции заказа:" FontSize="16" Foreground="White"/>
+              
+              <!-- Таблица позиций заказа -->
+              <DataGrid ItemsSource="{Binding OrderItemItemTable}" 
+                       AutoGenerateColumns="False"
+                       IsReadOnly="False"
+                       CanUserReorderColumns="False"
+                       CanUserResizeColumns="True"
+                       CanUserSortColumns="False"
+                       GridLinesVisibility="All"
+                       Background="Black"
+                       Height="200"
+                       SelectedItem="{Binding SelectedOrderItem}">
+                <DataGrid.Columns>
+                  <DataGridTextColumn Header="Название позиции" 
+                                    Binding="{Binding Name}" 
+                                    Width="*"/>
+                  <DataGridTextColumn Header="Стоимость" 
+                                    Binding="{Binding CostItem, StringFormat='{}{0:C}'}" 
+                                    Width="100"
+                                    IsReadOnly="True"/>
+                  <DataGridTextColumn Header="Количество" 
+                                    Binding="{Binding AmountItems}" 
+                                    Width="100"/>
+                </DataGrid.Columns>
+              </DataGrid>
+              
+              <TextBlock Text="Добавьте позиции в таблицу выше. Нажмите на пустую строку для добавления новой позиции." 
+                        FontSize="12" 
+                        Foreground="LightGray" 
+                        TextWrapping="Wrap"/>
+            </StackPanel>
+          </Border>
+
+          <!-- Кнопки управления позициями -->
+          <StackPanel Orientation="Horizontal" Spacing="10">
+            <Button Content="Добавить позицию" 
+                    Command="{Binding AddOrderItemCommand}"
+                    Background="Green" 
+                    Foreground="White"
+                    Padding="10,5"/>
+            <Button Content="Удалить выделенную" 
+                    Command="{Binding RemoveSelectedOrderItemCommand}"
+                    Background="Red" 
+                    Foreground="White"
+                    Padding="10,5"/>
+          </StackPanel>
+          
+          <!-- Сообщение об ошибке -->
+          <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
+                    TextWrapping="Wrap" HorizontalAlignment="Center"
+                    FontWeight="Bold"/>
+          
+          <!-- Кнопка Изменить -->
+          <Button Content="Изменить заказ" Command="{Binding ChangeOrderCommand}" 
+                  HorizontalAlignment="Center" Width="150" Height="35" 
+                  Background="DarkOrchid" Foreground="White"
+                  Margin="0,20"/>
+          
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+  </DockPanel>
+</Window>

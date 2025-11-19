@@ -55,10 +55,9 @@ public partial class ChangeOrderViewModel : ViewModelBase
             });
         }
         
-        var orderOrderItems = context.OrderOrderItem
-        .Where(ooi => ooi.OrderId == changeOrder.Id)
-        .Include(ooi => ooi.СertainOrderItem)
-        .ToList();
+        var orderOrderItems = context.OrderOrderItem.Where(ooi => ooi.OrderId == changeOrder.Id)
+                                                    .Include(ooi => ooi.СertainOrderItem)
+                                                    .ToList();
 
         foreach (var orderOrderItem in orderOrderItems)
         {
@@ -244,9 +243,8 @@ public partial class ChangeOrderViewModel : ViewModelBase
         {
             context.SaveChanges();
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e);
             ErrorMessage = "Ошибка сохранения заказа";
             return;
         }

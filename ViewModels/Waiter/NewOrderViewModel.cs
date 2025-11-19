@@ -181,8 +181,7 @@ public partial class NewOrderViewModel : ViewModelBase
 
         foreach (var orderItem in OrderItemItemTable)
         {
-            var existingOrderItem = context.OrderItem
-                .FirstOrDefault(oi => oi.Name.Trim() == orderItem.Name.Trim());
+            var existingOrderItem = context.OrderItem.FirstOrDefault(oi => oi.Name.Trim() == orderItem.Name.Trim());
 
             var orderOrderItem = new OrderOrderItem
             {
@@ -225,6 +224,13 @@ public partial class NewOrderViewModel : ViewModelBase
             ErrorMessage = "Код заказа не уникальный";
             return false;
         }
+
+        OrderItemItemTable = new ObservableCollection<OrderItemItem>(
+            OrderItemItemTable
+            .GroupBy(e => e.Name.Trim())
+            .Select(g => g.First())
+            .ToList()
+        );
 
         if (AmountClients <= 0)
         {
