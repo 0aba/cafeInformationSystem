@@ -64,6 +64,11 @@
             <TextBlock Grid.Row="6" Grid.Column="0" Text="Код стола:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="6" Grid.Column="1" Watermark="Введите код стола" 
                      Text="{Binding TableCode}" Width="300"/>
+
+            <!-- Код смены (редактируемый) -->
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Код смены:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Watermark="Введите код смены" 
+                     Text="{Binding ShiftCode}" Width="300"/>
             
             <!-- Логин повара (редактируемый) -->
             <TextBlock Grid.Row="7" Grid.Column="0" Text="Логин повара:" VerticalAlignment="Center" Foreground="White"/>

@@ -23,7 +23,7 @@ public partial class ChangeOrderViewModel : ViewModelBase
     {
         var context = DatabaseService.GetContext();
 
-        var changeOrder = context.Order.Include(o => o.Waiter).Include(o => o.Chef).Include(o => o.Table)
+        var changeOrder = context.Order.Include(o => o.Waiter).Include(o => o.Chef).Include(o => o.Table).Include(o => o.Shift)
                                        .Include(s => s.CashReceiptOrderItems)
                                        .FirstOrDefault(s => s.OrderCode == orderCode);
 
@@ -42,6 +42,7 @@ public partial class ChangeOrderViewModel : ViewModelBase
         WaiterLogin = _changeOrder.Waiter.Username;
         TableCode = _changeOrder.Table.TableCode;
         ChefLogin = _changeOrder?.Chef?.Username;
+        ShiftCode = _changeOrder!.Shift.ShiftCode;
         ChoiceStatusOrder = AvailableStatusOrder[(int)_changeOrder!.Status];
         StatusCookingOrder = _changeOrder.CookingStatus;
         Note = _changeOrder.Note;
@@ -81,6 +82,7 @@ public partial class ChangeOrderViewModel : ViewModelBase
     private string _waiterLogin = string.Empty;
     private string _tableCode = string.Empty;
     private string? _chefLogin = string.Empty;
+    private string _shiftCode = string.Empty;
 
     public List<OrderStatusFilterItem> AvailableStatusOrder { get; } = new()
     {
@@ -143,6 +145,12 @@ public partial class ChangeOrderViewModel : ViewModelBase
     {
         get => _chefLogin;
         set => SetProperty(ref _chefLogin, value);
+    }
+
+    public string ShiftCode
+    {
+        get => _shiftCode;
+        set => SetProperty(ref _shiftCode, value);
     }
 
     public OrderStatusFilterItem? ChoiceStatusOrder
