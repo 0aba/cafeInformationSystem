@@ -139,6 +139,7 @@ public partial class CompleteOrderViewModel : ViewModelBase
 
         _changeOrder.Status = OrderStatus.Paid;
         _changeOrder.TotalCost = CostToPay;
+        _changeOrder.ClosedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
 
         context.Order.Update(_changeOrder);
         

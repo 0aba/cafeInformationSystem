@@ -13,6 +13,12 @@ using cafeInformationSystem.ViewModels.Shared;
 using cafeInformationSystem.Models.AuthService;
 using cafeInformationSystem.Views.Waiter;
 using System.Collections.Generic;
+using Avalonia.Platform.Storage;
+using System.Threading.Tasks;
+using System.IO;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace cafeInformationSystem.ViewModels.Waiter;
 
@@ -208,6 +214,7 @@ public partial class ChangeOrderViewModel : ViewModelBase
         var context = DatabaseService.GetContext();
 
         _changeOrder.Status = OrderStatus.Cancelled;
+        _changeOrder.ClosedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
 
         context.Order.Update(_changeOrder);
         
@@ -261,15 +268,169 @@ public partial class ChangeOrderViewModel : ViewModelBase
         }
     }
 
-    private void ExecuteGetCheck()
+    private async void ExecuteGetCheck()
     {
         if (_changeOrder.Status != OrderStatus.Paid)
         {
             ErrorMessage = "Только у оплаченного заказа есть чек";
             return;
         }
-        
-        //TODO!
+
+        try
+        {
+            var document = CreatePdfCheck();
+
+            byte[] pdfBytes;
+            using (var stream = new MemoryStream())
+            {
+                document.GeneratePdf(stream);
+                pdfBytes = stream.ToArray();
+            }
+
+            await SaveFileAsync(pdfBytes, "чек_заказа", "pdf", "PDF документ", ["*.pdf"]);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            ErrorMessage = "Ошибка при создании PDF";
+        }
+    }
+
+    private Document CreatePdfCheck()
+    {
+        var context = DatabaseService.GetContext();
+
+        var orderOrderItems = context.OrderOrderItem
+            .Where(ooi => ooi.OrderId == _changeOrder.Id)
+            .Include(ooi => ooi.СertainOrderItem)
+            .ToList();
+
+        decimal totalSum = orderOrderItems.Sum(ooi => ooi.СertainOrderItem.Cost * ooi.AmountItems);
+
+        return Document.Create(container =>
+        {
+            container.Page(page =>
+            {
+                page.Size(PageSizes.A4);
+                page.Margin(1, Unit.Centimetre);
+                page.PageColor(Colors.White);
+                page.DefaultTextStyle(x => x.FontSize(10));
+
+                page.Header()
+                    .Column(column =>
+                    {
+                        column.Item().AlignCenter().Text("КАССОВЫЙ ЧЕК").Bold().FontSize(14);
+                        column.Item().PaddingTop(5).LineHorizontal(1);
+
+                        column.Item().PaddingTop(10).Table(table =>
+                        {
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn();
+                                columns.RelativeColumn();
+                            });
+                            
+                            table.Cell().Padding(2).Text("Код заказа:").SemiBold();
+                            table.Cell().Padding(2).Text(_changeOrder?.OrderCode ?? "");
+                            
+                            table.Cell().Padding(2).Text("Дата создания:").SemiBold();
+                            table.Cell().Padding(2).Text(_changeOrder?.CreatedAt.ToString("dd.MM.yyyy HH:mm") ?? "");
+                            
+                            table.Cell().Padding(2).Text("Дата закрытия:").SemiBold();
+                            table.Cell().Padding(2).Text(_changeOrder?.ClosedAt?.ToString("dd.MM.yyyy HH:mm") ?? "—");
+                            
+                            table.Cell().Padding(2).Text("Обслужил:").SemiBold();
+                            table.Cell().Padding(2).Text($"{_changeOrder?.Waiter?.LastName} {_changeOrder?.Waiter?.FirstName} {_changeOrder?.Waiter?.MiddleName}".Trim() ?? "");
+                            
+                            table.Cell().Padding(2).Text("Стол:").SemiBold();
+                            table.Cell().Padding(2).Text(_changeOrder?.Table?.TableCode ?? "");
+                        });
+                        
+                        column.Item().PaddingTop(10).LineHorizontal(1);
+                    });
+
+                page.Content()
+                    .PaddingVertical(10)
+                    .Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.RelativeColumn(3); // INFO! Название товара
+                            columns.ConstantColumn(70); // INFO! Цена за шт.
+                            columns.ConstantColumn(60); // INFO! Количество
+                            columns.ConstantColumn(80); // INFO! Сумма
+                        });
+
+                        table.Header(header =>
+                        {
+                            header.Cell().Background(Colors.Grey.Lighten3).Padding(5).Text("Название товара").SemiBold();
+                            header.Cell().Background(Colors.Grey.Lighten3).Padding(5).Text("Цена за шт.").SemiBold();
+                            header.Cell().Background(Colors.Grey.Lighten3).Padding(5).Text("Кол-во").SemiBold();
+                            header.Cell().Background(Colors.Grey.Lighten3).Padding(5).Text("Сумма").SemiBold();
+                        });
+
+                        foreach (var orderItem in orderOrderItems)
+                        {
+                            var itemTotal = orderItem.СertainOrderItem.Cost * orderItem.AmountItems;
+                            
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5)
+                                 .Text(orderItem.СertainOrderItem.Name);
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5)
+                                 .Text(orderItem.СertainOrderItem.Cost.ToString("C"));
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5)
+                                 .Text(orderItem.AmountItems.ToString());
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5)
+                                 .Text(itemTotal.ToString("C"));
+                        }
+
+                        table.Cell().ColumnSpan(3).Background(Colors.Grey.Lighten4).Padding(5)
+                             .AlignRight().Text("ИТОГО:").SemiBold();
+                        table.Cell().Background(Colors.Grey.Lighten4).Padding(5)
+                             .Text(totalSum.ToString("C")).SemiBold();
+                    });
+
+                page.Footer()
+                    .AlignCenter()
+                    .PaddingTop(20)
+                    .Column(column =>
+                    {
+                        column.Item().Text($"Чек сгенерирован: {DateTime.Now:dd.MM.yyyy HH:mm}");
+                        column.Item().PaddingTop(5).Text("Спасибо за посещение!");
+                    });
+            });
+        });
+    }
+
+    private async Task SaveFileAsync(byte[] fileBytes, string fileName, string extension, string fileTypeName, string[] patterns)
+    {
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var topLevel = TopLevel.GetTopLevel(desktop.MainWindow);
+            
+            if (topLevel is not null)
+            {
+                var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+                {
+                    Title = "Сохранить отчет",
+                    SuggestedFileName = $"{fileName}_{DateTime.Now:yyyy-MM-dd_HH-mm}.{extension}",
+                    DefaultExtension = extension,
+                    FileTypeChoices =
+                    [
+                        new FilePickerFileType(fileTypeName)
+                        {
+                            Patterns = patterns
+                        }
+                    ]
+                });
+
+                if (file is not null)
+                {
+                    await using var stream = await file.OpenWriteAsync();
+                    await stream.WriteAsync(fileBytes);
+                    await stream.FlushAsync();
+                }
+            }
+        }
     }
 
     private void ExecuteBackToOrders()
