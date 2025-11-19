@@ -587,6 +587,17 @@ public partial class OrderReportViewModel : ViewModelBase
             }
         }
 
+        if (!string.IsNullOrWhiteSpace(ShiftCodeFilter))
+        {
+            var shift = context.Shift.AsNoTracking().FirstOrDefault(e => e.ShiftCode == ShiftCodeFilter);
+
+            if (shift is null)
+            {
+                ErrorMessage = "Смена с таким кодом не существует";
+                return false;
+            }
+        }
+
         ErrorMessage = string.Empty;
         return true;
     }

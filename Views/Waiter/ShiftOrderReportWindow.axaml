@@ -1,0 +1,102 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="700"
+        xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
+        xmlns:vm="using:cafeInformationSystem.ViewModels.Waiter"
+        x:DataType="vm:ShiftOrderReportViewModel"
+        x:Class="cafeInformationSystem.Views.Waiter.ShiftOrderReportWindow"
+        Title="Статистика за смену"
+        WindowStartupLocation="CenterScreen"
+        Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
+  
+  <Design.DataContext>
+    <vm:ShiftOrderReportViewModel/>
+  </Design.DataContext>
+
+  <DockPanel>
+    <!-- Header -->
+    <controls:HeaderControl DockPanel.Dock="Top"/>
+    
+    <!-- Панель действий -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
+      <Button Content="Обратно в меню" Command="{Binding BackToWaiterMenuCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+    </StackPanel>
+    
+    <!-- Основная форма -->
+    <Border Background="#6F4E37" CornerRadius="5" Margin="20">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="30" Spacing="15" VerticalAlignment="Top">
+          
+          <!-- Заголовок -->
+          <TextBlock Text="Статистика за смену" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
+          
+          <!-- Код смены -->
+          <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Left">
+            <TextBlock Text="Код смены:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBox Watermark="Введите код смены" Text="{Binding ShiftCode}" Width="300"/>
+          </StackPanel>
+
+          <!-- Сообщение об ошибке -->
+          <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
+                    TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,10"/>
+          
+          <!-- Кнопка получения статистики -->
+          <Button Content="Моя статистика за смену" Command="{Binding GetShiftOrderReportCommand}" 
+                  HorizontalAlignment="Center" Width="250" Height="35" 
+                  Background="DarkOrchid" Foreground="White" Margin="0,10"/>
+          
+          <!-- Таблица заказов смены -->
+          <Border Background="#8B7355" CornerRadius="5" Padding="15" Margin="0,10">
+            <StackPanel Spacing="10">
+              <TextBlock Text="Заказы за смену:" FontSize="16" Foreground="White"/>
+              
+              <DataGrid ItemsSource="{Binding ShiftOrderReportItemTable}" 
+                       AutoGenerateColumns="False"
+                       IsReadOnly="True"
+                       CanUserReorderColumns="False"
+                       CanUserResizeColumns="True"
+                       CanUserSortColumns="False"
+                       GridLinesVisibility="All"
+                       Background="Black"
+                       Height="300">
+                <DataGrid.Columns>
+                  <DataGridTextColumn Header="Код заказа" 
+                                    Binding="{Binding OrderCode}" 
+                                    Width="100"/>
+                  <DataGridTextColumn Header="Дата создания" 
+                                    Binding="{Binding CreatedAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" 
+                                    Width="150"/>
+                  <DataGridTextColumn Header="Дата закрытия" 
+                                    Binding="{Binding ClosedAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}', FallbackValue=''}" 
+                                    Width="150"/>
+                  <DataGridTextColumn Header="Итоговая стоимость" 
+                                    Binding="{Binding TotalCost, StringFormat='{}{0:C}'}" 
+                                    Width="170"/>
+                  <DataGridTextColumn Header="Кол-во клиентов" 
+                                    Binding="{Binding AmountClients}" 
+                                    Width="170"/>
+                  <DataGridTextColumn Header="Стол" 
+                                    Binding="{Binding TableCode}" 
+                                    Width="80"/>
+                  <DataGridTextColumn Header="Повар" 
+                                    Binding="{Binding ChefLogin}" 
+                                    Width="120"/>
+                  <DataGridTextColumn Header="Статус" 
+                                    Binding="{Binding Status.Name}" 
+                                    Width="100"/>
+                  <DataGridCheckBoxColumn Header="Готовка" 
+                                        Binding="{Binding CookingStatus}"
+                                        IsReadOnly="True"
+                                        Width="100"/>
+                </DataGrid.Columns>
+              </DataGrid>
+            </StackPanel>
+          </Border>
+          
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+  </DockPanel>
+</Window>
