@@ -207,10 +207,10 @@ public partial class NewShiftViewModel : ViewModelBase
             return false;
         }
 
-        var dateShift = DateShift.UtcDateTime;
+        var dateShift = DateShift.DateTime;
         var currentTime = DateTime.Now;
 
-        if (dateShift.Date < currentTime.Date || dateShift.Date > currentTime.Date.AddDays(5))
+        if (dateShift.Date < currentTime || dateShift.Date > currentTime.AddDays(5))
         {
             ErrorMessage = "Смены можно устанавливать только на 5 дней вперед";
             return false;

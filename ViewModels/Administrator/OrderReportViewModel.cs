@@ -18,6 +18,7 @@ using Avalonia.Platform.Storage;
 using System.IO;
 using System.Threading.Tasks;
 using cafeInformationSystem.ViewModels.Shared;
+using System.Globalization;
 
 namespace cafeInformationSystem.ViewModels.Administrator;
 
@@ -274,17 +275,17 @@ public partial class OrderReportViewModel : ViewModelBase
                     {
                         table.ColumnsDefinition(columns =>
                         {
-                            columns.ConstantColumn(70);  // INFO! Код заказа
-                            columns.ConstantColumn(90);  // INFO! Дата создания
-                            columns.ConstantColumn(90);  // INFO! Дата закрытия
-                            columns.ConstantColumn(70);  // INFO! Итоговая сумма
-                            columns.ConstantColumn(50);  // INFO! Клиенты
-                            columns.ConstantColumn(80);  // INFO! Официант
-                            columns.ConstantColumn(60);  // INFO! Код стола
-                            columns.ConstantColumn(80);  // INFO! Повар
-                            columns.ConstantColumn(70);  // INFO! Статус заказа
-                            columns.ConstantColumn(70);  // INFO! Статус готовки
-                            columns.ConstantColumn(70);  // INFO! Код смены
+                            columns.ConstantColumn(65);  // INFO! Код заказа
+                            columns.ConstantColumn(85);  // INFO! Дата создания
+                            columns.ConstantColumn(85);  // INFO! Дата закрытия
+                            columns.ConstantColumn(65);  // INFO! Итоговая сумма
+                            columns.ConstantColumn(45);  // INFO! Клиенты
+                            columns.ConstantColumn(75);  // INFO! Официант
+                            columns.ConstantColumn(55);  // INFO! Код стола
+                            columns.ConstantColumn(75);  // INFO! Повар
+                            columns.ConstantColumn(65);  // INFO! Статус заказа
+                            columns.ConstantColumn(65);  // INFO! Статус готовки
+                            columns.ConstantColumn(65);  // INFO! Код смены
                         });
 
                         table.Header(header =>
@@ -307,7 +308,7 @@ public partial class OrderReportViewModel : ViewModelBase
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(order.OrderCode);
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(order.CreatedAt.ToString("dd.MM.yy HH:mm"));
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(order.ClosedAt?.ToString("dd.MM.yy HH:mm") ?? "");
-                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(order.TotalCost?.ToString("C") ?? "");
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(order.TotalCost?.ToString("C", CultureInfo.GetCultureInfo("ru-RU")) ?? "");
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(order.AmountClients.ToString());
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(order.Waiter?.Username ?? "");
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(3).Text(order.Table?.TableCode ?? "");
@@ -318,7 +319,7 @@ public partial class OrderReportViewModel : ViewModelBase
                         }
 
                         table.Cell().ColumnSpan(3).Background(Colors.Grey.Lighten4).Padding(3).AlignRight().Text("Итог:").SemiBold();
-                        table.Cell().Background(Colors.Grey.Lighten4).Padding(3).Text(totalSum.ToString("C")).SemiBold();
+                        table.Cell().Background(Colors.Grey.Lighten4).Padding(3).Text(totalSum.ToString("C", CultureInfo.GetCultureInfo("ru-RU"))).SemiBold();
                         table.Cell().ColumnSpan(7).Background(Colors.Grey.Lighten4).Padding(3).Text("");
                     });
 

@@ -151,7 +151,8 @@ public partial class NewOrderViewModel : ViewModelBase
         
         var activeShift = context.Shift.Include(s => s.Employees).AsNoTracking()
                                        .FirstOrDefault(s => s.TimeEnd > DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
-                                       && s.Employees.Any(e => e.Id == currentUser!.Id));
+                                                            && s.TimeStart <= DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
+                                                            && s.Employees.Any(e => e.Id == currentUser!.Id));
         var table = context.Table.FirstOrDefault(t => t.TableCode == TableCode);
 
         var order = new Order
@@ -279,7 +280,8 @@ public partial class NewOrderViewModel : ViewModelBase
         
         var activeShift = context.Shift.Include(s => s.Employees).AsNoTracking()
                                        .FirstOrDefault(s => s.TimeEnd > DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
-                                       && s.Employees.Any(e => e.Id == currentUser!.Id));
+                                                            && s.TimeStart <= DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
+                                                            && s.Employees.Any(e => e.Id == currentUser!.Id));
 
         if (activeShift is null)
         {

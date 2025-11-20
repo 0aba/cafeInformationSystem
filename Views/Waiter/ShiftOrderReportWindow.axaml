@@ -21,7 +21,7 @@
     
     <!-- Панель действий -->
     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
-      <Button Content="Обратно в меню" Command="{Binding BackToWaiterMenuCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+      <Button Content="Обратно в меню официанта" Command="{Binding BackToWaiterMenuCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
     </StackPanel>
     
     <!-- Основная форма -->

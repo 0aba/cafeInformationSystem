@@ -19,6 +19,7 @@ using System.IO;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Globalization;
 
 namespace cafeInformationSystem.ViewModels.Waiter;
 
@@ -30,7 +31,8 @@ public partial class ChangeOrderViewModel : ViewModelBase
     {
         var context = DatabaseService.GetContext();
 
-        var changeOrder = context.Order.Include(s => s.Chef).Include(s => s.Table).FirstOrDefault(s => s.OrderCode == orderCode);
+        var changeOrder = context.Order.Include(s => s.Chef).Include(s => s.Table).Include(s => s.Waiter)
+                                       .FirstOrDefault(s => s.OrderCode == orderCode);
 
         if (changeOrder is null)
         {
@@ -43,7 +45,7 @@ public partial class ChangeOrderViewModel : ViewModelBase
         AmountClients = _changeOrder.AmountClients;
         TableCode = _changeOrder.Table.TableCode;
         ChefLogin = _changeOrder?.Chef?.Username;
-        ChoiceStatusOrder = AvailableStatusOrder[(int)_changeOrder!.Status];
+        ChoiceStatusOrder = AvailableStatusOrder[(int)_changeOrder!.Status - 1];
         StatusCookingOrder = _changeOrder.CookingStatus;
         Note = _changeOrder.Note;
 
@@ -376,17 +378,17 @@ public partial class ChangeOrderViewModel : ViewModelBase
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5)
                                  .Text(orderItem.СertainOrderItem.Name);
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5)
-                                 .Text(orderItem.СertainOrderItem.Cost.ToString("C"));
+                                 .Text(orderItem.СertainOrderItem.Cost.ToString("C", CultureInfo.GetCultureInfo("ru-RU")));
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5)
                                  .Text(orderItem.AmountItems.ToString());
                             table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5)
-                                 .Text(itemTotal.ToString("C"));
+                                 .Text(itemTotal.ToString("C", CultureInfo.GetCultureInfo("ru-RU")));
                         }
 
                         table.Cell().ColumnSpan(3).Background(Colors.Grey.Lighten4).Padding(5)
                              .AlignRight().Text("ИТОГО:").SemiBold();
                         table.Cell().Background(Colors.Grey.Lighten4).Padding(5)
-                             .Text(totalSum.ToString("C")).SemiBold();
+                             .Text(totalSum.ToString("C", CultureInfo.GetCultureInfo("ru-RU"))).SemiBold();
                     });
 
                 page.Footer()

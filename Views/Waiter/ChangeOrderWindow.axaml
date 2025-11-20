@@ -21,7 +21,7 @@
     
     <!-- Панель действий -->
     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
-      <Button Content="Обратно" Command="{Binding BackToOrdersCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
+      <Button Content="Обратно к заказам" Command="{Binding BackToOrdersCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
       <Button Content="Отменить заказ" Command="{Binding CancelOrderCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
       <Button Content="Завершить заказ" Command="{Binding CompleteOrderCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
       <Button Content="Получить чек" Command="{Binding GetCheckCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>

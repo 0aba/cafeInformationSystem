@@ -74,6 +74,12 @@ public class LoginViewModel : ViewModelBase
             return;
         }
 
+        if (!loginEmployee.WorkStatus)
+        {
+            ErrorMessage = "Пользователя был уволен";
+            return;
+        }
+
         var isPasswordValid = PasswordHashing.VerifyPassword(Password, loginEmployee.Password);
         if (!isPasswordValid)
         {
