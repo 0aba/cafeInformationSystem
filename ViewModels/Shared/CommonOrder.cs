@@ -26,3 +26,9 @@ public class OrderCookingStatusFilterItem
     public string Name { get; set; } = string.Empty;
     public bool? Cooked { get; set; }
 }
+
+public class AcceptedChefStatusFilterItem
+{
+    public string Name { get; set; } = string.Empty;
+    public bool? Accepted { get; set; }
+}

@@ -21,6 +21,7 @@ public partial class OrdersViewModel : ViewModelBase
     public OrdersViewModel()
     {
         SelectedStatusCookingOrderFilter = AvailableStatusCookingOrder[0];
+        SelectedAcceptedChefStatusFilter = AvailableAcceptedChefStatusOrder[0];
 
         BackToChefMenuCommand = new RelayCommand(ExecuteBackToChefMenu);
         ApplyFiltersCommand = new RelayCommand(ExecuteApplyFilters);
@@ -40,6 +41,14 @@ public partial class OrdersViewModel : ViewModelBase
         new OrderCookingStatusFilterItem { Name = "Готовится", Cooked = false }
     };
     private OrderCookingStatusFilterItem? _selectedStatusCookingOrderFilter;
+
+    public List<AcceptedChefStatusFilterItem> AvailableAcceptedChefStatusOrder { get; } = new()
+    {
+        new AcceptedChefStatusFilterItem { Name = "Все", Accepted = null },
+        new AcceptedChefStatusFilterItem { Name = "Принятые мой", Accepted = true },
+        new AcceptedChefStatusFilterItem { Name = "Никем не принятые", Accepted = false }
+    };
+    private AcceptedChefStatusFilterItem? _selectedAcceptedChefStatusFilter;
 
     // INFO! ObservableCollection используется для ослеживания действий со списоком (Добавлени, изменение, удаление и так далее)
     // в данном случае можно было и просто List или ICollection/ использовать...
@@ -81,6 +90,12 @@ public partial class OrdersViewModel : ViewModelBase
     {
         get => _selectedStatusCookingOrderFilter;
         set => SetProperty(ref _selectedStatusCookingOrderFilter, value);
+    }
+
+    public AcceptedChefStatusFilterItem? SelectedAcceptedChefStatusFilter
+    {
+        get => _selectedAcceptedChefStatusFilter;
+        set => SetProperty(ref _selectedAcceptedChefStatusFilter, value);
     }
 
     public ObservableCollection<Order> Orders
@@ -190,6 +205,16 @@ public partial class OrdersViewModel : ViewModelBase
             {
                 query = query.Where(o => o.CookingStatus == SelectedStatusCookingOrderFilter.Cooked);
             }
+
+            if (SelectedAcceptedChefStatusFilter?.Accepted is true)
+            {
+                query = query.Where(o => o.ChefId == currentUser!.Id);
+            }
+            else if (SelectedAcceptedChefStatusFilter?.Accepted is false)
+            {
+                query = query.Where(o => o.ChefId == null);
+            }
+
 
             ErrorMessage = string.Empty;
             var orders = query.ToList();
