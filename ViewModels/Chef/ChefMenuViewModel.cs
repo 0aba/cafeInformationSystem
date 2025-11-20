@@ -1,29 +1,49 @@
-using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
-using cafeInformationSystem.Models.AuthService;
 using Avalonia;
-using cafeInformationSystem.Views.Shared;
 using Avalonia.Controls.ApplicationLifetimes;
-using cafeInformationSystem.Models.MediaService;
-using System;
-using Avalonia.Platform;
+using Avalonia.Controls;
+using cafeInformationSystem.Views.Chef;
 
 namespace cafeInformationSystem.ViewModels.Chef;
+
+public enum ChefMenuNavigatePage : short
+{
+    Orders = 1
+}
 
 public class ChefMenuViewModel : ViewModelBase
 {
     public ChefMenuViewModel()
     {
-        //LogoutCommand = new RelayCommand(ExecuteLogout);
+        NavigateToOrdersCommand = new RelayCommand(() => NavigateTo(ChefMenuNavigatePage.Orders));
+
     }
 
+    public ICommand NavigateToOrdersCommand { get; }
 
-    //public ICommand LogoutCommand { get; }
+    private void NavigateTo(ChefMenuNavigatePage navigatePage)
+    {
+        Window window = new ChefMenuWindow();
 
-    // private void ExecuteLogout()
-    // {
-        
-    // }
+        switch (navigatePage)
+        {
+            case ChefMenuNavigatePage.Orders:
+                window = new OrdersWindow()
+                {
+                    DataContext = new OrdersViewModel()
+                };
+                break;
+        }
 
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
+
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
+
+            currentWindow?.Close();
+        }
+    }
 }
