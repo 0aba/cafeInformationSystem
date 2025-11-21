@@ -229,6 +229,26 @@ public partial class ChangeOrderViewModel : ViewModelBase
             ErrorMessage = "Ошибка сохранения заказа";
             return;
         }
+
+        ReloadPage();
+    }
+
+    private void ReloadPage()
+    {
+        Window window = new ChangeOrderWindow()
+        {
+            DataContext = new ChangeOrderViewModel(OrderCode)
+        };
+
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var currentWindow = desktop.MainWindow;
+
+            desktop.MainWindow = window;
+            desktop.MainWindow.Show();
+
+            currentWindow?.Close();
+        }
     }
 
     private void ExecuteCompleteOrder()

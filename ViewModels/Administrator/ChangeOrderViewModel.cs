@@ -43,7 +43,7 @@ public partial class ChangeOrderViewModel : ViewModelBase
         TableCode = _changeOrder.Table.TableCode;
         ChefLogin = _changeOrder?.Chef?.Username;
         ShiftCode = _changeOrder!.Shift.ShiftCode;
-        ChoiceStatusOrder = AvailableStatusOrder[(int)_changeOrder!.Status];
+        ChoiceStatusOrder = AvailableStatusOrder[(int)_changeOrder!.Status - 1];
         StatusCookingOrder = _changeOrder.CookingStatus;
         Note = _changeOrder.Note;
 

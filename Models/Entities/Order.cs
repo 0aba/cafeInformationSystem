@@ -75,5 +75,13 @@ public class Order
     public virtual ICollection<OrderOrderItem> OrderOrderItems { get; set; } = new List<OrderOrderItem>();
 
     public bool IsActive => Status == OrderStatus.Accepted;
-    public string OrderInfo => $"{OrderCode} - Стол {Table?.TableCode} - {TotalCost:C} рублей";
+
+    public string StatusName => Status switch
+                                {
+                                    OrderStatus.Accepted => "Принят",
+                                    OrderStatus.Paid => "Оплачен",
+                                    OrderStatus.Cancelled => "Отменен",
+                                    _ => throw new NotImplementedException()
+                                };
+    
 }

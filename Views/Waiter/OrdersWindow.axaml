@@ -104,7 +104,7 @@
                         <TextBlock Text="{Binding Waiter.Username, StringFormat='Официант: {0}'}" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding Table.TableCode, StringFormat='Столик: {0}'}" FontSize="12" Foreground="White"/>
                         <TextBlock Text="{Binding Chef.Username, StringFormat='Повар: {0}', FallbackValue='Повар еще не взялся за заказ'}" FontSize="12" Foreground="White"/>
-                        <TextBlock Text="{Binding Status, StringFormat='Статус: {0}'}" FontSize="12" Foreground="White"/>
+                        <TextBlock Text="{Binding StatusName, StringFormat='Статус: {0}'}" FontSize="12" Foreground="White"/>
                       </StackPanel>
                       <!-- Кнопка перехода к карточке заказа -->
                       <Button Grid.Column="2" 

@@ -53,7 +53,7 @@
                       IsEnabled="False"/>
             <!-- Статус готовки -->
             <TextBlock Grid.Row="5" Grid.Column="0" Text="Статус готовки:" VerticalAlignment="Center" Foreground="White"/>
-            <CheckBox Grid.Row="5" Grid.Column="1" Content="Готовится" IsChecked="{Binding StatusCookingOrder}" IsEnabled="False" VerticalAlignment="Center"/>
+            <CheckBox Grid.Row="5" Grid.Column="1" Content="Готов" IsChecked="{Binding StatusCookingOrder}" IsEnabled="False" VerticalAlignment="Center"/>
             <!-- Примечание -->
             <TextBlock Grid.Row="6" Grid.Column="0" Text="Примечание:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="6" Grid.Column="1" Watermark="Введите примечание к заказу" Text="{Binding Note}" 
