@@ -9,11 +9,9 @@
         x:Class="cafeInformationSystem.Views.Administrator.ShiftsWindow"
         Title="Список смен"
         Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
-
   <Design.DataContext>
     <vm:ShiftsViewModel/>
   </Design.DataContext>
-
   <DockPanel>
     <!-- Header -->
     <controls:HeaderControl DockPanel.Dock="Top"/>

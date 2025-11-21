@@ -10,11 +10,9 @@
         x:Class="cafeInformationSystem.Views.Administrator.OrderItemsWindow"
         Title="Список товаров"
         Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
-
   <Design.DataContext>
     <vm:OrderItemsViewModel/>
   </Design.DataContext>
-
   <DockPanel>
     <!-- Header -->
     <controls:HeaderControl DockPanel.Dock="Top"/>
@@ -44,7 +42,6 @@
                              FormatString="C2"
                              Minimum="0"
                              Increment="10"/>
-
           <!-- Максимальная стоимость -->
           <TextBlock Text="Максимальная стоимость:" FontWeight="SemiBold" Margin="0,10,0,0"/>
           <aui:NumericUpDown Value="{Binding MaxCostFilter}" 

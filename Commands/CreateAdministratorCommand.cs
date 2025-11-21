@@ -18,7 +18,7 @@ public class CreateAdministratorCommand : ICommand
         {
             FirstName = UtilsCommands.GetInput("First Name", true),
             LastName = UtilsCommands.GetInput("Last Name", true),
-            MiddleName = UtilsCommands.GetInput("Middle Name", false),
+            MiddleName = UtilsCommands.GetInput("Middle Name", true),
             Photo = null,  // INFO! не требуются для администратора
             ScanEmploymentContract = null,  // INFO! не требуются для администратора
             Username = UtilsCommands.GetInput("Username", true),

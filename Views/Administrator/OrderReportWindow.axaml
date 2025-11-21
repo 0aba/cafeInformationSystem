@@ -10,22 +10,18 @@
         x:Class="cafeInformationSystem.Views.Administrator.OrderReportWindow"
         Title="Отчет по заказам"
         Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
-
   <Design.DataContext>
     <vm:OrderReportViewModel/>
   </Design.DataContext>
-
   <DockPanel>
     <!-- Header -->
     <controls:HeaderControl DockPanel.Dock="Top"/>
-    
     <!-- Панель действий -->
     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
       <Button Content="Обратно в меню администратора" 
               Command="{Binding BackToAdministratorMenuCommand}" 
               Padding="15,5" Background="DarkOrchid" Foreground="White"/>
     </StackPanel>
-
     <!-- Основной контент -->
     <Grid Margin="10">
       <Grid.ColumnDefinitions>
@@ -33,29 +29,24 @@
         <ColumnDefinition Width="10"/>
         <ColumnDefinition Width="0.6*"/>
       </Grid.ColumnDefinitions>
-
       <!-- Блок фильтрации -->
       <Border Grid.Column="0" Background="#6F4E37" CornerRadius="5" Padding="15">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
           <StackPanel Spacing="10">
             <TextBlock Text="Фильтры отчета" FontSize="16" FontWeight="Bold" Margin="0,0,0,10" Foreground="White"/>
-            
             <!-- Код заказа -->
             <TextBlock Text="Код заказа:" FontWeight="SemiBold" Foreground="White"/>
             <TextBox Text="{Binding OrderCodeFilter}" Watermark="Введите код заказа"/>
-            
             <!-- Дата создания -->
             <TextBlock Text="Дата создания с:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
             <DatePicker SelectedDate="{Binding MinCreatedAtFilter}"/>
             <TextBlock Text="Дата создания по:" FontWeight="SemiBold" Margin="0,5,0,0" Foreground="White"/>
             <DatePicker SelectedDate="{Binding MaxCreatedAtFilter}"/>
-            
             <!-- Дата закрытия -->
             <TextBlock Text="Дата закрытия с:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
             <DatePicker SelectedDate="{Binding MinClosedAtFilter}"/>
             <TextBlock Text="Дата закрытия по:" FontWeight="SemiBold" Margin="0,5,0,0" Foreground="White"/>
             <DatePicker SelectedDate="{Binding MaxClosedAtFilter}"/>
-            
             <!-- Стоимость -->
             <TextBlock Text="Стоимость от:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
             <aui:NumericUpDown Value="{Binding MinCostFilter}" 
@@ -69,7 +60,6 @@
                              FormatString="C2"
                              Minimum="0"
                              Increment="10"/>
-            
             <!-- Количество клиентов -->
             <TextBlock Text="Количество клиентов от:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
             <aui:NumericUpDown Value="{Binding MinAmountClientsFilter}" 
@@ -83,35 +73,28 @@
                              FormatString="N0"
                              Minimum="0"
                              Increment="1"/>
-            
             <!-- Логин официанта -->
             <TextBlock Text="Логин официанта:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
             <TextBox Text="{Binding WaiterLoginFilter}" Watermark="Введите логин официанта"/>
-            
             <!-- Код столика -->
             <TextBlock Text="Код столика:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
             <TextBox Text="{Binding TableCodeFilter}" Watermark="Введите код столика"/>
-            
             <!-- Логин повара -->
             <TextBlock Text="Логин повара:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
             <TextBox Text="{Binding ChefLoginFilter}" Watermark="Введите логин повара"/>
-            
             <!-- Код смены -->
             <TextBlock Text="Код смены:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
             <TextBox Text="{Binding ShiftCodeFilter}" Watermark="Введите код смены"/>
-            
             <!-- Статус заказа -->
             <TextBlock Text="Статус заказа:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
             <ComboBox ItemsSource="{Binding AvailableStatusOrder}" 
                     SelectedItem="{Binding SelectedStatusOrderFilter}"
                     DisplayMemberBinding="{Binding Name}"/>
-            
             <!-- Статус готовности -->
             <TextBlock Text="Статус готовности:" FontWeight="SemiBold" Margin="0,10,0,0" Foreground="White"/>
             <ComboBox ItemsSource="{Binding AvailableStatusCookingOrder}" 
                     SelectedItem="{Binding SelectedStatusCookingOrderFilter}"
                     DisplayMemberBinding="{Binding Name}"/>
-            
             <!-- Ошибки -->
             <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
                        TextWrapping="Wrap" HorizontalAlignment="Center"
@@ -119,7 +102,6 @@
           </StackPanel>
         </ScrollViewer>
       </Border>
-
       <!-- Блок формирования отчетов -->
       <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" Background="#6F4E37">
         <Border Margin="30" Background="#6F4E37" CornerRadius="5">
@@ -132,7 +114,6 @@
                           FontWeight="Bold"
                           Foreground="White"
                           HorizontalAlignment="Center"/>
-                
                 <Button Content="Загрузить отчет PDF" 
                         Command="{Binding GetPDFReportCommand}"
                         Background="DarkOrchid"
@@ -140,7 +121,6 @@
                         Padding="20,10"
                         FontSize="14"
                         HorizontalAlignment="Center"/>
-                
                 <Button Content="Загрузить отчет XLSX" 
                         Command="{Binding GetXLSXReportCommand}"
                         Background="DarkOrchid"
@@ -150,7 +130,6 @@
                         HorizontalAlignment="Center"/>
               </StackPanel>
             </Border>
-
             <!-- Информация о отчете -->
             <Border Background="#444444" CornerRadius="5" Padding="15" Margin="0,10,0,0">
               <StackPanel Spacing="8">

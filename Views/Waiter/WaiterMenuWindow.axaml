@@ -9,26 +9,21 @@
         xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
         Title="Меню официанта"
         Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
-
   <Design.DataContext>
     <vm:WaiterMenuViewModel/>
   </Design.DataContext>
-
   <DockPanel>
     <!-- Header -->
     <controls:HeaderControl DockPanel.Dock="Top"/>
-    
     <!-- Основной контент -->
     <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto">
       <StackPanel Margin="40" Spacing="30">
-        
         <!-- Заголовок -->
         <TextBlock Text="Панель официанта" 
                    FontSize="28" 
                    FontWeight="Bold" 
                    HorizontalAlignment="Center"
                    Foreground="#6F4E37"/>
-        
         <!-- Плитки с функциями -->
         <WrapPanel HorizontalAlignment="Center" Margin="20">
           <!-- Плитка мои столики -->
@@ -75,7 +70,6 @@
               </StackPanel>
             </Button>
           </Border>
-
           <!-- Плитка мои смены -->
           <Border Width="200" Height="150" 
                   Background="#A0522D" 
@@ -120,7 +114,6 @@
               </StackPanel>
             </Button>
           </Border>
-          
           <!-- Плитка товары -->
           <Border Width="200" Height="150" 
                   Background="#8B7355" 
@@ -165,7 +158,6 @@
               </StackPanel>
             </Button>
           </Border>
-          
           <!-- Плитка заказы -->
           <Border Width="200" Height="150" 
                   Background="#8B4513" 
@@ -210,7 +202,6 @@
               </StackPanel>
             </Button>
           </Border>
-
           <!-- Плитка отчеты -->
           <Border Width="200" Height="150" 
                   Background="#CD853F" 
@@ -255,11 +246,8 @@
               </StackPanel>
             </Button>
           </Border>
-          
         </WrapPanel>
-        
       </StackPanel>
     </ScrollViewer>
-    
   </DockPanel>
 </Window>

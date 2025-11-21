@@ -11,11 +11,9 @@
         Title="Создать товар"
         WindowStartupLocation="CenterScreen"
         Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
-  
   <Design.DataContext>
     <vm:NewOrderItemViewModel/>
   </Design.DataContext>
-
   <DockPanel>
     <!-- Header -->
     <controls:HeaderControl DockPanel.Dock="Top"/>
@@ -27,17 +25,13 @@
     <Border Background="#6F4E37" CornerRadius="5" Margin="20">
       <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="30" Spacing="15" VerticalAlignment="Top">
-          
           <!-- Заголовок -->
           <TextBlock Text="Создать товар" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
-          
           <!-- Основные поля -->
           <Grid ColumnDefinitions="150,*" RowDefinitions="*,*,*" VerticalAlignment="Top" RowSpacing="15">
-            
             <!-- Название товара -->
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Название товара:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="0" Grid.Column="1" Watermark="Введите название товара" Text="{Binding Name}"/>
-            
             <!-- Стоимость -->
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Стоимость:" VerticalAlignment="Center" Foreground="White"/>
             <aui:NumericUpDown Grid.Row="1" Grid.Column="1" 
@@ -48,18 +42,14 @@
                                Maximum="100000"
                                Increment="10"
                                ShowButtonSpinner="True"/>
-            
           </Grid>
-          
           <!-- Сообщение об ошибке -->
           <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
                     TextWrapping="Wrap" HorizontalAlignment="Center"/>
-          
           <!-- Кнопка Создать -->
           <Button Content="Создать" Command="{Binding CreateOrderItemCommand}" 
                   HorizontalAlignment="Center" Width="100" Height="35" 
                   Background="DarkOrchid" Foreground="White"/>
-          
         </StackPanel>
       </ScrollViewer>
     </Border>

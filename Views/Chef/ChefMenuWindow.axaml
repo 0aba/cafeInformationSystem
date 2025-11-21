@@ -9,26 +9,21 @@
         xmlns:controls="using:cafeInformationSystem.Views.ControlsApp"
         Title="Меню повара"
         Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
-
   <Design.DataContext>
     <vm:ChefMenuViewModel/>
   </Design.DataContext>
-
     <DockPanel>
     <!-- Header -->
     <controls:HeaderControl DockPanel.Dock="Top"/>
-    
     <!-- Основной контент -->
     <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto">
       <StackPanel Margin="40" Spacing="30">
-        
         <!-- Заголовок -->
         <TextBlock Text="Панель повара" 
                    FontSize="28" 
                    FontWeight="Bold" 
                    HorizontalAlignment="Center"
                    Foreground="#6F4E37"/>
-        
         <!-- Плитки с функциями -->
         <WrapPanel HorizontalAlignment="Center" Margin="20">
           <!-- Плитка заказы -->
@@ -41,7 +36,6 @@
             <Border.RenderTransform>
               <ScaleTransform ScaleX="1" ScaleY="1"/>
             </Border.RenderTransform>
-          
             <Border.Styles>
               <Style Selector="Border:pointerover">
                 <Setter Property="RenderTransform">
@@ -49,7 +43,6 @@
                 </Setter>
               </Style>
             </Border.Styles>
-            
             <Button Command="{Binding NavigateToOrdersCommand}"
                     Background="Transparent" 
                     BorderThickness="0"

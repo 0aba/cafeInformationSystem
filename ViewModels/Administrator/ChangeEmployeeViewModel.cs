@@ -237,18 +237,18 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
             return false;
         }
 
+        if (string.IsNullOrWhiteSpace(MiddleName) || LastName.Length > 128)
+        {
+            ErrorMessage = "Обязательное поле фамилию сотрудника длинной не более 128 символов";
+            return false;
+        }
+
         if (string.IsNullOrWhiteSpace(LastName) || LastName.Length > 128)
         {
             ErrorMessage = "Обязательное поле фамилию сотрудника длинной не более 128 символов";
             return false;
         }
 
-        if (MiddleName.Length > 128)
-        {
-            ErrorMessage = "Отчество сотрудника длинной не более 128 символов";
-            return false;
-        }
-        
         if (string.IsNullOrWhiteSpace(_pathPhoto))
         {
             ErrorMessage = "Необходимо указать фото";

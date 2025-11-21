@@ -9,11 +9,9 @@
         x:Class="cafeInformationSystem.Views.Administrator.TablesWindow"
         Title="Список столиков"
         Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
-
   <Design.DataContext>
     <vm:TablesViewModel/>
   </Design.DataContext>
-
   <DockPanel>
     <!-- Header -->
     <controls:HeaderControl DockPanel.Dock="Top"/>

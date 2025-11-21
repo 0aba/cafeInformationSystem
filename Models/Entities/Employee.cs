@@ -29,9 +29,10 @@ public class Employee
     [Column("lastname")]
     public string LastName { get; set; } = string.Empty;
 
+    [Required]
     [MaxLength(128)]
     [Column("middlename")]
-    public string? MiddleName { get; set; }
+    public string MiddleName { get; set; } = string.Empty;
 
     [MaxLength(256)]
     [Column("photo")]

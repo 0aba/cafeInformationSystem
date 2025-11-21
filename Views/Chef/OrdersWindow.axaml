@@ -9,20 +9,16 @@
         x:Class="cafeInformationSystem.Views.Chef.OrdersWindow"
         Title="Список заказов повара"
         Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
-
   <Design.DataContext>
     <vm:OrdersViewModel/>
   </Design.DataContext>
-
   <DockPanel>
     <!-- Header -->
     <controls:HeaderControl DockPanel.Dock="Top"/>
-    
     <!-- Панель действий -->
     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10" Spacing="10">
       <Button Content="Обратно в меню повара" Command="{Binding BackToChefMenuCommand}" Padding="15,5" Background="DarkOrchid" Foreground="White"/>
     </StackPanel>
-    
     <!-- Основной контент -->
     <Grid Margin="10">
       <Grid.ColumnDefinitions>
@@ -30,49 +26,39 @@
         <ColumnDefinition Width="10"/>
         <ColumnDefinition Width="0.75*"/>
       </Grid.ColumnDefinitions>
-      
       <!-- Блок фильтрации -->
       <Border Grid.Column="0" Background="#6F4E37" CornerRadius="5" Padding="15">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
           <StackPanel Spacing="10">
             <TextBlock Text="Фильтрация заказов" FontSize="16" FontWeight="Bold" Foreground="White" Margin="0,0,0,10"/>
-            
             <!-- Код заказа -->
             <TextBlock Text="Код заказа:" FontWeight="SemiBold" Foreground="White"/>
             <TextBox Text="{Binding OrderCodeFilter}" Watermark="Введите код заказа"/>
-            
             <!-- Дата создания с -->
             <TextBlock Text="Дата создания с:" FontWeight="SemiBold" Foreground="White" Margin="0,10,0,0"/>
             <DatePicker SelectedDate="{Binding MinCreatedAtFilter}"/>
-            
             <!-- Дата создания до -->
             <TextBlock Text="Дата создания до:" FontWeight="SemiBold" Foreground="White" Margin="0,10,0,0"/>
             <DatePicker SelectedDate="{Binding MaxCreatedAtFilter}"/>
-            
             <!-- Количество клиентов от -->
             <TextBlock Text="Количество клиентов от:" FontWeight="SemiBold" Foreground="White" Margin="0,10,0,0"/>
             <TextBox Text="{Binding MinAmountClientsFilter}" Watermark="Минимальное количество"/>
-            
             <!-- Количество клиентов до -->
             <TextBlock Text="Количество клиентов до:" FontWeight="SemiBold" Foreground="White" Margin="0,10,0,0"/>
             <TextBox Text="{Binding MaxAmountClientsFilter}" Watermark="Максимальное количество"/>
-            
             <!-- Статус готовности -->
             <TextBlock Text="Статус готовности:" FontWeight="SemiBold" Foreground="White" Margin="0,10,0,0"/>
             <ComboBox ItemsSource="{Binding AvailableStatusCookingOrder}" 
                       SelectedItem="{Binding SelectedStatusCookingOrderFilter}"
                       DisplayMemberBinding="{Binding Name}"/>
-
             <!-- Статус занятости поваром -->
             <TextBlock Text="Статус занятости поваром:" FontWeight="SemiBold" Foreground="White" Margin="0,10,0,0"/>
             <ComboBox ItemsSource="{Binding AvailableAcceptedChefStatusOrder}" 
                       SelectedItem="{Binding SelectedAcceptedChefStatusFilter}"
                       DisplayMemberBinding="{Binding Name}"/>
-            
             <!-- Ошибки фильтрации -->
             <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
                       TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-            
             <!-- Кнопка применения фильтров -->
             <Button Content="Применить фильтры" 
                     Command="{Binding ApplyFiltersCommand}"
@@ -84,7 +70,6 @@
           </StackPanel>
         </ScrollViewer>
       </Border>
-      
       <!-- Блок списка заказов -->
       <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" Background="#6F4E37">
         <Border Margin="30" Background="#6F4E37" CornerRadius="5">
@@ -98,7 +83,6 @@
                       VerticalAlignment="Center"
                       Margin="0,50,0,0"
                       IsVisible="{Binding HasNoOrders}"/>
-            
             <!-- Список заказов -->
             <ItemsControl ItemsSource="{Binding Orders}">
               <ItemsControl.ItemTemplate>
@@ -114,23 +98,18 @@
                         <!-- Код заказа -->
                         <TextBlock Text="{Binding OrderCode, StringFormat='Код заказа: {0}'}" 
                                    FontSize="14" FontWeight="Bold" Foreground="White"/>
-                        
                         <!-- Время начала -->
                         <TextBlock Text="{Binding CreatedAt, StringFormat='Время начала: {0:dd.MM.yyyy HH:mm}'}" 
                                    FontSize="12" Foreground="White"/>
-                        
                         <!-- Логин официанта -->
                         <TextBlock Text="{Binding Waiter.Username, StringFormat='Официант: {0}'}" 
                                    FontSize="12" Foreground="White"/>
-                        
                         <!-- Занять кем-то либо мной -->
                         <TextBlock Text="{Binding Chef.Username, StringFormat='Повар: {0}', FallbackValue='Повар: Не назначен'}" 
                                    FontSize="12" Foreground="White"/>
-                        
                         <!-- Количество клиентов -->
                         <TextBlock Text="{Binding AmountClients, StringFormat='Количество клиентов: {0}'}" 
                                    FontSize="12" Foreground="White"/>
-                        
                         <!-- Статус готовности -->
                         <CheckBox IsEnabled="False" 
                                   IsChecked="{Binding CookingStatus}"
@@ -138,7 +117,6 @@
                                   FontSize="12"
                                   Foreground="White"/>
                       </StackPanel>
-                      
                       <!-- Кнопка перехода к карточке заказа -->
                       <Button Grid.Column="2" 
                               Content="Посмотреть карточку" 

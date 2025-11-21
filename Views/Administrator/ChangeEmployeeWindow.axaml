@@ -10,11 +10,9 @@
         Title="Карточка сотрудника"
         WindowStartupLocation="CenterScreen"
         Icon="avares://cafeInformationSystem/Assets/cafe-information-system-logo.ico">
-  
   <Design.DataContext>
     <vm:ChangeEmployeeViewModel/>
   </Design.DataContext>
-
   <DockPanel>
     <!-- Header -->
     <controls:HeaderControl DockPanel.Dock="Top"/>
@@ -26,25 +24,19 @@
     <Border Background="#6F4E37" CornerRadius="5" Margin="20">
       <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="30" Spacing="15" VerticalAlignment="Top">
-          
           <!-- Заголовок -->
           <TextBlock Text="Карточка сотрудника" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
-          
           <!-- Основные поля -->
           <Grid ColumnDefinitions="150,*" RowDefinitions="*,*,*,*,*,*,*,*,*,*" VerticalAlignment="Top">
-            
             <!-- Имя -->
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="0" Grid.Column="1" Watermark="Изменить имя" Text="{Binding FirstName}"/>
-            
             <!-- Фамилия -->
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Фамилия:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="1" Grid.Column="1" Watermark="Изменить фамилию" Text="{Binding LastName}"/>
-            
             <!-- Отчество -->
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Отчество:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="2" Grid.Column="1" Watermark="Изменить отчество" Text="{Binding MiddleName}"/>
-            
             <!-- Фото -->
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Фото сотрудника:" VerticalAlignment="Top" Foreground="White" Margin="0,10,0,0"/>
             <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="0,10,0,0" Spacing="10">
@@ -53,7 +45,6 @@
                         Width="100" Height="100" Background="DarkGray">
                     <Image Source="{Binding PhotoImage}" Stretch="Uniform"/>
                 </Border>
-                
                 <!-- Редактирование -->
                 <Border BorderBrush="LightGray" BorderThickness="2" 
                         Background="#5A4A37" CornerRadius="5"
@@ -83,7 +74,6 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
-
             <!-- Договор -->
             <TextBlock Grid.Row="4" Grid.Column="0" Text="Скан договора:" VerticalAlignment="Top" Foreground="White" Margin="0,10,0,0"/>
             <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="0,10,0,0" Spacing="10">
@@ -92,7 +82,6 @@
                         Width="150" Height="100" Background="DarkGray">
                     <Image Source="{Binding ContractImage}" Stretch="Uniform"/>
                 </Border>
-                
                 <!-- Редактирование -->
                 <Border BorderBrush="LightGray" BorderThickness="2" 
                         Background="#5A4A37" CornerRadius="5"
@@ -122,22 +111,18 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
-            
-            <!-- Логин (только чтение) -->
+            <!-- Логин (Только чтение) -->
             <TextBlock Grid.Row="5" Grid.Column="0" Text="Логин:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="5" Grid.Column="1" Watermark="Логин" Text="{Binding Username}" 
                      IsReadOnly="True"/>
-            
             <!-- Новый пароль -->
             <TextBlock Grid.Row="6" Grid.Column="0" Text="Новый пароль:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="6" Grid.Column="1" Watermark="Введите новый пароль (необязательно)" 
                      PasswordChar="*" Text="{Binding NewPassword}"/>
-            
             <!-- Подтверждение пароля -->
             <TextBlock Grid.Row="7" Grid.Column="0" Text="Подтверждение пароля:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="7" Grid.Column="1" Watermark="Повторите новый пароль" 
                      PasswordChar="*" Text="{Binding ConfirmPassword}"/>
-            
             <!-- Роль -->
             <TextBlock Grid.Row="8" Grid.Column="0" Text="Изменить роль:" VerticalAlignment="Center" Foreground="White"/>
             <ComboBox Grid.Row="8" Grid.Column="1" 
@@ -155,16 +140,13 @@
             <CheckBox Grid.Row="9" Grid.Column="1" Content="Активный сотрудник" 
                       IsChecked="{Binding WorkStatus}" VerticalAlignment="Center" Foreground="White"/>
           </Grid>
-          
           <!-- Сообщение об ошибке -->
           <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
                     TextWrapping="Wrap" HorizontalAlignment="Center"/>
-          
           <!-- Кнопка Сохранить -->
           <Button Content="Сохранить изменения" Command="{Binding ChangeEmployeeCommand}" 
                   HorizontalAlignment="Center" Width="200" Height="35" 
                   Background="DarkOrchid" Foreground="White"/>
-          
         </StackPanel>
       </ScrollViewer>
     </Border>
