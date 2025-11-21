@@ -24,8 +24,8 @@ public partial class ChangeOrderViewModel : ViewModelBase
         var context = DatabaseService.GetContext();
 
         var changeOrder = context.Order.Include(o => o.Waiter).Include(o => o.Chef).Include(o => o.Table).Include(o => o.Shift)
-                                       .Include(s => s.CashReceiptOrderItems)
-                                       .FirstOrDefault(s => s.OrderCode == orderCode);
+                                       .Include(o => o.CashReceiptOrderItems)
+                                       .FirstOrDefault(o => o.OrderCode == orderCode);
 
         if (changeOrder is null)
         {

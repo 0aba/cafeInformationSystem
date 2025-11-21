@@ -167,9 +167,8 @@ public partial class ChangeShiftViewModel : ViewModelBase
         var context = DatabaseService.GetContext();
 
         var employeeIds = _employeeShits.Select(e => e.Id).ToList();
-        var employeesFromContext = context.Employee
-            .Where(e => employeeIds.Contains(e.Id))
-            .ToList();
+        var employeesFromContext = context.Employee.Where(e => employeeIds.Contains(e.Id))
+                                                   .ToList();
 
         var timeStart = DateTime.SpecifyKind(DateShift.Date + StartShift, DateTimeKind.Utc);
         var timeEnd = DateTime.SpecifyKind(DateShift.Date + EndShift, DateTimeKind.Utc);

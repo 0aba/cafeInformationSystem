@@ -31,8 +31,8 @@ public partial class ChangeOrderViewModel : ViewModelBase
     {
         var context = DatabaseService.GetContext();
 
-        var changeOrder = context.Order.Include(s => s.Chef).Include(s => s.Table).Include(s => s.Waiter)
-                                       .FirstOrDefault(s => s.OrderCode == orderCode);
+        var changeOrder = context.Order.Include(o => o.Chef).Include(o => o.Table).Include(o => o.Waiter)
+                                       .FirstOrDefault(o => o.OrderCode == orderCode);
 
         if (changeOrder is null)
         {
@@ -248,7 +248,7 @@ public partial class ChangeOrderViewModel : ViewModelBase
             ErrorMessage = "Нельзя завершить заказ повар еще за него не взялся";
             return;
         }
-        if (_changeOrder.CookingStatus == false)
+        if (!_changeOrder.CookingStatus)
         {
             ErrorMessage = "Нельзя завершить уже повар его еще не приготовил";
             return;
@@ -291,9 +291,8 @@ public partial class ChangeOrderViewModel : ViewModelBase
 
             await SaveFileAsync(pdfBytes, "чек_заказа", "pdf", "PDF документ", ["*.pdf"]);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e);
             ErrorMessage = "Ошибка при создании PDF";
         }
     }

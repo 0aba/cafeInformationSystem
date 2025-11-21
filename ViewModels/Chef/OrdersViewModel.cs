@@ -177,9 +177,8 @@ public partial class OrdersViewModel : ViewModelBase
                                      .AsNoTracking().AsQueryable();
             
             var currentUser = AuthStorage.CurrentUser;
-            query = query.Where(o => 
-                o.ChefId == currentUser!.Id
-                || (o.ChefId == null && o.Shift.Employees.Any(e => e.Id == currentUser.Id))
+            query = query.Where(o => o.ChefId == currentUser!.Id
+                                     || (o.ChefId == null && o.Shift.Employees.Any(e => e.Id == currentUser.Id))
             );
             
             if (!string.IsNullOrWhiteSpace(OrderCodeFilter))

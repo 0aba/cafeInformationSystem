@@ -148,17 +148,17 @@ public partial class OrderItemsViewModel : ViewModelBase
 
             if (!string.IsNullOrWhiteSpace(NameFilter))
             {
-                query = query.Where(o => o.Name.Contains(NameFilter));
+                query = query.Where(oi => oi.Name.Contains(NameFilter));
             }
 
             if (MinCostFilter is not null)
             {
-                query = query.Where(o => o.Cost > MinCostFilter);
+                query = query.Where(oi => oi.Cost > MinCostFilter);
             }
 
             if (MaxCostFilter is not null)
             {
-                query = query.Where(o => o.Cost < MaxCostFilter);
+                query = query.Where(oi => oi.Cost < MaxCostFilter);
             }
 
             var orderItems = query.ToList();

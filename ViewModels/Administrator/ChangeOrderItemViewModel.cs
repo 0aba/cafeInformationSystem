@@ -78,7 +78,6 @@ public partial class ChangeOrderItemViewModel : ViewModelBase
             DataContext = new OrderItemsViewModel()
         };
 
-
         if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var currentWindow = desktop.MainWindow;

@@ -217,9 +217,8 @@ public partial class OrderReportViewModel : ViewModelBase
 
             await SaveFileAsync(pdfBytes, "отчет_заказы", "pdf", "PDF документ", ["*.pdf"]);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e);
             ErrorMessage = "Ошибка при создании PDF";
         }
     }

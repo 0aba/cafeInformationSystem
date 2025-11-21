@@ -136,7 +136,7 @@ public partial class ShiftOrderReportViewModel : ViewModelBase
         }
 
         var context = DatabaseService.GetContext();
-        var shift = context.Shift.Include(s => s.Employees).AsNoTracking().FirstOrDefault(e => e.ShiftCode == ShiftCode);
+        var shift = context.Shift.Include(s => s.Employees).AsNoTracking().FirstOrDefault(s => s.ShiftCode == ShiftCode);
 
         if (shift is null)
         {

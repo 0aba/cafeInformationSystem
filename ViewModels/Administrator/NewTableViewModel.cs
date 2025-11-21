@@ -106,7 +106,7 @@ public partial class NewTableViewModel : ViewModelBase
         
         var context = DatabaseService.GetContext();
 
-        var table = context.Table.AsNoTracking().FirstOrDefault(e => e.TableCode == TableCode);
+        var table = context.Table.AsNoTracking().FirstOrDefault(t => t.TableCode == TableCode);
 
         if (table is not null)
         {

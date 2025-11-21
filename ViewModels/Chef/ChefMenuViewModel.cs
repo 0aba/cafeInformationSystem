@@ -17,7 +17,6 @@ public class ChefMenuViewModel : ViewModelBase
     public ChefMenuViewModel()
     {
         NavigateToOrdersCommand = new RelayCommand(() => NavigateTo(ChefMenuNavigatePage.Orders));
-
     }
 
     public ICommand NavigateToOrdersCommand { get; }

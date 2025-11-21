@@ -59,7 +59,7 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
 
         FirstName = _changeEmployee.FirstName;
         LastName = _changeEmployee.LastName;
-        MiddleName = _changeEmployee.MiddleName ?? string.Empty;
+        MiddleName = _changeEmployee.MiddleName;
         _pathPhoto = _changeEmployee.Photo;
         _pathScanEmploymentContract = _changeEmployee.ScanEmploymentContract;
         Username = _changeEmployee.Username;

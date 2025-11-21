@@ -22,7 +22,7 @@ public partial class CompleteOrderViewModel : ViewModelBase
     {
         var context = DatabaseService.GetContext();
 
-        var changeOrder = context.Order.FirstOrDefault(s => s.OrderCode == orderCode);
+        var changeOrder = context.Order.FirstOrDefault(o => o.OrderCode == orderCode);
 
         if (changeOrder is null)
         {
