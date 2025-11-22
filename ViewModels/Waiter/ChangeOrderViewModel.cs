@@ -618,7 +618,7 @@ public partial class ChangeOrderViewModel : ViewModelBase
                 return false;
             }
 
-            if (orderItem.AmountItems <= 0 && orderItem.AmountItems > short.MaxValue)
+            if (orderItem.AmountItems <= 0 || orderItem.AmountItems > short.MaxValue)
             {
                 ErrorMessage = $"Количество для позиции '{orderItem.Name}' должно быть больше 0 и меньше 32767";
                 return false;

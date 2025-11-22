@@ -81,11 +81,11 @@
                                     Width="*"/>
                   <DataGridTextColumn Header="Стоимость" 
                                     Binding="{Binding CostItem, StringFormat='{}{0:C}'}" 
-                                    Width="100"
+                                    Width="150"
                                     IsReadOnly="True"/>
                   <DataGridTextColumn Header="Количество" 
                                     Binding="{Binding AmountItems}" 
-                                    Width="100"/>
+                                    Width="150"/>
                 </DataGrid.Columns>
               </DataGrid>
               <TextBlock Text="Добавьте позиции в таблицу выше. Нажмите на пустую строку для добавления новой позиции." 
