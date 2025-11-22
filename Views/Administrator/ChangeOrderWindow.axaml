@@ -126,7 +126,7 @@
                   <DataGridTextColumn Header="Сумма оплаты" 
                                     Binding="{Binding PaymentAmount, StringFormat='{}{0:C}'}" 
                                     Width="*"/>
-                  <DataGridCheckBoxColumn Header="Тип оплаты (Безналичный/наличные)" 
+                  <DataGridCheckBoxColumn Header="Тип оплаты" 
                                         Binding="{Binding TypePay}"
                                         IsReadOnly="True"
                                         Width="300"/>
