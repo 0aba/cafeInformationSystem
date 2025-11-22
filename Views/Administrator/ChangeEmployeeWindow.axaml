@@ -27,7 +27,7 @@
           <!-- Заголовок -->
           <TextBlock Text="Карточка сотрудника" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
           <!-- Основные поля -->
-          <Grid ColumnDefinitions="150,*" RowDefinitions="*,*,*,*,*,*,*,*,*,*" VerticalAlignment="Top">
+          <Grid ColumnDefinitions="175,*" RowDefinitions="*,*,*,*,*,*,*,*,*,*" VerticalAlignment="Top">
             <!-- Имя -->
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="0" Grid.Column="1" Watermark="Изменить имя" Text="{Binding FirstName}"/>
@@ -137,7 +137,7 @@
                       DisplayMemberBinding="{Binding Name}"/>
             <!-- статус работы -->
             <TextBlock Grid.Row="9" Grid.Column="0" Text="Статус работы:" VerticalAlignment="Center" Foreground="White"/>
-            <CheckBox Grid.Row="9" Grid.Column="1" Content="Активный сотрудник" 
+            <CheckBox Grid.Row="9" Grid.Column="1" Content="Работает" 
                       IsChecked="{Binding WorkStatus}" VerticalAlignment="Center" Foreground="White"/>
           </Grid>
           <!-- Сообщение об ошибке -->

@@ -63,7 +63,17 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
         _pathPhoto = _changeEmployee.Photo;
         _pathScanEmploymentContract = _changeEmployee.ScanEmploymentContract;
         Username = _changeEmployee.Username;
-        SelectedRoleFilter = AvailableRoles[0];
+        switch (_changeEmployee.Role) {
+            case EmployeeRole.Chef:
+                SelectedRoleFilter = AvailableRoles[0];
+                break;
+            case EmployeeRole.Waiter:
+                SelectedRoleFilter = AvailableRoles[1];
+                break;
+            default:
+                SelectedRoleFilter = AvailableRoles[0];
+                break;
+        }
         _workStatus = _changeEmployee.WorkStatus;
 
         BackToEmployeesCommand = new RelayCommand(ExecuteBackToEmployees);
@@ -279,7 +289,7 @@ public partial class ChangeEmployeeViewModel : ViewModelBase
             return false;
         }
 
-        if (SelectedRoleFilter == null)
+        if (SelectedRoleFilter is null)
         {
             ErrorMessage = "Выберите роль сотрудника";
             return false;

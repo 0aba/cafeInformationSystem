@@ -27,7 +27,7 @@
           <!-- Заголовок -->
           <TextBlock Text="Создать пользователя" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
           <!-- Основные поля -->
-          <Grid ColumnDefinitions="100,*" RowDefinitions="*,*,*,*,*,*,*,*,*" VerticalAlignment="Top">
+          <Grid ColumnDefinitions="175,*" RowDefinitions="*,*,*,*,*,*,*,*,*" VerticalAlignment="Top">
             <!-- Имя -->
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="0" Grid.Column="1" Watermark="Введите имя" Text="{Binding FirstName}"/>
@@ -82,7 +82,7 @@
             <TextBlock Grid.Row="6" Grid.Column="0" Text="Пароль:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="6" Grid.Column="1" Watermark="Введите пароль" PasswordChar="*" Text="{Binding Password}"/>
             <!-- Подтверждение пароля -->
-            <TextBlock Grid.Row="7" Grid.Column="0" Text="Подтверждение:" VerticalAlignment="Center" Foreground="White"/>
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="Подтверждение пароля:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="7" Grid.Column="1" Watermark="Повторите пароль" PasswordChar="*" Text="{Binding ConfirmPassword}"/>
             <!-- Роль -->
             <TextBlock Grid.Row="8" Grid.Column="0" Text="Роль:" VerticalAlignment="Center" Foreground="White"/>

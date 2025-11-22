@@ -99,14 +99,14 @@ public partial class ChangeOrderViewModel : ViewModelBase
         set => SetProperty(ref _orderCode, value);
     }
 
-    public int AmountClients
+    public int? AmountClients
     {
         get => _amountClients;
         set
         {
             try
             {
-                _amountClients = value;
+                _amountClients = value ?? 1;
                 
                 OnPropertyChanged();
             }
@@ -485,7 +485,7 @@ public partial class ChangeOrderViewModel : ViewModelBase
         var table = context.Table.FirstOrDefault(t => t.TableCode == TableCode);
 
         _changeOrder.OrderCode = OrderCode.Trim();
-        _changeOrder.AmountClients = AmountClients;
+        _changeOrder.AmountClients = AmountClients ?? 1;
         _changeOrder.TableId = table!.Id;
         _changeOrder.Note = Note?.Trim();
 
@@ -618,9 +618,9 @@ public partial class ChangeOrderViewModel : ViewModelBase
                 return false;
             }
 
-            if (orderItem.AmountItems <= 0)
+            if (orderItem.AmountItems <= 0 && orderItem.AmountItems > short.MaxValue)
             {
-                ErrorMessage = $"Количество для позиции '{orderItem.Name}' должно быть больше 0";
+                ErrorMessage = $"Количество для позиции '{orderItem.Name}' должно быть больше 0 и меньше 32767";
                 return false;
             }
         }

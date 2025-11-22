@@ -41,14 +41,14 @@ public partial class NewOrderViewModel : ViewModelBase
         set => SetProperty(ref _orderCode, value);
     }
 
-    public int AmountClients
+    public int? AmountClients
     {
         get => _amountClients;
         set
         {
             try
             {
-                _amountClients = value;
+                _amountClients = value ?? 1;
                 
                 OnPropertyChanged();
             }
@@ -159,7 +159,7 @@ public partial class NewOrderViewModel : ViewModelBase
         {
             OrderCode = OrderCode.Trim(),
             CreatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc),
-            AmountClients = AmountClients,
+            AmountClients = AmountClients ?? 1,
             WaiterId = currentUser!.Id,
             TableId = table!.Id,
             ShiftId = activeShift!.Id,
@@ -271,9 +271,9 @@ public partial class NewOrderViewModel : ViewModelBase
                 return false;
             }
 
-            if (orderItem.AmountItems <= 0)
+            if (orderItem.AmountItems <= 0 && orderItem.AmountItems > short.MaxValue)
             {
-                ErrorMessage = $"Количество для позиции '{orderItem.Name}' должно быть больше 0";
+                ErrorMessage = $"Количество для позиции '{orderItem.Name}' должно быть больше 0 и меньше 32767";
                 return false;
             }
         }

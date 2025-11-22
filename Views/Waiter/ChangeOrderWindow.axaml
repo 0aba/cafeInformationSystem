@@ -30,14 +30,15 @@
           <!-- Заголовок -->
           <TextBlock Text="Изменение заказа" FontSize="20" HorizontalAlignment="Center" Foreground="White"/>
           <!-- Основные поля -->
-          <Grid ColumnDefinitions="150,*" RowDefinitions="*,*,*,*,*,*,*" VerticalAlignment="Top" RowSpacing="10">
+          <Grid ColumnDefinitions="155,*" RowDefinitions="*,*,*,*,*,*,*" VerticalAlignment="Top" RowSpacing="10">
             <!-- Код заказа -->
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Код заказа:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="0" Grid.Column="1" Watermark="Введите код заказа" Text="{Binding OrderCode}"/>
             <!-- Количество клиентов -->
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Количество клиентов:" VerticalAlignment="Center" Foreground="White"/>
             <NumericUpDown Grid.Row="1" Grid.Column="1" Minimum="1" Maximum="32767" Increment="1"
-                           Value="{Binding AmountClients, Mode=TwoWay}"/>
+                           Value="{Binding AmountClients, Mode=TwoWay, TargetNullValue=1, FallbackValue=1}"
+                           FormatString="N0" ParsingNumberStyle="Integer" Watermark="1"/>
             <!-- Код столика -->
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Код столика:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="2" Grid.Column="1" Watermark="Введите код столика" Text="{Binding TableCode}"/>
