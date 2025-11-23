@@ -39,7 +39,7 @@
             <DatePicker Grid.Row="2" Grid.Column="1" SelectedDate="{Binding ClosedAt}" IsEnabled="False" Background="LightGray"/>
             <!-- Стоимость (Только чтение) -->
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Стоимость:" VerticalAlignment="Center" Foreground="White"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Cost}" Width="300" IsReadOnly="True" Background="LightGray"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Cost, StringFormat='{}{0:C2}'}" Width="300" IsReadOnly="True" Background="LightGray"/>
             <!-- Количество клиентов (Только чтение) -->
             <TextBlock Grid.Row="4" Grid.Column="0" Text="Количество клиентов:" VerticalAlignment="Center" Foreground="White"/>
             <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding AmountClients}" Width="300" IsReadOnly="True" Background="LightGray"/>
@@ -100,7 +100,7 @@
                                     Binding="{Binding Name}" 
                                     Width="*"/>
                   <DataGridTextColumn Header="Стоимость шт." 
-                                    Binding="{Binding CostItem, StringFormat='{}{0:C}'}" 
+                                    Binding="{Binding CostItem, StringFormat='{}{0:C2}'}" 
                                     Width="200"/>
                   <DataGridTextColumn Header="Количество" 
                                     Binding="{Binding AmountItems}" 
@@ -124,7 +124,7 @@
                        Height="120">
                 <DataGrid.Columns>
                   <DataGridTextColumn Header="Сумма оплаты" 
-                                    Binding="{Binding PaymentAmount, StringFormat='{}{0:C}'}" 
+                                    Binding="{Binding PaymentAmount, StringFormat='{}{0:C2}'}" 
                                     Width="*"/>
                   <DataGridCheckBoxColumn Header="Тип оплаты" 
                                         Binding="{Binding TypePay}"

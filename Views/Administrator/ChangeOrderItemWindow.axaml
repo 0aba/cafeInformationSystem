@@ -50,7 +50,8 @@
                               Maximum="100000"
                               Increment="10"
                               ShowButtonSpinner="True"
-                              Width="300"/>
+                              Width="300"
+                              ValueChanged="NumericUpDown_ValueChanged"/>
           </Grid>
           <!-- Сообщение об ошибке -->
           <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 

@@ -11,7 +11,7 @@ public class OrderItemItem
 
 public class CashReceiptOrderItem
 {
-    public decimal PaymentAmount { get; set; }
+    public decimal PaymentAmount { get; set; } = 0.01m;
     public bool TypePay { get; set; }
 }
 

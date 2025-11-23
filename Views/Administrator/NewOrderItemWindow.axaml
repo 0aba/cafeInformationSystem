@@ -41,7 +41,8 @@
                                Minimum="0.01"
                                Maximum="100000"
                                Increment="10"
-                               ShowButtonSpinner="True"/>
+                               ShowButtonSpinner="True"
+                               ValueChanged="NumericUpDown_ValueChanged"/>
           </Grid>
           <!-- Сообщение об ошибке -->
           <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 

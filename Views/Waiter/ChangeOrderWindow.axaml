@@ -66,15 +66,16 @@
               <TextBlock Text="Позиции заказа:" FontSize="16" Foreground="White"/>
               <!-- Таблица позиций заказа -->
               <DataGrid ItemsSource="{Binding OrderItemItemTable}" 
-                       AutoGenerateColumns="False"
-                       IsReadOnly="False"
-                       CanUserReorderColumns="False"
-                       CanUserResizeColumns="True"
-                       CanUserSortColumns="False"
-                       GridLinesVisibility="All"
-                       Background="Black"
-                       Height="200"
-                       SelectedItem="{Binding SelectedOrderItem}">
+                        AutoGenerateColumns="False"
+                        IsReadOnly="False"
+                        CanUserReorderColumns="False"
+                        CanUserResizeColumns="True"
+                        CanUserSortColumns="False"
+                        GridLinesVisibility="All"
+                        Background="Black"
+                        Height="200"
+                        SelectedItem="{Binding SelectedOrderItem}"
+                        CellEditEnding="MyDataGrid_CellEditEnding">
                 <DataGrid.Columns>
                   <DataGridTextColumn Header="Название позиции" 
                                     Binding="{Binding Name}" 
