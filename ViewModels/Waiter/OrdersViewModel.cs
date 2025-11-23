@@ -203,7 +203,7 @@ public partial class OrdersViewModel : ViewModelBase
                                      .AsNoTracking().AsQueryable();
             
             var currentUser = AuthStorage.CurrentUser;
-            query.Where(o => o.WaiterId == currentUser!.Id);
+            query = query.Where(o => o.WaiterId == currentUser!.Id);
 
             if (!string.IsNullOrWhiteSpace(OrderCodeFilter))
             {
